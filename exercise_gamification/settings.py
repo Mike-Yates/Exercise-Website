@@ -27,7 +27,7 @@ SECRET_KEY = 'tr$njf9r@j)my5)7o%2ri@oo75k56(&3_*^)u5yjqj22=1&6(p'
 DEBUG = True
 
 ALLOWED_HOSTS = ['localhost', '127.0.0.1',
-                 '0.0.0.0', 'pollsapptest.herokuapp.com']
+                 '0.0.0.0', 'exercisegamification.herokuapp.com']
 
 
 # Application definition
