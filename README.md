@@ -7,11 +7,12 @@
     1. Install Python3 to your system. (https://www.python.org/downloads/)
     2. Clone the repository.
     3. Create a virtual environment:
-        Windows: py -m install --user virtualenv
-        MacOS: python3 -m pip install --user virtualenv 
+        Windows: py -m venv env
+        MacOS: python3 -m venv env
     4. Start the virtual environment:
         Windows: .\env\Scripts\activate
         MacOS: source env/bin/activate
+        - Note: If you are on the Windows Subsystem for Linux (BASH) use: source env/Scripts/activate
     5. Install from the requirements file
         Windows: py -m pip install -r requirements.txt
         MacOS: python3 -m pip install -r requirements.txt
@@ -24,5 +25,5 @@
         Windows/MacOS: deactivate
 
 ### Contributions:
-
+    
     If you are willing to contribute to this projects, please fork the repo and make a pull request once you are done. We will take a look and see what we can do with it.
