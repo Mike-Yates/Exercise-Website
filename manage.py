@@ -4,19 +4,23 @@ import os
 import sys
 import re
 
+# This is needed to read in all the environment variables and set them up.
+# For more information see README: 6
+
 
 def read_env():
-    """Pulled from Honcho code with minor updates, reads local default
+    """
+    Pulled from Honcho code with minor updates, reads local default
     environment variables from a .env file located in the project root
     directory.
     """
     try:
         with open('.env') as f:
-            content = f.read()
+            content = f.read()      # Reads the file
     except IOError:
         content = ''
 
-    for line in content.splitlines():
+    for line in content.splitlines():       # Goes through each line
         m1 = re.match(r'\A([A-Za-z_0-9]+)=(.*)\Z', line)
         if m1:
             key, val = m1.group(1), m1.group(2)
@@ -26,6 +30,7 @@ def read_env():
             m3 = re.match(r'\A"(.*)"\Z', val)
             if m3:
                 val = re.sub(r'\\(.)', r'\1', m3.group(1))
+            # Assigns a key, value pair to them
             os.environ.setdefault(key, val)
 
 

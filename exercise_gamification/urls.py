@@ -17,9 +17,10 @@ from django.contrib import admin
 from django.urls import path, include
 from django.views.generic import TemplateView
 
+# Following patterns for application are used in the app. See README: 3,4,5
 urlpatterns = [
     path('', TemplateView.as_view(template_name="exercise/index.html")),
     path('accounts/', include('allauth.urls')),
-    path('exercise/', include('exercise.urls', namespace="exercise")),
     path('admin/', admin.site.urls),
+    path('exercise/', include('exercise.urls', namespace="exercise")),
 ]
