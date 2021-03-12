@@ -1,8 +1,11 @@
 from django.test import TestCase
 
 # Create your tests here.
-class randomTestCase(TestCase):
-    def sample_test_case(self):
+class Test(TestCase):
+    def test_case(self):
+        """
+        Sample test to see if the url 404s or not
+        """
         response = self.client.get(url)
         error404 = False
         if(response.status_code == 404):
