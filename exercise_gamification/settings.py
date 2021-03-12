@@ -88,6 +88,9 @@ WSGI_APPLICATION = 'exercise_gamification.wsgi.application'
 # This connects to the database specified in the URL. See example setup in the readme
 DATABASES = {
     'default': env.db(),
+    'TEST': {
+        'ENGINE': 'django.db.backends.sqlite3',
+    }
 }
 
 
