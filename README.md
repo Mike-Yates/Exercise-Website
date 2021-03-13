@@ -14,7 +14,7 @@
         MacOS: source env/bin/activate
         - Note: If you are on the Windows Subsystem for Linux (BASH) use: source env/Scripts/activate
     5. Install from the requirements file
-        Windows: py -m pip install -r requirements.txt
+        Windows: python -m pip install -r requirements.txt
         MacOS: python3 -m pip install -r requirements.txt
    
     To start the local server run:

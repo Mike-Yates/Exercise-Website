@@ -1,11 +1,9 @@
 from django.test import TestCase
 
 # Create your tests here.
-class Test(TestCase):
+class RandomTestCase(TestCase):
     def test_case(self):
-        """
-        Sample test to see if the url 404s or not
-        """
+        url = 'https://exercisegamification.herokuapp.com/'
         response = self.client.get(url)
         error404 = False
         if(response.status_code == 404):
