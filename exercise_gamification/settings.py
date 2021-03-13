@@ -24,7 +24,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # Loads environment variables
 # Used a known package to grab environment variables. See the README: 1
 env = environ.Env()
-env.read_env(env.str('ENV_PATH', '/.env'))
+env.read_env(env.str('ENV_PATH', '.env'))
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = env('SECRET_KEY')
