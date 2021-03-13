@@ -15,7 +15,6 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 
 from pathlib import Path
 from dotenv import load_dotenv
-# import environ
 import os
 import sys
 
@@ -96,7 +95,7 @@ DATABASES = {
         'USER': os.environ.get('PERSON'),
         'PASSWORD': os.environ.get('PASSWORD'),
         'HOST': os.environ.get('HOST'),
-        'PORT': os.environ.get('PORT'),
+        'PORT': '',
         'TEST': {
             'NAME': os.environ.get('NAME'),
         }
