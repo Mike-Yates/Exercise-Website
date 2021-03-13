@@ -16,6 +16,7 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 from pathlib import Path
 import environ
 import os
+import sys
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -86,8 +87,25 @@ WSGI_APPLICATION = 'exercise_gamification.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 # This connects to the database specified in the URL. See example setup in the readme
+# if 'test' in sys.argv:
+#     # This database is used for testing
+#     DATABASES = {
+#         'default': env.db(),
+#     }
+# else:
+    # This database is used for production
 DATABASES = {
-    'default': env.db(),
+    'default': {
+        'ENGINE': env('ENGINE'),
+        'NAME': env('NAME'),
+        'USER': env('USERNAME'),
+        'PASSWORD': env('PASSWORD'),
+        'HOST':env('HOST'),
+        'PORT':env('PORT'),
+        'TEST': {
+            'NAME': env('NAME'),
+        }
+    }
 }
 
 
