@@ -1,6 +1,8 @@
 from django.test import TestCase
 
 # Create your tests here.
+
+
 class RandomTestCase(TestCase):
     def test_case(self):
         url = 'https://exercisegamification.herokuapp.com/'
