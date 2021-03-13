@@ -87,21 +87,14 @@ WSGI_APPLICATION = 'exercise_gamification.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 # This connects to the database specified in the URL. See example setup in the readme
-# if 'test' in sys.argv:
-#     # This database is used for testing
-#     DATABASES = {
-#         'default': env.db(),
-#     }
-# else:
-    # This database is used for production
 DATABASES = {
     'default': {
-        'ENGINE': env('ENGINE'),
+        'ENGINE': 'django.db.backends.postgresql',
         'NAME': env('NAME'),
         'USER': env('PERSON'),
         'PASSWORD': env('PASSWORD'),
-        'HOST':env('HOST'),
-        'PORT':env('PORT'),
+        'HOST': env('HOST'),
+        'PORT': env('PORT'),
         'TEST': {
             'NAME': env('NAME'),
         }
