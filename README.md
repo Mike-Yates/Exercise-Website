@@ -7,7 +7,7 @@
     1. Install Python3 to your system. (https://www.python.org/downloads/)
     2. Clone the repository.
     3. Create a virtual environment:
-        Windows: py -m venv env
+        Windows: python -m venv env
         MacOS: python3 -m venv env
     4. Start the virtual environment:
         Windows: .\env\Scripts\activate
@@ -18,7 +18,7 @@
         MacOS: python3 -m pip install -r requirements.txt
    
     To start the local server run:
-        Windows: py manage.py runserver
+        Windows: python manage.py runserver
         MacOS: python3 manage.py runserver
 
     To close your environment run the command:

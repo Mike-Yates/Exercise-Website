@@ -14,23 +14,25 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 """
 
 from pathlib import Path
-import environ
+from dotenv import load_dotenv
+# import environ
 import os
 import sys
 
+load_dotenv()
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 # Loads environment variables
 # Used a known package to grab environment variables. See the README: 1
-env = environ.Env()
-env.read_env(env.str('ENV_PATH', '.env'))
+# env = environ.Env()
+# env.read_env(env.str('ENV_PATH', '.env'))
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = env('SECRET_KEY')
+SECRET_KEY = os.environ.get('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = env('DEBUG')
+DEBUG = os.environ.get('DEBUG')
 
 # Adding hosts allowed to launch this app
 ALLOWED_HOSTS = ['localhost', '127.0.0.1',
@@ -90,13 +92,13 @@ WSGI_APPLICATION = 'exercise_gamification.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': env('NAME'),
-        'USER': env('PERSON'),
-        'PASSWORD': env('PASSWORD'),
-        'HOST': env('HOST'),
-        'PORT': env('PORT'),
+        'NAME': os.environ.get('NAME'),
+        'USER': os.environ.get('PERSON'),
+        'PASSWORD': os.environ.get('PASSWORD'),
+        'HOST': os.environ.get('HOST'),
+        'PORT': os.environ.get('PORT'),
         'TEST': {
-            'NAME': env('NAME'),
+            'NAME': os.environ.get('NAME'),
         }
     }
 }

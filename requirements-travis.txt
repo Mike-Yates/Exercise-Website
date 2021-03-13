@@ -3,3 +3,4 @@ gunicorn
 django-environ
 django-allauth
 psycopg2-binary
+python-dotenv
