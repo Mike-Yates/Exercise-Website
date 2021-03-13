@@ -28,9 +28,14 @@
     To be able to run the project locally, you need to recreate the ".env" file with the appropriate database instruction. You need the following information in the ".env" file
        1. Create a ".env" file in the same directory as the "manage.py" file
        2. Add the following information to the ".env" file
-           - SECRET_KEY='<insert secret key>'
-           - DATABASE_URL='<insert url to postgres database>'
-           - DEBUG='<FALSE for production, TRUE for development>'
+            SECRET_KEY='...'
+            ENGINE='...
+            NAME='...'
+            PERSON='...'
+            PASSWORD='...'
+            HOST='...'
+            DEBUG=<True or False>
+
        3. Make sure to include the same information in your production server
        4. Create a superuser with the information so you can login to the database
        5. Deploy your site and visit the "/admin" to login. 

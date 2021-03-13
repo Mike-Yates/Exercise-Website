@@ -18,14 +18,11 @@ from dotenv import load_dotenv
 import os
 import sys
 
+# Loads environment variables
 load_dotenv()
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-
-# Loads environment variables
-# Used a known package to grab environment variables. See the README: 1
-# env = environ.Env()
-# env.read_env(env.str('ENV_PATH', '.env'))
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.environ.get('SECRET_KEY')
@@ -34,8 +31,7 @@ SECRET_KEY = os.environ.get('SECRET_KEY')
 DEBUG = os.environ.get('DEBUG')
 
 # Adding hosts allowed to launch this app
-ALLOWED_HOSTS = ['localhost', '127.0.0.1',
-                 '0.0.0.0', 'exercisegamificationdev.herokuapp.com', 'exercisegamification.herokuapp.com']
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -90,7 +86,7 @@ WSGI_APPLICATION = 'exercise_gamification.wsgi.application'
 # This connects to the database specified in the URL. See example setup in the readme
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
+        'ENGINE': os.environ.get('ENGINE'),
         'NAME': os.environ.get('NAME'),
         'USER': os.environ.get('PERSON'),
         'PASSWORD': os.environ.get('PASSWORD'),

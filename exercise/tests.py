@@ -1,10 +1,15 @@
 from django.test import TestCase
 
-# Create your tests here.
-
 
 class RandomTestCase(TestCase):
+    '''
+    Test class used to hold test for the site
+    '''
+
     def test_case(self):
+        '''
+        Example dummy test case to make sure travis is working correctly. 
+        '''
         url = 'https://exercisegamification.herokuapp.com/'
         response = self.client.get(url)
         error404 = False
