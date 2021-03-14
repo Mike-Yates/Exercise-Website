@@ -1,0 +1,17 @@
+<!-- Test to check if the google authentication is working properly -->
+{% load socialaccount %}
+<html>
+  <head>
+    <title>Google Registration</title>
+  </head>
+  <body>
+    <h1>Google Login</h1>
+    <!-- Checks for authentication-->
+    {% if user.is_authenticated %}
+    <p>Welcome, {{ user.username }} !</p>
+    {% else %}
+    <!-- Asks for authentication-->
+    <a href="{% provider_login_url 'google' %}">Test Login with Google</a>
+    {% endif %}
+  </body>
+</html>

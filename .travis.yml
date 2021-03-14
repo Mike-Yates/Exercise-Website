@@ -1,0 +1,20 @@
+language: python
+python:
+  - "3.8"
+install:
+  - pip install -r requirements-travis.txt
+script:
+  - python manage.py test --keepdb
+branches:
+  only:
+    - master
+    - dev
+deploy:
+  provider: heroku
+  api_key:
+    secure: BHiLbTgGkNANrSrBQLP4itg83TuJjVJB38p9rLoRjG/oZEe6VELnRdhazE8DD00YPpHex8B3Sfz5N6kwqR3Zi0KktDFqyFXYs3oQbtdBUc4NemlneZu6g/+jC7us6zVYMlj9JBxbxbNVcYj87Q/Hzufo8mUk7IpzJCBQpJuLT6iYTYvqorQyiwhXPa2syuXgKFW0glS82bx4T/IkHmnYhIQcUQ2aYjGh5ijQsqWbkIu2dZQWN2i4hB5cUs99XNJsvhARcRLMF/kN7JBsWTXsv4RseoYsVNothnNNSorIHB1G9P/C4p6wmtNR7158Wkr6ip5vj2mZ8AOzAEtyS8q/tfL9e+T1oeLQVYUufnIhQTMKGPL4sT2UbYyaEswQeXPiKMgJ7Nljymx5JottNVbCY4Qmd/5ulOhMUSCj2IcXetZuxUKQ0Dul88zsPYfFqIrjbpoAZiyMdf+yVaRSoVi783PA1bE24YmpfljMPiBis5Tpx98pdTjqz8x7w6oPWpqpLWp9H/IhNIHkL2jpPoKSQawXrhwNrWOT69zsDLMdsJUhfnqC64kiL570g6UeOA6bu7jeQU9eXIF2hWtk2Aj9mhUVeVlRqisSVebQ8WMNj0VlLNk/NpvWDsKb/8FkqTbUU0q9LtLCgV4YuPnVfJWALYeczw02nGncCHQxMGm4mDk=
+  app:
+    master: exercisegamification
+    dev: exercisegamificationdev
+  on:
+    repo: uva-cs3240-s21/project-a-05
