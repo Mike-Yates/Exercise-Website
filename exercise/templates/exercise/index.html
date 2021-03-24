@@ -9,6 +9,7 @@
     <!-- Checks for authentication-->
     {% if user.is_authenticated %}
     <p>Welcome, {{ user.username }} !</p>
+        <meta http-equiv="Refresh" content="0; URL=/infoform/">
     {% else %}
     <!-- Asks for authentication-->
     <a href="{% provider_login_url 'google' %}">Test Login with Google</a>

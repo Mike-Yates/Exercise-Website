@@ -16,10 +16,12 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from django.views.generic import TemplateView
-
+from exercise import views
 # Following patterns for application are used in the app. See README: 3,4,5
 urlpatterns = [
-    path('', TemplateView.as_view(template_name="exercise/index.html")),
+    path('', views.google_login),
+    path('home/', views.home, name='home'),
+    path('infoform/', views.get_user_info, name='info form'),
     path('accounts/', include('allauth.urls')),
     path('admin/', admin.site.urls),
     path('exercise/', include('exercise.urls', namespace="exercise")),
