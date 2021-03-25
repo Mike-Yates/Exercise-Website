@@ -1,9 +1,10 @@
+<!-- This is the form for the initial user data collection. We need to make this look nice and fill the questions in InfoForm forms.py-->
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-    <form action="/infoform/" method="post">
+    <form action="{% url 'info form' %}" method="post">
 
             {% csrf_token %}
             {{ form}}
