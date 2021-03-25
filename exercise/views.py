@@ -21,14 +21,14 @@ def home(request):
         return render(request, 'exercise/home.html')
 
 
-# view that renders a form for first time user info and then adds users to the registered group
+# view that renders and saves a form for first time user info and then adds users to the registered group
 def get_user_info(request):
     if request.method == 'POST':
-        form = InfoForm(request.POST)
+        form = InfoForm(request.POST, instance=request.user.profile)
         if form.is_valid():
-            # change the user data here
             my_group = Group.objects.get(name='registered')
             my_group.user_set.add(request.user)
+            form.save()
             return HttpResponseRedirect('/home')
     else:
         form = InfoForm()
