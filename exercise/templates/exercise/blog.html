@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+
+<body>
+
+
+
+<div class="row justify-content-center">
+    <div class="col-8">
+        <h1>Blog Here!</h1>
+        <hr class="mt-0 mb-3">
+
+
+        <ul class="list-group">
+            {% for blog in blogs %}
+            <li class="list-group-item">A user said "{{ blog.blog_post }}"</li>
+            {% endfor %}
+        </ul>
+
+    </div>
+</div>
+<div>
+    &nbsp;&nbsp;
+<!--    It gets here-->
+<!--    {{ user.username }}-->
+</div>
+
+
+<div class="row justify-content-center">
+    <div class="col-8">
+        <h1>Any Questions?</h1>
+        <hr class="mt-0 mb-3">
+
+        <form class="form-inline" action="{% url 'exercise:submit' %}" method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <input type="text" placeholder="Questions, comments, or concern" name="blog">
+            <input type="submit" value="Submit">
+<!--            <div class="form-group mx-sm-3 mb-2">-->
+<!--                <input class="form-control" type="text" placeholder="Your thoughts" name="thought">-->
+<!--                <input class="btn btn-primary" type="submit" value="Submit">-->
+<!--            </div>-->
+        </form>
+    </div>
+</div>
+
+<div>
+    &nbsp;&nbsp;
+</div>
+
+
+
+
+</body>
+</html>

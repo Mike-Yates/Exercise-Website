@@ -33,3 +33,27 @@ def get_user_info(request):
     else:
         form = InfoForm()
         return render(request, 'exercise/info_form.html', {'form': form})
+
+
+
+
+def blogDisplay(request):
+    blog = Blog.objects.all()
+    return render(request, 'exercise/blog.html', {'blogs': blog})
+
+
+
+def thot(request):
+    try:
+        blog = Blog(blog_post=request.POST['blog'])
+    except(KeyError):
+        return render(request, 'exercise.blog.html',{
+            'blogs': Blog
+        })
+    else:
+        blog.save()
+
+    return HttpResponseRedirect('/exercise/blog/')
+
+    # return HttpResponseRedirect(reverse('exercise:blog'))
+

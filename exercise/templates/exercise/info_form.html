@@ -3,10 +3,12 @@
 <html lang="en">
 <meta charset="UTF-8">
 <title>Title</title>
+<h1>{{ user.username }}</h1>
 <form  method="post">
 
     {% csrf_token %}
     {{ form}}
+
     <input type="submit" class = "btn btn-dark" value="OK">
 
 </form>
