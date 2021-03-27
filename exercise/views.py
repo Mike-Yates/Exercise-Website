@@ -15,6 +15,8 @@ def google_login(request):
 
 # view that redirects first time users to a form and renders the homepage for already registered users
 def home(request):
+    if not request.user.is_authenticated:
+        return HttpResponseRedirect('/')
     if not request.user.groups.filter(name='registered').exists():
         return HttpResponseRedirect('/infoform')
     else:
