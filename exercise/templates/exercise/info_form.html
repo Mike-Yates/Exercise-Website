@@ -1,0 +1,16 @@
+<!-- This is the form for the initial user data collection. We need to make this look nice and fill the fields/questions in InfoForm forms.py-->
+<!DOCTYPE html>
+<html lang="en">
+<meta charset="UTF-8">
+<title>Title</title>
+<form  method="post">
+
+    {% csrf_token %}
+    {{ form}}
+    <input type="submit" class = "btn btn-dark" value="OK">
+
+</form>
+<body>
+
+</body>
+</html>
