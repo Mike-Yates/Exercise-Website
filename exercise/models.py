@@ -14,7 +14,10 @@ class Profile(models.Model):
     # these are just sample fields below, we will change these as needed
     bio = models.TextField(max_length=500, blank=True)
     location = models.CharField(max_length=30, blank=True)
-    birth_date = models.DateField(null=True, blank=True)
+    birth_date = models.DateField(null=True, default='MM/DD/YY')
+    height = models.CharField(max_length=30, default=" feet' inches'' ")
+    weight = models.CharField(max_length=30, blank=True)
+
 
 
 # links creating a profile with the User model

@@ -9,4 +9,5 @@ class InfoForm(forms.ModelForm):
     class Meta:
         model = Profile
         # need to change these to the fields we want to display.
-        fields = ('bio', 'location')
+        fields = ('bio', 'location', 'birth_date', 'height', 'weight')
+        # fields = ('bio', 'location')
