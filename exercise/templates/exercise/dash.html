@@ -1,0 +1,49 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
+    <title>Gamification Webapp</title>
+  </head>
+  {% block content %}
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="#">Dash</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav">
+        <li class="nav-item active">
+          <a class="nav-link" href="#">Calendar <span class="sr-only">(current)</span></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Programs</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Goals</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link disabled" href="#">Forum</a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+  {% endblock %}
+
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col">Experience</th>
+        <th scope="col">Nathaniel</th>
+        <th scope="col">Gonzalez</th>
+        <th scope="col">Percentage:</th>
+      </tr>
+    </thead>
+  </table>
+
+  <div class="progress">
+    <div class="progress-bar" role="progressbar" style="width: 25%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">25%</div>
+  </div>
+</html>

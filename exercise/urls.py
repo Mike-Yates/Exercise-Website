@@ -7,4 +7,5 @@ app_name = 'exercise'
 urlpatterns = [
     # path: /exercise/
     # path('', views.IndexView.as_view(), name='index'),
+    path('dash/', views.ProfileView.as_view(), name = 'dash')
 ]

@@ -35,3 +35,8 @@ def get_user_info(request):
     else:
         form = InfoForm()
         return render(request, 'exercise/info_form.html', {'form': form})
+
+class ProfileView(generic.CreateView):
+    model = Profile
+    fields = ['user', 'bio', 'location', 'birth_date']
+    template_name = 'exercise/dash.html'
