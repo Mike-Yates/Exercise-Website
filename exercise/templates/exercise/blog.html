@@ -21,7 +21,7 @@
 
         <ul class="list-group">
             {% for blog in blogs %}
-            <li class="list-group-item">A {{ blog.blog_user}} said "{{ blog.blog_post }}"</li>
+            <li class="list-group-item">{{ blog.blog_user}} said "{{ blog.blog_post }}"</li>
             {% endfor %}
         </ul>
 
@@ -42,8 +42,8 @@
         <form class="form-inline" action="{% url 'exercise:submit' %}" method="post">
             {% csrf_token %}
             {{ form.as_p }}
-            <input type="text" placeholder="Questions, comments, or concern" name="blog">
-            <p name="username">{{user.username}}</p>
+            <input type="text" placeholder="Questions or comments?" name="blog">
+<!--            <p name="username">{{user.username}}</p>-->
             <input type="submit" value="Submit">
 
         </form>

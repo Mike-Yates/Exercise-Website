@@ -7,9 +7,24 @@
 <h2>Welcome, {{ user.username }}</h2>
 {% else %}
 <h2>{{ user.get_full_name }}</h2>
+
 <ul>
   <li>Username: {{ user.username }}</li>
   <li>User ID: {{ user.profile.user_id }}</li>
   <li>First Log In?: {{ user.profile.first_login }}</li>
 </ul>
 {% endif %}
+
+<div>
+  <a href="/exercise/schedule"> Cardio? </a>
+</div>
+<div>
+
+  <a href="/exercise/schedule2"> Lifting? </a>
+</div>
+<div>
+  <a href="/exercise/schedule3"> Sports? </a>
+</div>
+<div>
+  <a href="/exercise/blog"> Have any questions, concerns, comments? ASK SOMEONE HERE </a>
+</div>

@@ -102,8 +102,6 @@ def blogDisplay(request):
 
 
 def thot(request):
-    print('--------------------------------------HELLOOOO------------------')
-    print(request.user.get_username())
     try:
 
         blog = Blog(blog_post=request.POST['blog'], blog_user=request.user.get_username())
@@ -117,4 +115,15 @@ def thot(request):
 
 
     return HttpResponseRedirect('/exercise/blog/')
+
+
+class runningView(generic.TemplateView):
+    template_name = 'exercise/schedule.html'
+
+class bigView(generic.TemplateView):
+    template_name = 'exercise/schedule2.html'
+
+class sportView(generic.TemplateView):
+    template_name = 'exercise/schedule3.html'
+
 
