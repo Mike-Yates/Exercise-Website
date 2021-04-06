@@ -48,9 +48,13 @@
     4. https://docs.djangoproject.com/en/3.1/intro/tutorial01/
     5. https://stackoverflow.com/questions/15409366/django-socialapp-matching-query-does-not-exist
     6. https://gist.github.com/bennylope/2999704
+    7. https://simpleisbetterthancomplex.com/tutorial/2016/07/22/how-to-extend-django-user-model.html#onetoone
     7. https://codesource.io/ci-cd-with-github-travis-ci-and-heroku/
     8. https://docs.travis-ci.com/user/deployment/heroku/#deploying-specific-branches
-    9. 
+    9. https://docs.djangoproject.com/en/3.0/ref/contrib/messages/#using-messages-in-views-and-templates
+    10. https://www.youtube.com/watch?v=tUqUdu0Sjyc
+    11. 
+    12. 
     
 ### Contributions:
     If you are willing to contribute to this projects, please fork the repo and make a pull request once you are done. We will take a look and see what we can do with it.
