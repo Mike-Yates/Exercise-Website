@@ -1,11 +1,11 @@
-from django.contrib.auth.models import User, Group
 from django.shortcuts import render
 from django.views import generic
-from .forms import *
+
+from django.shortcuts import render
+from django.views import generic
 from django.http import *
+from .models import Blog
 
-
-# view that makes users sign in or sends them to /home
 def google_login(request):
     if request.user.is_authenticated:
         return HttpResponseRedirect('/home')
@@ -35,6 +35,18 @@ def get_user_info(request):
         return render(request, 'exercise/info_form.html', {'form': form})
 
 
+# Not yet implemented
+class runningView(generic.TemplateView):
+    template_name = 'exercise/schedule.html'
+
+class bigView(generic.TemplateView):
+    template_name = 'exercise/schedule2.html'
+
+class sportView(generic.TemplateView):
+    template_name = 'exercise/schedule3.html'
+
+class fakeHome(generic.TemplateView):
+    template_name = 'exercise/fake.html'
 
 
 def blogDisplay(request):
@@ -54,6 +66,3 @@ def thot(request):
         blog.save()
 
     return HttpResponseRedirect('/exercise/blog/')
-
-    # return HttpResponseRedirect(reverse('exercise:blog'))
-

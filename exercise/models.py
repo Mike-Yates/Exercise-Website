@@ -30,6 +30,7 @@ def save_user_profile(sender, instance, **kwargs):
     instance.profile.save()
 
 
+
 # Model for the blog section
 class Blog(models.Model):
     blog_post = models.TextField() # simple text field
