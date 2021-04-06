@@ -27,3 +27,11 @@ def create_user_profile(sender, instance, created, **kwargs):
 @receiver(post_save, sender=User)
 def save_user_profile(sender, instance, **kwargs):
     instance.profile.save()
+
+
+
+# Model for the blog section
+class Blog(models.Model):
+    blog_post = models.TextField() # simple text field
+    def str(self):
+        return self.blog_post

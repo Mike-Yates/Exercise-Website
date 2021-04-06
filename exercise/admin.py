@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from django.contrib.auth.models import User
-from .models import Profile
+from .models import Profile, Blog
 
 
 class ProfileInline(admin.StackedInline):
@@ -22,3 +22,8 @@ class CustomUserAdmin(UserAdmin):
 
 admin.site.unregister(User)
 admin.site.register(User, CustomUserAdmin)
+
+
+class BlogAdmin(admin.ModelAdmin): # created admin to manage blog posts and see if they are reaching the database
+    model = Blog
+admin.site.register(Blog, BlogAdmin)

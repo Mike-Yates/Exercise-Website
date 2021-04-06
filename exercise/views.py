@@ -7,7 +7,7 @@ from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from .forms import CreateUserForm
-from .models import Profile
+from .models import Profile, Blog
 
 #----- Views used for when the user has been logged in ------#
 
@@ -89,3 +89,27 @@ def logout_user(request):
     '''
     logout(request)     # Logs out the user
     return render(request, 'exercise/index.html')   # Redirects the page
+
+
+# ----- Blog stuff ---
+
+
+
+def blogDisplay(request):
+    blog = Blog.objects.all()
+    return render(request, 'exercise/blog.html', {'blogs': blog})
+
+
+
+def thot(request):
+    try:
+        blog = Blog(blog_post=request.POST['blog'])
+    except(KeyError):
+        return render(request, 'exercise.blog.html',{
+            'blogs': Blog
+        })
+    else:
+        blog.save()
+
+    return HttpResponseRedirect('/exercise/blog/')
+
