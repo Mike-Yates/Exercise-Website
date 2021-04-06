@@ -7,6 +7,7 @@ from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from .forms import CreateUserForm
+from .models import Profile
 
 #----- Views used for when the user has been logged in ------#
 
@@ -15,6 +16,12 @@ from .forms import CreateUserForm
 def home(request):
     context = {}
     return render(request, 'exercise/home.html', context)
+
+
+@login_required(login_url='login')
+def first_login(request):
+    context = {}
+    return render(request, 'exercise/firstlogin.html', context)
 
 
 #------ Views that can be accessed by users that have not been authenticated ------#
@@ -53,7 +60,7 @@ def register_user(request):
 
     Note: This method will fail if a user being created already exists
     '''
-    if request.user.is_authenticated:       # Checks authentication
+    if request.user.is_authenticated:  # Checks authentication
         return HttpResponseRedirect(reverse('exercise:home'))
     else:       # Creates a new user from the template given
         form = CreateUserForm()

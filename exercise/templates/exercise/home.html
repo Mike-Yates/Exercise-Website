@@ -2,3 +2,14 @@
   Welcome, {{request.user}}. This is the home page where we will show you stuff
 </h1>
 <span> <a href="{% url 'exercise:logout' %}">Logout</a> </span>
+
+{% if user.profile.first_login %}
+<h2>Welcome, {{ user.username }}</h2>
+{% else %}
+<h2>{{ user.get_full_name }}</h2>
+<ul>
+  <li>Username: {{ user.username }}</li>
+  <li>User ID: {{ user.profile.user_id }}</li>
+  <li>First Log In?: {{ user.profile.first_login }}</li>
+</ul>
+{% endif %}
