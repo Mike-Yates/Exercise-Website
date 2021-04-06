@@ -1,6 +1,9 @@
 from django.test import TestCase
 
 
+def create_post(blog_post, blog_user):
+    return Blog.objects.create(blog_post=blog_post, blog_user=blog_user)
+
 class RandomTestCase(TestCase):
     '''
     Test class used to hold test for the site
@@ -18,3 +21,12 @@ class RandomTestCase(TestCase):
         self.assertIs(error404, False)
 
     # Write some more test cases here
+
+    def test_blog_working(self):
+        """returns true if the user is and their comment is noted"""
+        blog_user = 'Admin'
+        blog_post = 'This worked'
+        num_before_adding = Blog.objects.all().count()
+        create_post(blog_post, blog_user)
+        num_after_adding = Blog.objects.all().count()
+        self.assertEqual(num_after_adding - 1, num_before_adding)
