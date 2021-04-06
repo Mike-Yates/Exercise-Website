@@ -1,24 +1,25 @@
 <!-- Test to check if the google authentication is working properly -->
 {% load socialaccount %}
-<h1>Main Page Coming Soon...</h1>
-
 <html>
   <head>
-    <title>Google Registration</title>
+    <title>Homepage</title>
   </head>
   <body>
+    <h1>Hello, this is the Main Page. A nicer version is coming soon</h1>
+
     <!-- Checks for authentication-->
-    {% if user.is_authenticated %}  
-    <h1>Hello, {{request.user}}</h1>
-        <span> <a href="{% url 'exercise:home' %}">Home</a> </span>
-        <span> <a href="{% url 'exercise:logout' %}">Logout</a> </span>
+    {% if request.user.is_authenticated %}  
+      <h1>Hello, {{request.user}}. You may perform the following stuff </h1>
+      <span> <a href="{% url 'exercise:home' %}">Home</a> </span>
+      </br>
+      <span> <a href="{% url 'exercise:logout' %}">Logout</a> </span>
     {% else %}
-    <!-- Asks for authentication-->
-    <span> <a href="{% url 'exercise:login' %}">Login</a> </span>
-    </br>
-    <span>
-      <a href="{% provider_login_url 'google' %}">Test Login with Google</a>
-    </span>
+      <h1> Please, login using one of the following methods </h1>
+      <span> <a href="{% url 'exercise:login' %}">Login</a> </span>
+      </br>
+      <span>
+        <a href="{% provider_login_url 'google' %}">Test Login with Google</a>
+      </span>
     {% endif %}
   </body>
 </html>

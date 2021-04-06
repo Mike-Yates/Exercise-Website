@@ -8,6 +8,8 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from .forms import CreateUserForm
 
+#----- Views used for when the user has been logged in ------#
+
 
 @login_required(login_url='login')
 def home(request):
@@ -15,45 +17,68 @@ def home(request):
     return render(request, 'exercise/home.html', context)
 
 
+#------ Views that can be accessed by users that have not been authenticated ------#
+
+
 def login_user(request):
-    if request.user.is_authenticated:
+    '''
+    View to handle the manual login of users who have been created
+
+    Note: This method will sign in a user regardless of if they manually created an account or used google authentication
+    '''
+    if request.user.is_authenticated:       # Check authentication
         return HttpResponseRedirect(reverse('exercise:home'))
-    else:
+    else:       # Logins in user
         if request.method == 'POST':
             username = request.POST.get('username')
             password = request.POST.get('password')
+            # Calls the Django authentication method
             user = authenticate(request, username=username, password=password)
 
-            if user is not None:
-                login(request, user)
+            if user is not None:        # If user exists
+                login(request, user)        # Logs them in
                 return HttpResponseRedirect(reverse('exercise:home'))
-            else:
+            else:       # If something went wrong
                 messages.info(
-                    request, 'Username OR Password is Incorrect, Please try again')
+                    request, 'Username OR Password is Incorrect, Please try again')     # Sets message to display
 
         context = {}
+        # Redirects to the same page
         return render(request, 'exercise/login.html', context)
 
 
-def logout_user(request):
-    logout(request)
-    return render(request, 'exercise/index.html')
+def register_user(request):
+    '''
+    View to handle the manual creation of a user
 
-
-def register_page(request):
-    if request.user.is_authenticated:
+    Note: This method will fail if a user being created already exists
+    '''
+    if request.user.is_authenticated:       # Checks authentication
         return HttpResponseRedirect(reverse('exercise:home'))
-    else:
+    else:       # Creates a new user from the template given
         form = CreateUserForm()
 
         if request.method == 'POST':
+            # Calls our form with the post data
             form = CreateUserForm(request.POST)
 
-            if form.is_valid():
-                form.save()
+            if form.is_valid():     # Checks validity
+                form.save()         # Saves the form
+                # Checks for unique username status
                 user = form.cleaned_data.get('username')
                 messages.success(request, "User Created for " + user)
                 return HttpResponseRedirect(reverse('exercise:login'))
 
     context = {'form': form}
+    # redirects the page
     return render(request, 'exercise/register.html', context)
+
+
+def logout_user(request):
+    '''
+    Method to logout a user
+
+    Note: This method will logout any user regardless of if they signed in with google or not
+    '''
+    logout(request)     # Logs out the user
+    return render(request, 'exercise/index.html')   # Redirects the page
