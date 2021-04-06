@@ -21,7 +21,7 @@
 
         <ul class="list-group">
             {% for blog in blogs %}
-            <li class="list-group-item">A user said "{{ blog.blog_post }}"</li>
+            <li class="list-group-item">A {{ blog.blog_user}} said "{{ blog.blog_post }}"</li>
             {% endfor %}
         </ul>
 
@@ -43,11 +43,9 @@
             {% csrf_token %}
             {{ form.as_p }}
             <input type="text" placeholder="Questions, comments, or concern" name="blog">
+            <p name="username">{{user.username}}</p>
             <input type="submit" value="Submit">
-            <!--            <div class="form-group mx-sm-3 mb-2">-->
-            <!--                <input class="form-control" type="text" placeholder="Your thoughts" name="thought">-->
-            <!--                <input class="btn btn-primary" type="submit" value="Submit">-->
-            <!--            </div>-->
+
         </form>
     </div>
 </div>

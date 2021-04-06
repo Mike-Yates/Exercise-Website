@@ -33,5 +33,6 @@ def save_user_profile(sender, instance, **kwargs):
 # Model for the blog section
 class Blog(models.Model):
     blog_post = models.TextField() # simple text field
+    blog_user = models.TextField(default="")
     def str(self):
         return self.blog_post

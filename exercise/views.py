@@ -102,14 +102,19 @@ def blogDisplay(request):
 
 
 def thot(request):
+    print('--------------------------------------HELLOOOO------------------')
+    print(request.user.get_username())
     try:
-        blog = Blog(blog_post=request.POST['blog'])
+
+        blog = Blog(blog_post=request.POST['blog'], blog_user=request.user.get_username())
+
     except(KeyError):
         return render(request, 'exercise.blog.html',{
             'blogs': Blog
         })
     else:
         blog.save()
+
 
     return HttpResponseRedirect('/exercise/blog/')
 
