@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from django.contrib.auth.models import User
-from .models import Profile, Blog
+from .models import Profile, Blog, Exercise
 
 
 class ProfileInline(admin.StackedInline):
@@ -11,13 +11,20 @@ class ProfileInline(admin.StackedInline):
     fk_name = 'user'
 
 
+# managed in the same way as profileinline
+class ExerciseInline(admin.StackedInline):
+    model = Exercise
+    can_delete = True
+    verbose_name_plural = 'Exercises'
+
+
 # created admin to manage blog posts and see if they are reaching the database
 class BlogAdmin(admin.ModelAdmin):
     model = Blog
 
 
 class CustomUserAdmin(UserAdmin):
-    inlines = (ProfileInline, )
+    inlines = (ProfileInline, ExerciseInline)
 
     def get_inline_instances(self, request, obj=None):
         if not obj:

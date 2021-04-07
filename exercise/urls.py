@@ -14,6 +14,7 @@ urlpatterns = [
     path('home/', views.home, name='home'),
     path('blog/', views.blog_display, name='blog'),
     path('blog/submit', views.blog_post, name='submit'),
+    path('exercise_logging/', views.exercise_logging, name='exerciselogging')
     # path('schedule', views.runningView.as_view(), name="cardio"),
     # path('schedule2', views.bigView.as_view(), name="big"),
     # path('schedule3', views.sportView.as_view(), name="sport")
