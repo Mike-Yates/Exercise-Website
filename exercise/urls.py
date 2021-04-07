@@ -12,9 +12,9 @@ urlpatterns = [
     path('logout/', views.logout_user, name="logout"),
     path('firstlogin/', views.first_login, name='firstlogin'),
     path('home/', views.home, name='home'),
-    path('blog/', views.blogDisplay, name='blog'),
-    path('blog/submit', views.thot, name='submit'),
-    path('schedule', views.runningView.as_view(), name="cardio"),
-    path('schedule2', views.bigView.as_view(), name="big"),
-    path('schedule3', views.sportView.as_view(), name="sport")
+    path('blog/', views.blog_display, name='blog'),
+    path('blog/submit', views.blog_post, name='submit'),
+    # path('schedule', views.runningView.as_view(), name="cardio"),
+    # path('schedule2', views.bigView.as_view(), name="big"),
+    # path('schedule3', views.sportView.as_view(), name="sport")
 ]
