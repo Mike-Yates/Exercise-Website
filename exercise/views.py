@@ -148,3 +148,12 @@ def logout_user(request):
     '''
     logout(request)     # Logs out the user
     return render(request, 'exercise/index.html')   # Redirects the page
+
+    template_name = 'exercise/schedule3.html'
+class sportView(generic.TemplateView):
+
+    template_name = 'exercise/schedule2.html'
+class bigView(generic.TemplateView):
+
+    template_name = 'exercise/schedule.html'
+class runningView(generic.TemplateView):
