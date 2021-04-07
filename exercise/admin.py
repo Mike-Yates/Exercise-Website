@@ -11,6 +11,11 @@ class ProfileInline(admin.StackedInline):
     fk_name = 'user'
 
 
+# created admin to manage blog posts and see if they are reaching the database
+class BlogAdmin(admin.ModelAdmin):
+    model = Blog
+
+
 class CustomUserAdmin(UserAdmin):
     inlines = (ProfileInline, )
 
@@ -21,9 +26,5 @@ class CustomUserAdmin(UserAdmin):
 
 
 admin.site.unregister(User)
-admin.site.register(User, CustomUserAdmin)
-
-
-class BlogAdmin(admin.ModelAdmin): # created admin to manage blog posts and see if they are reaching the database
-    model = Blog
 admin.site.register(Blog, BlogAdmin)
+admin.site.register(User, CustomUserAdmin)

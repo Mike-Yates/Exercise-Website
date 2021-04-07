@@ -1,15 +1,21 @@
 <h1>
-  Welcome, {{request.user}}. This is the home page where we will show you stuff
+  Welcome, {{request.user}}. Bio: {{user.profile.bio}}
 </h1>
 <span> <a href="{% url 'exercise:logout' %}">Logout</a> </span>
 
 {% if user.profile.first_login %}
 <h2>Welcome, {{ user.username }}</h2>
+      </br>
+      <span> <a href="{% url 'exercise:blog' %}">Blog</a> </span>
+      </br>
 {% else %}
 <h2>{{ user.get_full_name }}</h2>
-<ul>
-  <li>Username: {{ user.username }}</li>
-  <li>User ID: {{ user.profile.user_id }}</li>
-  <li>First Log In?: {{ user.profile.first_login }}</li>
-</ul>
+    </br>
+    <span> <a href="{% url 'exercise:blog' %}">Blog</a> </span>
+    </br>
+    <ul>
+    <li>Username: {{ user.username }}</li>
+    <li>User ID: {{ user.profile.user_id }}</li>
+    <li>First Log In?: {{ user.profile.first_login }}</li>
+    </ul>
 {% endif %}
