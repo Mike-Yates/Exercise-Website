@@ -14,9 +14,9 @@ class Profile(models.Model):
     # these are just sample fields below, we will change these as needed
     bio = models.TextField(max_length=500, blank=True)
     location = models.CharField(max_length=30, blank=True)
-    birth_date = models.DateField(null=True, default='MM/DD/YY')
-    height = models.CharField(max_length=30, default=" feet' inches'' ")
-    weight = models.CharField(max_length=30, blank=True)
+    birth_date = models.DateField()
+    height = models.IntegerField(default=0)
+    weight = models.IntegerField(default=0)
 
 
 
@@ -31,3 +31,5 @@ def create_user_profile(sender, instance, created, **kwargs):
 @receiver(post_save, sender=User)
 def save_user_profile(sender, instance, **kwargs):
     instance.profile.save()
+
+

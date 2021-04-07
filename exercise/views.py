@@ -35,3 +35,20 @@ def get_user_info(request):
     else:
         form = InfoForm()
         return render(request, 'exercise/info_form.html', {'form': form})
+
+
+
+
+''' 
+# view that redirects first time users to a form and renders the homepage for already registered users
+def display_bmi_info(request):
+    # first check to see if user is logged in
+    if not request.user.is_authenticated:
+        return HttpResponseRedirect('/')
+    if not request.user.groups.filter(name='registered').exists():
+        return HttpResponseRedirect('/infoform')
+    else:
+        return render(request, 'exercise/home.html')
+
+'''
+
