@@ -1,7 +1,7 @@
 from django.contrib.auth.forms import UserCreationForm
 from django.shortcuts import render
 from django.views import generic
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, JsonResponse, HttpResponse
 from django.urls import reverse
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
@@ -14,12 +14,20 @@ from .models import Profile, Blog
 #----- Views used for when the user has been logged in ------#
 
 
+#-----stuff to make dynamic progress bar work----------------#
+arr = ['Basketball', 'Cross Training', 'Cardio', 'Strength Training', 'Climbing', 'Soccer', 'American Football', 'Dance', 'Gymnastics',
+'Hiking', 'Swimming', 'Yoga']
+
+globalcnt = dict()
+#-------------dynamic progress bar end-----------------------#
+
+
 @login_required(login_url='exercise:login')
 def home(request):
     '''
     Method to render the homepage (dashboard) of the user
     '''
-    context = {}
+    context = { "arr" : arr }
     return render(request, 'exercise/home.html', context)
 
 
@@ -149,14 +157,40 @@ def logout_user(request):
     logout(request)     # Logs out the user
     return render(request, 'exercise/index.html')   # Redirects the page
 
+#-----------------Views for progress bar feature-----------------------#
+# imported JsonResponse and HttpResponse
+def getquery(request):
+    q = request.GET['activities']
+    if q in globalcnt:
+        # if it already exist in globalcnt, then increment the value
+        globalcnt[q]=globalcnt[q]+1
+    else:
+        # first time submitting that activity
+        globalcnt[q] = 1
+    content = {
+        "arr" : arr,
+        "globalcnt" : globalcnt
+    }
+    return render(request, 'exercise/home.html', content)
 
-# class sportView(generic.TemplateView):
-#     template_name = 'exercise/schedule3.html'
+def sortdata(request):
+    global globalcnt
+    globalcnt = dict(sorted(globalcnt.items(),key=lambda x:x[1],reverse=True))
+    context = {
+        "arr" : arr,
+        "globalcnt" : globalcnt
+    }
+    return render(request,'exercise/home.html', context)
+#-----------------progress bar feature end-----------------------------#
 
 
-# class bigView(generic.TemplateView):
-#     template_name = 'exercise/schedule2.html'
+class sportView(generic.TemplateView):
+    template_name = 'exercise/schedule3.html'
 
 
-# class runningView(generic.TemplateView):
-#     template_name = 'exercise/schedule.html'
+class bigView(generic.TemplateView):
+    template_name = 'exercise/schedule2.html'
+
+
+class runningView(generic.TemplateView):
+    template_name = 'exercise/schedule.html'
