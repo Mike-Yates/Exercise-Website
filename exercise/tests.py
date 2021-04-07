@@ -46,7 +46,6 @@ class RandomTestCase(TestCase):
         num_after_adding = Blog.objects.all().count()
         self.assertEqual(num_after_adding - 1, num_before_adding)
         user.delete()
-        x.delete()
 
     def test_exercise_logging_adds_to_user(self):
         """returns true if an exercise is added to that user"""
@@ -59,4 +58,3 @@ class RandomTestCase(TestCase):
         num_after_adding = Exercise.objects.filter(user=user)
         self.assertEqual(num_after_adding - 1, num_before_adding)
         user.delete()
-        x.delete()

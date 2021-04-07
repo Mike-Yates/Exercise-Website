@@ -12,7 +12,7 @@ class Profile(models.Model):
     Note: This is user specific and needs a user to be accessed.  
     '''
     user = models.OneToOneField(
-        User, on_delete=models.CASCADE)     # Ties the info to the user
+        User, on_delete=models.CASCADE)  # Ties the info to the user
     # Info to see if this is the users first time logging in
     first_login = models.BooleanField(default=True)
     bio = models.TextField(default="")
@@ -35,7 +35,6 @@ class Blog(models.Model):
         return self.blog_user
 
 
-
 class Exercise(models.Model):
     '''
     Exercise model
@@ -43,16 +42,13 @@ class Exercise(models.Model):
     '''
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     exercise_name = models.CharField(max_length=200)
-    reps = models.IntegerField(default=0)
-    sets = models.IntegerField(default=0)
-    weight_in_pounds = models.IntegerField(default=0)
+    reps = models.PositiveIntegerField(default=0)
+    sets = models.PositiveIntegerField(default=0)
+    weight_in_pounds = models.PositiveIntegerField(default=0)
     timestamp = models.DateTimeField(default=timezone.now)
 
     def __str__(self):
         return self.exercise_name
-
-
-
 
 
 @receiver(post_save, sender=User)
