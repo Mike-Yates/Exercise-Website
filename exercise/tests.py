@@ -1,7 +1,8 @@
 from django.contrib.auth.models import User
 from django.test import TestCase
 from django.urls import reverse
-from exercise.models import Blog, Exercise
+from exercise.models import Blog, Exercise, SportsXP
+from django.utils import timezone
 
 
 def create_post(blog_post, blog_user):
@@ -25,6 +26,17 @@ class RandomTestCase(TestCase):
         self.assertIs(error404, False)
 
     # Write some more test cases here
+
+    def test_response_status_dev_site(self):
+        '''
+        Test case to make sure dev site it running. 
+        '''
+        url = 'https://exercisegamificationdev.herokuapp.com/'
+        response = self.client.get(url)
+        error404 = False
+        if (response.status_code == 404):
+            error404 = True
+        self.assertIs(error404, False)
 
     def test_blog_working(self):
         """returns true if the user is and their comment is noted"""
@@ -92,3 +104,71 @@ class RandomTestCase(TestCase):
         self.assertContains(response, "Admin")
         self.assertContains(response, "Admin2")
 
+    def test_sportXP_zero_defaultValue(self):
+        """returns True if all sportXP values are defaulted to 0"""
+        user = User.objects.create_user(
+            'testUser', 'tester@outlook.com', 'testUserpassword'
+        )
+        x = SportsXP.objects.create(user = user)
+        zero = 0
+        if (x.basketball > zero):
+            zero = x.basketball
+        if (x.cross_training > zero):
+            zero = x.cross_training
+        if (x.cardio > zero):
+            zero = x.cardio
+        if (x.strength_training > zero):
+            zero = x.strength_training
+        if (x.climbing > zero):
+            zero = x.climbing
+        if (x.soccer > zero):
+            zero = x.soccer
+        if (x.american_football > zero):
+            zero = x.american_football
+        if (x.dance > zero):
+            zero = x.dance
+        if (x.gymnastics > zero):
+            zero = x.gymnastics
+        if (x.hiking > zero):
+            zero = x.hiking
+        if (x.swimming > zero):
+            zero = x.swimming
+        if (x.yoga > zero):
+            zero = x.yoga
+        self.assertEqual(0, zero)
+        user.delete()
+
+    def test_SportXP_can_change(self):
+        """returns True if sportXP values can change from default 0 value"""
+        user = User.objects.create_user(
+            'testUser', 'tester@outlook.com', 'testUserpassword'
+        )
+        x = SportsXP.objects.create(user = user)
+        x.cardio = 3
+        self.assertEqual(3, x.cardio)
+        user.delete()
+
+    def test_SportsXP_tied_to_user(self):
+        """returns True if sportXP value changes are tied to a single user"""
+        user = User.objects.create_user(
+            'testUser', 'tester@outlook.com', 'testUserpassword'
+        )
+        x = SportsXP.objects.create(user = user)
+        
+        second_User = User.objects.create_user(
+            'second', 'secondUser@outlook.com', 'testSecond'
+        )
+        y = SportsXP.objects.create(user = second_User)
+        y.swimming = 3
+        self.assertEqual(x.swimming, 0)
+        user.delete()
+        second_User.delete()
+
+    def test_timestamp_is_noted_with_SportsXP(self):
+        time = timezone.now()
+        user = User.objects.create_user(
+            'testUser', 'tester@outlook.com', 'testUserpassword'
+        )
+        x = SportsXP.objects.create(user = user)
+        self.assertIs(time < x.timestamp, True)
+        user.delete()
