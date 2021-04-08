@@ -1,1 +1,19 @@
-<h1>Welcome, this is your first login</h1>
+<form
+    class="form-inline"
+    action="{% url 'exercise:firstlogin' %}"
+    method="post"
+>
+    {% csrf_token %}
+    <h1>Welcome, this is your first login</h1>
+    <input
+        type="text"
+        placeholder="Add a bio here!!!"
+        name="bio"
+    />
+    </br>
+    <input
+        type="submit"
+        test="Submit"
+    />
+
+</form>

@@ -12,10 +12,16 @@
       <h1>Hello, {{request.user}}. You may perform the following stuff </h1>
       <span> <a href="{% url 'exercise:home' %}">Home</a> </span>
       </br>
+      <span> <a href="{% url 'exercise:blog' %}">Blog</a> </span>
+      </br>
+      <span> <a href="{% url 'exercise:exerciselogging' %}">Exercise Logging</a> </span>
+      </br>
       <span> <a href="{% url 'exercise:logout' %}">Logout</a> </span>
     {% else %}
       <h1> Please, login using one of the following methods </h1>
       <span> <a href="{% url 'exercise:login' %}">Login</a> </span>
+      </br>
+      <span> <a href="{% url 'exercise:blog' %}">Blog</a> </span>
       </br>
       <span>
         <a href="{% provider_login_url 'google' %}">Test Login with Google</a>

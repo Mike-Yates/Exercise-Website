@@ -1,15 +1,114 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
+    <title>Gamification Webapp Home</title>
+  </head>
 <h1>
-  Welcome, {{request.user}}. This is the home page where we will show you stuff
+  Welcome, {{request.user}}. Bio: {{user.profile.bio}}
 </h1>
 <span> <a href="{% url 'exercise:logout' %}">Logout</a> </span>
 
 {% if user.profile.first_login %}
 <h2>Welcome, {{ user.username }}</h2>
+      </br>
+      <span> <a href="{% url 'exercise:blog' %}">Blog</a> </span>
+      </br>
 {% else %}
 <h2>{{ user.get_full_name }}</h2>
-<ul>
-  <li>Username: {{ user.username }}</li>
-  <li>User ID: {{ user.profile.user_id }}</li>
-  <li>First Log In?: {{ user.profile.first_login }}</li>
-</ul>
+    </br>
+    <span> <a href="{% url 'exercise:blog' %}">Blog</a> </span>
+    </br>
+    <ul>
+    <li>Username: {{ user.username }}</li>
+    <li>User ID: {{ user.profile.user_id }}</li>
+    <li>First Log In?: {{ user.profile.first_login }}</li>
+    </ul>
 {% endif %}
+
+<div>
+  <a href="{% url 'exercise:cardio' %}"> Cardio? </a>
+</div>
+<div>
+
+  <a href="{% url 'exercise:body' %}"> Lifting? </a>
+</div>
+<div>
+  <a href="{% url 'exercise:sport' %}"> Sports? </a>
+</div>
+<div>
+  <a href="{% url 'exercise:blog' %}"> Have any questions, concerns, comments? ASK SOMEONE HERE </a>
+</div>
+
+<div class="container-fluid" style="margin-bottom: 20rem;">
+  <div class="row">
+    <div class="col-md-6" style="margin: 1rem auto 0  auto;">
+      <div class="card">
+        <div class="card-body">
+        <form method="POST" action="{% url 'exercise:updatesportsxp' %}">
+        {% csrf_token %} 
+            <input list="activities" class="form-control" style="margin-bottom: 1rem;" name="activities">
+            <datalist id="activities">
+              {% for key, value in sports.items %}
+              <option value="{{key}}"/>
+                {% endfor %}
+            </datalist>
+        <div class="row">
+            <div class="col-6">
+            <input type="submit" name="submit" value="Submit" class="btn btn-success" style="display: block;margin: 0 auto;">
+
+            </div>
+            <div class="col-6">
+            <input type="submit" name="reset" value="Reset" class="btn btn-danger" style="display: block;margin: 0 auto;">
+
+            </div>
+                        <div class="col-6">
+            <input type="submit" name="resetall" value="ResetAll" class="btn btn-danger" style="display: block;margin: 0 auto;">
+
+            </div>
+        </div>
+        </form>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-6" style="margin: 2rem auto 0 auto;">
+      <p class="lead" style="text-align: center;font-size: 2rem;">
+        Activities Completed
+      <a href="{% url 'exercise:sortxp' %}" class="btn btn-primary">Sort Data In Descending Order</a>
+      </p>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-12">
+      <div class="table-responsive">
+        <table class="table">
+          <thead>
+            <tr>
+              <th scope="col">Activity</th>
+              <th scope="col">Count</th>    
+            </tr>
+          </thead>
+          <tbody>
+          {% for key, value in sports.items %}  
+          <tr>
+            <td>{{ key }}</td>
+            <td>
+              <div class="progress">
+                <div class="progress-bar" role="progressbar" style="width: {{ value.1 }}%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">{{value.1}}</div>
+              </div>
+            </td>
+          </tr>
+          {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div> 

@@ -3,6 +3,8 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django import forms
 
+from exercise.models import Exercise
+
 
 class CreateUserForm(UserCreationForm):
     '''
@@ -11,10 +13,19 @@ class CreateUserForm(UserCreationForm):
 
     Uses the built in user model from Django (We don't need to create a new user Profile)
     '''
+
     class Meta:
         model = User
         # Information to be collected when registering a new user.
         fields = ['username', 'email', 'password1', 'password2']
 
+
+class ExerciseForm(ModelForm):
+    '''
+    Form for storing user exercises
+    '''
+    class Meta:
+        model = Exercise
+        fields = ('exercise_name', 'reps', 'sets', 'weight_in_pounds')
 
 # You can create other forms here to use (for example the one to be used on first login, but you have to still create a new page to then use the form in)

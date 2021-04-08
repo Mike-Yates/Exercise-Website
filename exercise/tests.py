@@ -1,4 +1,11 @@
+from django.contrib.auth.models import User
 from django.test import TestCase
+
+from exercise.models import Blog, Exercise
+
+
+def create_post(blog_post, blog_user):
+    return Blog.objects.create(blog_post=blog_post, blog_user=blog_user)
 
 
 class RandomTestCase(TestCase):
@@ -13,8 +20,41 @@ class RandomTestCase(TestCase):
         url = 'https://exercisegamification.herokuapp.com/'
         response = self.client.get(url)
         error404 = False
-        if(response.status_code == 404):
+        if (response.status_code == 404):
             error404 = True
         self.assertIs(error404, False)
 
     # Write some more test cases here
+
+    def test_blog_working(self):
+        """returns true if the user is and their comment is noted"""
+        blog_user = 'Admin'
+        blog_post = 'This worked'
+        num_before_adding = Blog.objects.all().count()
+        create_post(blog_post, blog_user)
+        num_after_adding = Blog.objects.all().count()
+        self.assertEqual(num_after_adding - 1, num_before_adding)
+
+    def test_exercise_logging_creation(self):
+        """returns true if an exercise is added"""
+        reps = 3
+        sets = 3
+        exercise_name = 'pushup'
+        user = User.objects.create_user('john', 'lennon@thebeatles.com', 'johnpassword')
+        num_before_adding = Exercise.objects.all().count()
+        x = Exercise.objects.create(user=user, exercise_name=exercise_name, reps=reps, sets=3)
+        num_after_adding = Blog.objects.all().count()
+        self.assertEqual(num_after_adding - 1, num_before_adding)
+        user.delete()
+
+    def test_exercise_logging_adds_to_user(self):
+        """returns true if an exercise is added to that user"""
+        reps = 3
+        sets = 3
+        exercise_name = 'pushup'
+        user = User.objects.create_user('john', 'lennon@thebeatles.com', 'johnpassword')
+        num_before_adding = Exercise.objects.filter(user=user)
+        x = Exercise.objects.create(user=user, exercise_name=exercise_name, reps=reps, sets=3)
+        num_after_adding = Exercise.objects.filter(user=user)
+        self.assertEqual(num_after_adding - 1, num_before_adding)
+        user.delete()
