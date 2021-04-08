@@ -79,6 +79,21 @@ class RandomTestCase(TestCase):
         self.assertEqual(num_after_adding - reps, num_before_adding)
         user.delete()
 
+    def test_exercise_test(self):
+        """returns true if an exercise is added and is displayed on the user's page"""
+        reps = 3
+        sets = 3
+        exercise_name = 'pushup'
+        user = User.objects.create_user(
+            'Jerry', 'lennon@thebeatles.com', 'johnpassword')
+        x = Exercise.objects.create(
+            user=user, exercise_name=exercise_name, reps=reps, sets=sets)
+        self.client.force_login(User.objects.get_or_create(username='Jerry')[0])
+        response = self.client.get(reverse('exercise:exerciselogging'))
+        self.assertContains(response, exercise_name)
+        self.assertContains(response, sets)
+        user.delete()
+
     def test_blog_text(self):
         ''' Testing to see if the webpage has the text of a newly entered blog '''
         blog_user = 'Admin'
@@ -86,7 +101,6 @@ class RandomTestCase(TestCase):
         create_post(blog_post, blog_user)
         response = self.client.get(reverse('exercise:blog'))
         self.assertContains(response, "This worked round 2")
-
 
     def test_blog_text2(self):
         ''' Testing to see if the webpage has the text of two newly entered blogs,
