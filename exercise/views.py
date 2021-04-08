@@ -55,6 +55,8 @@ def first_login(request):
             username=request.user.get_username()).pk)  # Grabs user based on the id
         user.profile.first_login = False  # Updates the first login
         user.profile.bio = request.POST.get('bio')  # Updates the bio field
+        user.sportsxp = SportsXP()
+        user.sportsxp.save()
         user.save()  # Saves the data
         return HttpResponseRedirect(reverse('exercise:home'))
 
@@ -75,10 +77,12 @@ def exercise_logging(request):
         if form.is_valid():
             form.instance.user = user
             form.save()
-            return HttpResponseRedirect(reverse('exercise:exerciselogging'))  # redirect to itself
+            # redirect to itself
+            return HttpResponseRedirect(reverse('exercise:exerciselogging'))
     else:
         form = ExerciseForm()
-        exercise = Exercise.objects.filter(user=request.user)  # Gets all the logged exercises of a user
+        # Gets all the logged exercises of a user
+        exercise = Exercise.objects.filter(user=request.user)
 
         return render(request, 'exercise/exercise_logging_form.html', {'form': form, 'exercises': exercise})
 
@@ -115,16 +119,15 @@ def read_sportsxp(request):
 def update_sportsxp(request):
     global sports_list
 
-    print(request.POST)
     update_xp(request)
 
     if request.method == 'POST':
         if (request.POST.get('submit') == 'Submit'):
-            user = User.objects.get(pk=User.objects.get(
-                username=request.user.get_username()).pk)  # Grabs user based on the id
-
             for key, value in sports_list.items():
                 if request.POST.get('activities') == key:
+                    user = User.objects.get(pk=User.objects.get(
+                        username=request.user.get_username()).pk)  # Grabs user based on the id
+
                     item_id = value[0]
                     value = getattr(user.sportsxp, value[0])
 
@@ -140,14 +143,15 @@ def update_sportsxp(request):
                     user.sportsxp.hiking = value + 1
                     user.sportsxp.swimming = value + 1
                     user.sportsxp.yoga = value + 1
-                    user.sportsxp.save(update_fields=[item_id])
+                    user.sportsxp.save(
+                        update_fields=[item_id])
         elif (request.POST.get('reset') == 'Reset'):
-            user = User.objects.get(pk=User.objects.get(
-                username=request.user.get_username()).pk)  # Grabs user based on the id
-
             for key, value in sports_list.items():
                 if request.POST.get('activities') == key:
+                    user = User.objects.get(pk=User.objects.get(
+                        username=request.user.get_username()).pk)  # Grabs user based on the id
                     item_id = value[0]
+
                     user.sportsxp.basketball = 0
                     user.sportsxp.cross_training = 0
                     user.sportsxp.cardio = 0
@@ -160,7 +164,8 @@ def update_sportsxp(request):
                     user.sportsxp.hiking = 0
                     user.sportsxp.swimming = 0
                     user.sportsxp.yoga = 0
-                    user.sportsxp.save(update_fields=[item_id])
+                    user.sportsxp.save(
+                        update_fields=[item_id])
         elif (request.POST.get('resetall') == "ResetAll"):
             user = User.objects.get(pk=User.objects.get(
                 username=request.user.get_username()).pk)  # Grabs user based on the id
