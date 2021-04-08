@@ -20,6 +20,33 @@ class Profile(models.Model):
         return self.user.username
 
 
+class SportsXP(models.Model):
+    '''
+    Sports model to use for the sports XP bar
+    '''
+    user = models.OneToOneField(
+        User, on_delete=models.CASCADE)     # Ties the info to the user
+    last_performed_date = models.DateTimeField("date updated")
+    basketball = models.IntegerField(default=0)
+    cross_training = models.IntegerField(default=0)
+    cardio = models.IntegerField(default=0)
+    strength_training = models.IntegerField(default=0)
+    climbing = models.IntegerField(default=0)
+    soccer = models.IntegerField(default=0)
+    american_football = models.IntegerField(default=0)
+    dance = models.IntegerField(default=0)
+    gymnastics = models.IntegerField(default=0)
+    hiking = models.IntegerField(default=0)
+    swimming = models.IntegerField(default=0)
+    yoga = models.IntegerField(default=0)
+
+    def __str__(self):
+        return '%s %s %s %s %s %s %s %s %s %s %s %s %s' % (self.basketball, self.cross_training, self.cardio,
+                                                           self.strength_training, self.climbing, self.soccer,
+                                                           self.american_football, self.dance, self.gymnastics,
+                                                           self.hiking, self.swimming, self.yoga, self.last_performed_date)
+
+
 class Blog(models.Model):
     '''
     Blog model

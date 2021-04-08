@@ -14,9 +14,10 @@ urlpatterns = [
     path('home/', views.home, name='home'),
     path('blog/', views.blog_display, name='blog'),
     path('blog/submit', views.blog_post, name='submit'),
-    path('getquery', views.getquery, name='getquery'),
-    path('sortdata', views.sortdata, name='sortdata'),
-    path('schedule', views.runningView.as_view(), name="cardio"),
-    path('schedule2', views.bigView.as_view(), name="big"),
-    path('schedule3', views.sportView.as_view(), name="sport")
+    path('sports/getsportsxp', views.read_sportsxp, name='getsportsxp'),
+    path('sports/updatesportsxp', views.update_sportsxp, name='updatesportsxp'),
+    path('sports/sortxp', views.sortxp, name='sortxp'),
+    path('instructions/cardio', views.cardioView, name="cardio"),
+    path('instructions/bodybuilding', views.bodyView, name="body"),
+    path('instructions/sports', views.sportView, name="sport")
 ]

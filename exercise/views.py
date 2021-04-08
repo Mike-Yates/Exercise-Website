@@ -9,16 +9,27 @@ from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 import datetime
 from .forms import CreateUserForm
-from .models import Profile, Blog
+from .models import Profile, Blog, SportsXP
 
 #----- Views used for when the user has been logged in ------#
 
 
 #-----stuff to make dynamic progress bar work----------------#
-arr = ['Basketball', 'Cross Training', 'Cardio', 'Strength Training', 'Climbing', 'Soccer', 'American Football', 'Dance', 'Gymnastics',
-'Hiking', 'Swimming', 'Yoga']
+sports_list = {
+    'Basketball': ['basketball', 0],
+    'Cross Training': ['cross_training', 0],
+    'Cardio': ['cardio', 0],
+    'Strength Training': ['strength_training', 0],
+    'Climbing': ['climbing', 0],
+    'Soccer': ['soccer', 0],
+    'American Football': ['american_football', 0],
+    'Dance': ['dance', 0],
+    'Gymnastics': ['gymnastics', 0],
+    'Hiking': ['hiking', 0],
+    'Swimming': ['swimming', 0],
+    'Yoga': ['yoga', 0]
+}
 
-globalcnt = dict()
 #-------------dynamic progress bar end-----------------------#
 
 
@@ -27,7 +38,8 @@ def home(request):
     '''
     Method to render the homepage (dashboard) of the user
     '''
-    context = { "arr" : arr }
+    update_xp(request)
+    context = {'sports': sports_list}
     return render(request, 'exercise/home.html', context)
 
 
@@ -68,7 +80,103 @@ def blog_post(request):
     return HttpResponseRedirect(reverse('exercise:blog'))
 
 
+@login_required(login_url='exercise:login')
+def read_sportsxp(request):
+    xp_update = update_xp(request)
+
+    context = {'sportxplist': xp_update, 'sports': sports_list}
+    return HttpResponseRedirect(reverse('exercise:home'))
+
+
+@login_required(login_url='exercise:login')
+def update_sportsxp(request):
+    global sports_list
+
+    print(request.POST)
+    update_xp(request)
+
+    if request.method == 'POST':
+        if (request.POST.get('submit') == 'Submit'):
+            user = User.objects.get(pk=User.objects.get(
+                username=request.user.get_username()).pk)  # Grabs user based on the id
+
+            for key, value in sports_list.items():
+                if request.POST.get('activities') == key:
+                    item_id = value[0]
+                    value = getattr(user.sportsxp, value[0])
+
+                    user.sportsxp.basketball = value + 1
+                    user.sportsxp.cross_training = value + 1
+                    user.sportsxp.cardio = value + 1
+                    user.sportsxp.strength_training = value + 1
+                    user.sportsxp.climbing = value + 1
+                    user.sportsxp.soccer = value + 1
+                    user.sportsxp.american_football = value + 1
+                    user.sportsxp.dance = value + 1
+                    user.sportsxp.gymnastics = value + 1
+                    user.sportsxp.hiking = value + 1
+                    user.sportsxp.swimming = value + 1
+                    user.sportsxp.yoga = value + 1
+                    user.sportsxp.save(update_fields=[item_id])
+        elif (request.POST.get('reset') == 'Reset'):
+            user = User.objects.get(pk=User.objects.get(
+                username=request.user.get_username()).pk)  # Grabs user based on the id
+
+            for key, value in sports_list.items():
+                if request.POST.get('activities') == key:
+                    item_id = value[0]
+                    user.sportsxp.basketball = 0
+                    user.sportsxp.cross_training = 0
+                    user.sportsxp.cardio = 0
+                    user.sportsxp.strength_training = 0
+                    user.sportsxp.climbing = 0
+                    user.sportsxp.soccer = 0
+                    user.sportsxp.american_football = 0
+                    user.sportsxp.dance = 0
+                    user.sportsxp.gymnastics = 0
+                    user.sportsxp.hiking = 0
+                    user.sportsxp.swimming = 0
+                    user.sportsxp.yoga = 0
+                    user.sportsxp.save(update_fields=[item_id])
+        elif (request.POST.get('resetall') == "ResetAll"):
+            user = User.objects.get(pk=User.objects.get(
+                username=request.user.get_username()).pk)  # Grabs user based on the id
+            user.sportsxp.basketball = 0
+            user.sportsxp.cross_training = 0
+            user.sportsxp.cardio = 0
+            user.sportsxp.strength_training = 0
+            user.sportsxp.climbing = 0
+            user.sportsxp.soccer = 0
+            user.sportsxp.american_football = 0
+            user.sportsxp.dance = 0
+            user.sportsxp.gymnastics = 0
+            user.sportsxp.hiking = 0
+            user.sportsxp.swimming = 0
+            user.sportsxp.yoga = 0
+            user.sportsxp.save()
+
+    return HttpResponseRedirect(reverse('exercise:home'))
+
+
+@login_required(login_url='exercise:login')
+def cardioView(request):
+    context = {}
+    return render(request, 'exercise/cardio.html', context)
+
+
+@login_required(login_url='exercise:login')
+def bodyView(request):
+    context = {}
+    return render(request, 'exercise/bodybuilding.html', context)
+
+
+@login_required(login_url='exercise:login')
+def sportView(request):
+    context = {}
+    return render(request, 'exercise/sport.html', context)
+
 #------ Views that can be accessed by users that have not been authenticated ------#
+
 
 def blog_display(request):
     '''
@@ -158,39 +266,25 @@ def logout_user(request):
     return render(request, 'exercise/index.html')   # Redirects the page
 
 #-----------------Views for progress bar feature-----------------------#
-# imported JsonResponse and HttpResponse
-def getquery(request):
-    q = request.GET['activities']
-    if q in globalcnt:
-        # if it already exist in globalcnt, then increment the value
-        globalcnt[q]=globalcnt[q]+1
-    else:
-        # first time submitting that activity
-        globalcnt[q] = 1
-    content = {
-        "arr" : arr,
-        "globalcnt" : globalcnt
-    }
-    return render(request, 'exercise/home.html', content)
-
-def sortdata(request):
-    global globalcnt
-    globalcnt = dict(sorted(globalcnt.items(),key=lambda x:x[1],reverse=True))
-    context = {
-        "arr" : arr,
-        "globalcnt" : globalcnt
-    }
-    return render(request,'exercise/home.html', context)
-#-----------------progress bar feature end-----------------------------#
 
 
-class sportView(generic.TemplateView):
-    template_name = 'exercise/schedule3.html'
+def update_xp(request):
+    global sports_list
+
+    user = User.objects.get(pk=User.objects.get(
+        username=request.user.get_username()).pk)
+
+    for key, value in sports_list.items():
+        value_of_field = getattr(user.sportsxp, value[0])
+        sports_list[key][1] = value_of_field
 
 
-class bigView(generic.TemplateView):
-    template_name = 'exercise/schedule2.html'
+def sortxp(request):
+    global sports_list
 
+    print(request.POST)
 
-class runningView(generic.TemplateView):
-    template_name = 'exercise/schedule.html'
+    sorted_sports_list = dict(
+        sorted(sports_list.items(), key=lambda e: e[1][1]))
+    context = {"sports": sorted_sports_list}
+    return render(request, 'exercise/home.html', context)
