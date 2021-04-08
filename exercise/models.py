@@ -27,19 +27,19 @@ class SportsXP(models.Model):
     '''
     user = models.OneToOneField(
         User, on_delete=models.CASCADE)     # Ties the info to the user
-    last_performed_date = models.DateTimeField("date updated")
-    basketball = models.IntegerField(default=0)
-    cross_training = models.IntegerField(default=0)
-    cardio = models.IntegerField(default=0)
-    strength_training = models.IntegerField(default=0)
-    climbing = models.IntegerField(default=0)
-    soccer = models.IntegerField(default=0)
-    american_football = models.IntegerField(default=0)
-    dance = models.IntegerField(default=0)
-    gymnastics = models.IntegerField(default=0)
-    hiking = models.IntegerField(default=0)
-    swimming = models.IntegerField(default=0)
-    yoga = models.IntegerField(default=0)
+    last_performed_date = models.DateTimeField(default=timezone.now)
+    basketball = models.PositiveIntegerField(default=0)
+    cross_training = models.PositiveIntegerField(default=0)
+    cardio = models.PositiveIntegerField(default=0)
+    strength_training = models.PositiveIntegerField(default=0)
+    climbing = models.PositiveIntegerField(default=0)
+    soccer = models.PositiveIntegerField(default=0)
+    american_football = models.PositiveIntegerField(default=0)
+    dance = models.PositiveIntegerField(default=0)
+    gymnastics = models.PositiveIntegerField(default=0)
+    hiking = models.PositiveIntegerField(default=0)
+    swimming = models.PositiveIntegerField(default=0)
+    yoga = models.PositiveIntegerField(default=0)
 
     def __str__(self):
         return '%s %s %s %s %s %s %s %s %s %s %s %s %s' % (self.basketball, self.cross_training, self.cardio,
@@ -56,7 +56,7 @@ class Blog(models.Model):
     '''
     blog_post = models.CharField(default="", max_length=500)
     blog_user = models.CharField(default="", max_length=200)
-    date_published = models.DateTimeField("date published")
+    date_published = models.DateTimeField(default=timezone.now)
 
     def __str__(self):
         return self.blog_user
@@ -68,7 +68,7 @@ class Exercise(models.Model):
     User specific. Logs their exercises
     '''
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    exercise_name = models.CharField(max_length=200)
+    exercise_name = models.CharField(max_length=200, default="")
     reps = models.PositiveIntegerField(default=0)
     sets = models.PositiveIntegerField(default=0)
     weight_in_pounds = models.PositiveIntegerField(default=0)

@@ -40,10 +40,12 @@ class RandomTestCase(TestCase):
         reps = 3
         sets = 3
         exercise_name = 'pushup'
-        user = User.objects.create_user('john', 'lennon@thebeatles.com', 'johnpassword')
+        user = User.objects.create_user(
+            'john', 'lennon@thebeatles.com', 'johnpassword')
         num_before_adding = Exercise.objects.all().count()
-        x = Exercise.objects.create(user=user, exercise_name=exercise_name, reps=reps, sets=3)
-        num_after_adding = Blog.objects.all().count()
+        x = Exercise.objects.create(
+            user=user, exercise_name=exercise_name, reps=reps, sets=3)
+        num_after_adding = Exercise.objects.all().count()
         self.assertEqual(num_after_adding - 1, num_before_adding)
         user.delete()
 
@@ -52,9 +54,15 @@ class RandomTestCase(TestCase):
         reps = 3
         sets = 3
         exercise_name = 'pushup'
-        user = User.objects.create_user('john', 'lennon@thebeatles.com', 'johnpassword')
-        num_before_adding = Exercise.objects.filter(user=user)
-        x = Exercise.objects.create(user=user, exercise_name=exercise_name, reps=reps, sets=3)
-        num_after_adding = Exercise.objects.filter(user=user)
-        self.assertEqual(num_after_adding - 1, num_before_adding)
+        user = User.objects.create_user(
+            'james', 'lennon@thebeatles.com', 'johnpassword')
+        user.exercise = Exercise()
+        num_before_adding = getattr(user.exercise, 'reps')
+        user.exercise.user_id = User.objects.get(
+            username="james").pk
+        user.exercise.reps = reps
+        user.exercise.save()
+        num_after_adding = getattr(user.exercise, 'reps')
+        print(num_before_adding, num_after_adding)
+        self.assertEqual(num_after_adding - reps, num_before_adding)
         user.delete()
