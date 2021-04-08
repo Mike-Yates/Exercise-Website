@@ -15,6 +15,21 @@ class Profile(models.Model):
     # Info to see if this is the users first time logging in
     first_login = models.BooleanField(default=True)
     bio = models.TextField(default="")
+    height = models.IntegerField(default=0)   # for bmi calculation, should add text to specify height in inches
+    weight = models.IntegerField(default=0)   # for bmi calculation, should add text to specify weight in pounds
+    bmi = models.IntegerField(default=0)
+
+    def calculate_bmi(self):
+        '''
+        Calculate the bmi of the user.
+        BMI = weight (kg) / height^2 (meters)
+        We are assuming that weight was given in pounds, and height was given in inches
+        consider adjusting this later to ask for height, but give two text fields, one for feet one for inches
+        '''
+        weightKg = self.weight * 0.453592
+        heightM = self.height * 0.0254
+        bmi = weightKg / (heightM * heightM)
+        return bmi
 
     def __str__(self):
         return self.user.username
@@ -32,6 +47,7 @@ class Blog(models.Model):
 
     def __str__(self):
         return self.blog_user
+
 
 
 @receiver(post_save, sender=User)

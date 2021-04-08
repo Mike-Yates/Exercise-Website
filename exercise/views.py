@@ -149,6 +149,12 @@ def logout_user(request):
     logout(request)     # Logs out the user
     return render(request, 'exercise/index.html')   # Redirects the page
 
+@login_required(login_url='exercise:login')
+def bmi_display(request):
+    '''
+    Method to display persons bmi, and allow them to set goals and change weight
+    '''
+
 
 # class sportView(generic.TemplateView):
 #     template_name = 'exercise/schedule3.html'

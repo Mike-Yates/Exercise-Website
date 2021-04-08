@@ -1,5 +1,5 @@
 from django.test import TestCase
-
+from django.urls import reverse
 
 def create_post(blog_post, blog_user):
     return Blog.objects.create(blog_post=blog_post, blog_user=blog_user)
@@ -30,3 +30,13 @@ class RandomTestCase(TestCase):
         create_post(blog_post, blog_user)
         num_after_adding = Blog.objects.all().count()
         self.assertEqual(num_after_adding - 1, num_before_adding)
+
+    def test_blog_text(self):
+        ''' Testing to see if the webpage has the text of a newly entered blog '''
+        blog_user = 'Admin'
+        blog_post = 'This worked round 2'
+        create_post(blog_post, blog_user)
+        response = self.client.get(reverse('exercise:blog'))
+        self.assertContains(response, "This worked round 2")
+
+

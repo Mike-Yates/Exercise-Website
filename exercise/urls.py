@@ -17,4 +17,5 @@ urlpatterns = [
     # path('schedule', views.runningView.as_view(), name="cardio"),
     # path('schedule2', views.bigView.as_view(), name="big"),
     # path('schedule3', views.sportView.as_view(), name="sport")
+    path('bmi/', views.bmi_display, name="bmi"),  # what is Templa
 ]
