@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from django.contrib.auth.models import User
-from .models import Profile, Blog, SportsXP
+from .models import Profile, Blog, SportsXP, Exercise
 
 
 class ProfileInline(admin.StackedInline):
@@ -17,9 +17,18 @@ class SportsXPInline(admin.StackedInline):
     verbose_name_plural = 'SportsXP'
     fk_name = 'user'
 
+# managed in the same way as profileinline
+
+
+class ExerciseInline(admin.StackedInline):
+    model = Exercise
+    can_delete = True
+    verbose_name_plural = 'Exercises'
+    fk_name = 'user'
+
 
 class CustomUserAdmin(UserAdmin):
-    inlines = (ProfileInline, SportsXPInline)
+    inlines = (ProfileInline, SportsXPInline, ExerciseInline)
 
     def get_inline_instances(self, request, obj=None):
         if not obj:
@@ -37,6 +46,14 @@ class BlogAdmin(admin.ModelAdmin):
 
 class SportsXPAdmin(admin.ModelAdmin):
     model = SportsXP
+
+
+class BlogAdmin(admin.ModelAdmin):
+    model = Blog
+
+
+class ExerciseAdmin(admin.ModelAdmin):
+    model = Exercise
 
 
 admin.site.unregister(User)
