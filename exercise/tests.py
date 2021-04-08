@@ -1,6 +1,6 @@
 from django.contrib.auth.models import User
 from django.test import TestCase
-
+from django.urls import reverse
 from exercise.models import Blog, Exercise
 
 
@@ -66,3 +66,29 @@ class RandomTestCase(TestCase):
         print(num_before_adding, num_after_adding)
         self.assertEqual(num_after_adding - reps, num_before_adding)
         user.delete()
+
+    def test_blog_text(self):
+        ''' Testing to see if the webpage has the text of a newly entered blog '''
+        blog_user = 'Admin'
+        blog_post = 'This worked round 2'
+        create_post(blog_post, blog_user)
+        response = self.client.get(reverse('exercise:blog'))
+        self.assertContains(response, "This worked round 2")
+
+
+    def test_blog_text2(self):
+        ''' Testing to see if the webpage has the text of two newly entered blogs,
+        and that the blog user's name is also listed '''
+        blog_user = 'Admin'
+        blog_post = 'This worked'
+        blog_user2 = 'Admin2'
+        blog_post2 = 'This worked round 2'
+        create_post(blog_post, blog_user)
+        create_post(blog_post2, blog_user2)
+
+        response = self.client.get(reverse('exercise:blog'))
+        self.assertContains(response, "This worked")
+        self.assertContains(response, "This worked round 2")
+        self.assertContains(response, "Admin")
+        self.assertContains(response, "Admin2")
+
