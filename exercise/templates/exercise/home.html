@@ -1,3 +1,12 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
+    <title>Gamification Webapp Home</title>
+  </head>
 <h1>
   Welcome, {{request.user}}. Bio: {{user.profile.bio}}
 </h1>
@@ -33,3 +42,73 @@
 <div>
   <a href="/exercise/blog"> Have any questions, concerns, comments? ASK SOMEONE HERE </a>
 </div>
+
+<div class="container-fluid" style="margin-bottom: 20rem;">
+  {{globalcnt}}
+  {% for key,value in globalcnt.items %}
+  {{key}} - {{value}}
+  <br>
+  {% endfor %}
+  <div class="row">
+    <div class="col-md-6" style="margin: 1rem auto 0  auto;">
+      <div class="card">
+        <div class="card-body">
+          <form method="GET" action="{% url 'exercise:getquery' %}">
+            <input list="activities" class="form-control" style="margin-bottom: 1rem;" name="activities">
+            <datalist id="activities">
+              {% for eachactivity in arr %}
+              <option value="{{eachactivity}}">
+                {% endfor %}
+            </datalist>
+            <div class="row">
+              <div class="col-6">
+                <input type="submit" class="btn btn-success" style="display: block;margin: 0 auto;">
+
+              </div>
+              <div class="col-6">
+                <input type="reset" class="btn btn-danger" style="display: block;margin: 0 auto;">
+
+              </div>
+            </div>
+
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-6" style="margin: 2rem auto 0 auto;">
+      <p class="lead" style="text-align: center;font-size: 2rem;">
+        Activities Completed
+      <a href="{% url 'exercise:sortdata' %}" class="btn btn-primary">Sort Data In Descending Order</a>
+      </p>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-12">
+      <div class="table-responsive">
+        <table class="table">
+          <thead>
+            <tr>
+              <th scope="col">Activity</th>
+              <th scope="col">Count</th>    
+            </tr>
+          </thead>
+          <tbody>
+          {% for key,value in globalcnt.items %}  
+          <tr>
+            <td>{{key}}</td>
+            <td>
+              <div class="progress">
+                <div class="progress-bar" role="progressbar" style="width: {{value}}%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">{{value}}</div>
+              </div>
+            </td>
+          </tr>
+          {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
