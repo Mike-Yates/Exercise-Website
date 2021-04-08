@@ -27,6 +27,7 @@ class SportsXP(models.Model):
     '''
     user = models.OneToOneField(
         User, on_delete=models.CASCADE)     # Ties the info to the user
+    timestamp = models.DateTimeField(default=timezone.now)
     basketball = models.PositiveIntegerField(default=0)
     cross_training = models.PositiveIntegerField(default=0)
     cardio = models.PositiveIntegerField(default=0)
@@ -44,7 +45,7 @@ class SportsXP(models.Model):
         return '%s %s %s %s %s %s %s %s %s %s %s %s %s' % (self.basketball, self.cross_training, self.cardio,
                                                            self.strength_training, self.climbing, self.soccer,
                                                            self.american_football, self.dance, self.gymnastics,
-                                                           self.hiking, self.swimming, self.yoga)
+                                                           self.hiking, self.swimming, self.yoga, self.timestamp)
 
 
 class Blog(models.Model):
