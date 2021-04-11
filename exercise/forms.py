@@ -6,7 +6,6 @@ from django import forms
 from exercise.models import Exercise, Bmi
 
 
-
 class CreateUserForm(UserCreationForm):
     '''
     Form to be used when registering a new user manually without the use

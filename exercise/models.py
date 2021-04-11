@@ -84,35 +84,35 @@ class Bmi(models.Model):
     User specific. keeps track of their curretn bmi,
     as well as their progress towards their goal.
     '''
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    bmi_user = models.CharField(default="", max_length=200)
     height_feet = models.PositiveIntegerField(default=0)
     height_inches = models.PositiveIntegerField(default=0)
     weight_pounds = models.PositiveIntegerField(default=0)
-    time_of_bmi = models.DateTimeField(default=timezone.now) #do i want this?
+    time_of_bmi = models.DateTimeField(default=timezone.now)  # do i want this?
     user_bmi = models.PositiveIntegerField(default=0)
     # target_bmi = models.PositiveIntegerField(default=0)
     # user_bmi = calculate_bmi()
 
-    def calculate_bmi(self):
-        '''
-        function for calculating the user's bmi.
-        bmi = weight(kg) / height^2 (m)
+    # def calculate_bmi(self):
+    #     '''
+    #     function for calculating the user's bmi.
+    #     bmi = weight(kg) / height^2 (m)
 
-        Note, another option is to calculate the bmi in the html form, get arid of the user_bmi
-        field and just use the height weight from each submission to calculate bmi and put on graph
+    #     Note, another option is to calculate the bmi in the html form, get arid of the user_bmi
+    #     field and just use the height weight from each submission to calculate bmi and put on graph
 
-        '''
-        height_meters = self.height_feet * 0.3048 + self.height_inches * 0.0254
-        weight_kg = self.weight_pounds * 0.453592
-        answer = height_meters / (weight_kg * weight_kg)
-        return answer
+    #     '''
+    #     height_meters = self.height_feet * 0.3048 + self.height_inches * 0.0254
+    #     weight_kg = self.weight_pounds * 0.453592
+    #     answer = height_meters / (weight_kg * weight_kg)
+    #     return answer
 
-    def save(self, *args, **kwargs):
-        self.user_bmi = self.calculate_bmi()
-        super().save(*args, **kwargs)
+    # def save(self, *args, **kwargs):
+    #     self.user_bmi = self.calculate_bmi()
+    #     super().save(*args, **kwargs)
 
-    def __str__(self):
-        return self.user_bmi
+    # def __str__(self):
+    #     return self.user_bmi
 
 
 @receiver(post_save, sender=User)
