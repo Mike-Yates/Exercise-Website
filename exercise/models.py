@@ -84,12 +84,16 @@ class Bmi(models.Model):
     User specific. keeps track of their curretn bmi,
     as well as their progress towards their goal.
     '''
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     bmi_user = models.CharField(default="", max_length=200)
     height_feet = models.PositiveIntegerField(default=0)
     height_inches = models.PositiveIntegerField(default=0)
     weight_pounds = models.PositiveIntegerField(default=0)
     time_of_bmi = models.DateTimeField(default=timezone.now)  # do i want this?
     user_bmi = models.PositiveIntegerField(default=0)
+
+    def __str__(self):
+        return self.bmi_user
     # target_bmi = models.PositiveIntegerField(default=0)
     # user_bmi = calculate_bmi()
 

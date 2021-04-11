@@ -206,12 +206,14 @@ def bmi_display(request):
             if ((answer - answer_floored) > 0.5):
                 answer += 1
 
-            bmi = Bmi(height_feet=height_feet,
-                      height_inches=height_inches,
-                      weight_pounds=weight_pounds,
-                      bmi_user=request.user.get_username(),
-                      user_bmi=answer,
-                      time_of_bmi=now)  # Makes an instance of the blog
+            bmi = Bmi(user=User.objects.get(pk=User.objects.get(
+                username=request.user.get_username()).pk),
+                height_feet=height_feet,
+                height_inches=height_inches,
+                weight_pounds=weight_pounds,
+                bmi_user=request.user.get_username(),
+                user_bmi=answer,
+                time_of_bmi=now)  # Makes an instance of the blog
 
         except (KeyError):  # Error handling
             context = {'Bmis': Bmi, 'error': "An error has occurred"}

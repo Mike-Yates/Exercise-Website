@@ -39,10 +39,6 @@ class SportsXPAdmin(admin.ModelAdmin):
     model = SportsXP
 
 
-class BlogAdmin(admin.ModelAdmin):
-    model = Blog
-
-
 class ExerciseAdmin(admin.ModelAdmin):
     model = Exercise
 
