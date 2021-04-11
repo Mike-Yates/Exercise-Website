@@ -21,6 +21,6 @@ urlpatterns = [
     path('instructions/bodybuilding', views.bodyView, name="body"),
     path('instructions/sports', views.sportView, name="sport"),
     path('exercise_logging/', views.exercise_logging, name='exerciselogging'),
-    path('bmi/', views.bmi_display, name="bmi")  # page for bmi display
+    path('bmi/', views.bmi_display, name="bmidisplay")  # page for bmi display
 
 ]

@@ -7,7 +7,8 @@
         {% if bmis %}
           {% for bmi in bmis %}
           <li class="list-group-item">
-              As of {{ bmi.timestamp }} your bmi was {{ bmi.bmi }}
+              As of {{ bmi.time_of_bmi }} your bmi was {{ bmi.user_bmi }}
+              your height is {{ bmi.height_feet }}
           </li>
           {% endfor %}
           {% else %}
@@ -19,7 +20,7 @@
 
 <form  method="post">
     {% csrf_token %}
-    {{ form}}
+    {{ form }}
     <input type="submit" value="Submit" />
 
 </form>

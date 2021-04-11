@@ -337,9 +337,21 @@ def bmi_display(request):
 
         if form.is_valid():
             form.instance.user = user
+            # user.user_bmi = Bmi.calculate_bmi()  # testing
             form.save()
             # redirect to itself
-            return HttpResponseRedirect(reverse('exercise:exerciselogging')) # what is this referencing?
+
+            height_feet = form.cleaned_data['height_feet']
+            height_inches = form.cleaned_data['height_inches']
+            weight_pounds = form.cleaned_data['weight_pounds']
+
+            height_meters = height_feet * 0.3048 + height_inches * 0.0254
+            weight_kg = weight_pounds * 0.453592
+            answer = height_meters / (weight_kg * weight_kg)
+            user.Bmi.user_bmi = answer
+
+
+            return HttpResponseRedirect(reverse('exercise:bmidisplay')) # what is this referencing?
     else:
         form = BmiForm()
         # Gets all the logged Bmi's of the user, to be used to form graph showing progress
