@@ -187,6 +187,46 @@ def update_sportsxp(request):
 
 
 @login_required(login_url='exercise:login')
+def bmi_display(request):
+    '''
+    Method to save items from a blog post
+    '''
+    if request.method == 'POST':
+        try:
+            now = datetime.datetime.now()
+            height_feet = int(request.POST.get('height_feet'))
+            height_inches = int(request.POST.get('height_inches'))
+            weight_pounds = int(request.POST.get('weight_pounds'))
+
+            height_meters = height_feet * 0.3048 + height_inches * 0.0254
+            weight_kg = weight_pounds * 0.453592
+            answer = weight_kg / (height_meters * height_meters)
+            answer_floored = weight_kg // (height_meters * height_meters)
+
+            if ((answer - answer_floored) > 0.5):
+                answer += 1
+
+            bmi = Bmi(height_feet=height_feet,
+                      height_inches=height_inches,
+                      weight_pounds=weight_pounds,
+                      bmi_user=request.user.get_username(),
+                      user_bmi=answer,
+                      time_of_bmi=now)  # Makes an instance of the blog
+
+        except (KeyError):  # Error handling
+            context = {'Bmis': Bmi, 'error': "An error has occurred"}
+            return render(request, 'exercise/bmi.html', context)
+        else:
+            bmi.save()  # Saves the blog to the database
+            return HttpResponseRedirect(reverse('exercise:bmidisplay'))
+
+    form = BmiForm()
+    bmi = Bmi.objects.filter()
+    context = {'form': form, 'bmis': bmi}
+    return render(request, 'exercise/bmi.html', context)
+
+
+@login_required(login_url='exercise:login')
 def cardioView(request):
     context = {}
     return render(request, 'exercise/cardio.html', context)
@@ -316,71 +356,3 @@ def sortxp(request):
         sorted(sports_list.items(), key=lambda e: e[1][1]))
     context = {"sports": sorted_sports_list}
     return render(request, 'exercise/home.html', context)
-
-
-# @login_required(login_url='exercise:login')
-# def bmi_display(request):
-#     '''
-#     Method to view bmi and update the bmi
-#     also looking to allow users to set goals and track progress
-#     '''
-#     if request.method == 'POST':
-#         user = User.objects.get(pk=User.objects.get(
-#             username=request.user.get_username()).pk)
-#         form = BmiForm(request.POST)
-
-#         if form.is_valid():
-#             form.instance.user = user
-#             # user.user_bmi = Bmi.calculate_bmi()  # testing
-
-#             height_feet = form.cleaned_data['height_feet']
-#             height_inches = form.cleaned_data['height_inches']
-#             weight_pounds = form.cleaned_data['weight_pounds']
-
-#             height_meters = height_feet * 0.3048 + height_inches * 0.0254
-#             weight_kg = weight_pounds * 0.453592
-#             answer = height_meters / (weight_kg * weight_kg)
-#             user_bmi = answer
-
-#             form.save()
-
-
-#             return HttpResponseRedirect(reverse('exercise:bmidisplay')) # what is this referencing?
-#     else:
-#         form = BmiForm()
-#         # Gets all the logged Bmi's of the user, to be used to form graph showing progress
-#         bmi = Bmi.objects.filter(user=request.user)
-
-#         return render(request, 'exercise/bmi.html', {'form': form, 'bmis': bmi})
-
-
-@login_required(login_url='exercise:login')
-def bmi_display(request):
-    '''
-    Method to save items from a blog post
-    '''
-    if request.method == 'POST':
-        try:
-            now = datetime.datetime.now()
-            height_feet = request.POST.get('height_feet')
-            height_inches = request.POST.get('height_inches')
-            weight_pounds = request.POST.get('weight_pounds')
-
-            height_meters = height_feet * 0.3048 + height_inches * 0.0254
-            weight_kg = weight_pounds * 0.453592
-            answer = height_meters / (weight_kg * weight_kg)
-
-            bmi = Bmi(height_feet=height_feet,
-                      height_inches=height_inches,
-                      weight_pounds=weight_pounds,
-                      bmi_user=request.user.get_username(),
-                      user_bmi=answer,
-                      time_of_bmi=now)  # Makes an instance of the blog
-
-        except (KeyError):  # Error handling
-            context = {'Bmis': Bmi, 'error': "An error has occurred"}
-            return render(request, 'exercise/bmi.html', context)
-        else:
-            bmi.save()  # Saves the blog to the database
-
-    return HttpResponseRedirect(reverse('exercise:bmidisplay'))
