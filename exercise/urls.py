@@ -21,6 +21,13 @@ urlpatterns = [
     path('instructions/bodybuilding', views.bodyView, name="body"),
     path('instructions/sports', views.sportView, name="sport"),
     path('exercise_logging/', views.exercise_logging, name='exerciselogging'),
-    path('bmi/', views.bmi_display, name="bmidisplay")  # page for bmi display
-
+    path('bmi/', views.bmi_display, name="bmidisplay"),  # page for bmi display
+    path('friend/friendrequest',
+         views.send_friend_request, name='friendrequest'),
+    path('friend/decision/<str:action_user_name>',
+         views.accept_deny_block_request, name='decidefriend'),
 ]
+
+
+# , action_user_name, message
+# <str:action_user_name>/<str:message>
