@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<meta charset="UTF-8">
+<title>Title</title>
+
+    <ul class="list-group">
+        {% if bmis %}
+          {% for bmi in bmis %}
+          <li class="list-group-item">
+              As of {{ bmi.timestamp }} your bmi was {{ bmi.bmi }}
+          </li>
+          {% endfor %}
+          {% else %}
+        <li class="list-group-item">
+            There are no bmi's currently.
+          </li>
+          {% endif %}
+    </ul>
+
+<form  method="post">
+    {% csrf_token %}
+    {{ form}}
+    <input type="submit" value="Submit" />
+
+</form>
+<body>
+
+</body>
+</html>

@@ -78,6 +78,22 @@ class Exercise(models.Model):
         return self.exercise_name
 
 
+class Bmi(models.Model):
+    '''
+    bmi model
+    User specific. keeps track of their curretn bmi,
+    as well as their progress towards their goal.
+    '''
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    height_feet = models.PositiveIntegerField(default=0)
+    height_inches = models.PositiveIntegerField(default=0)
+    weight_pounds = models.PositiveIntegerField(default=0)
+    timestamp = models.DateTimeField(default=timezone.now) #do i want this?
+    user_bmi = models.PositiveIntegerField(default=0)
+
+    def __str__(self):
+        return self.user_bmi
+
 @receiver(post_save, sender=User)
 def create_user_profile(sender, instance, created, **kwargs):
     if created:

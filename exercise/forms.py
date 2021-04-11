@@ -3,7 +3,8 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django import forms
 
-from exercise.models import Exercise
+from exercise.models import Exercise, Bmi
+
 
 
 class CreateUserForm(UserCreationForm):
@@ -28,4 +29,15 @@ class ExerciseForm(ModelForm):
         model = Exercise
         fields = ('exercise_name', 'reps', 'sets', 'weight_in_pounds')
 
+
 # You can create other forms here to use (for example the one to be used on first login, but you have to still create a new page to then use the form in)
+
+
+class BmiForm(ModelForm):
+    '''
+    Form for storing user height/weight, to calculate the user's bmi
+    '''
+    class Meta:
+        model = Bmi
+        fields = ('height_feet', 'height_inches', 'weight_pounds')
+        # not included: user_bmi, timestamp

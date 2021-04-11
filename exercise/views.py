@@ -10,8 +10,8 @@ from django.contrib.auth.decorators import login_required
 import datetime
 from .forms import CreateUserForm
 from .models import Profile, Blog, SportsXP
-from .forms import CreateUserForm, ExerciseForm
-from .models import Profile, Blog, Exercise
+from .forms import CreateUserForm, ExerciseForm, BmiForm
+from .models import Profile, Blog, Exercise, Bmi
 
 
 # ----- Views used for when the user has been logged in ------#
@@ -316,3 +316,33 @@ def sortxp(request):
         sorted(sports_list.items(), key=lambda e: e[1][1]))
     context = {"sports": sorted_sports_list}
     return render(request, 'exercise/home.html', context)
+
+
+
+
+
+
+
+
+@login_required(login_url='exercise:login')
+def bmi_display(request):
+    '''
+    Method to view bmi and update the bmi
+    also looking to allow users to set goals and track progress
+    '''
+    if request.method == 'POST':
+        user = User.objects.get(pk=User.objects.get(
+            username=request.user.get_username()).pk)
+        form = BmiForm(request.POST)
+
+        if form.is_valid():
+            form.instance.user = user
+            form.save()
+            # redirect to itself
+            return HttpResponseRedirect(reverse('exercise:exerciselogging')) # what is this referencing?
+    else:
+        form = BmiForm()
+        # Gets all the logged Bmi's of the user, to be used to form graph showing progress
+        bmi = Bmi.objects.filter(user=request.user)
+
+        return render(request, 'exercise/bmi.html', {'form': form, 'bmis': bmi})

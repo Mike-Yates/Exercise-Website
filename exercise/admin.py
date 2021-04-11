@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from django.contrib.auth.models import User
-from .models import Profile, Blog, SportsXP, Exercise
+from .models import Profile, Blog, SportsXP, Exercise, Bmi
 
 
 class ProfileInline(admin.StackedInline):
@@ -55,6 +55,9 @@ class BlogAdmin(admin.ModelAdmin):
 class ExerciseAdmin(admin.ModelAdmin):
     model = Exercise
 
+class BmiAdmin(admin.ModelAdmin):
+    model = Bmi
+
 
 admin.site.unregister(User)
 admin.site.register(Profile, ProfileAdmin)
@@ -62,3 +65,4 @@ admin.site.register(Blog, BlogAdmin)
 admin.site.register(SportsXP, SportsXPAdmin)
 admin.site.register(Exercise, ExerciseAdmin)
 admin.site.register(User, CustomUserAdmin)
+admin.site.register(Bmi, BmiAdmin)
