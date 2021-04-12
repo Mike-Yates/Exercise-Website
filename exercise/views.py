@@ -30,7 +30,6 @@ sports_list = {
     'Yoga': ['yoga', 0]
 }
 
-friend_request_info: {}
 # ----- Views used for when the user has been logged in ------#
 
 
