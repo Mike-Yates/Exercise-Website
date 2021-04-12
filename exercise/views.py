@@ -38,21 +38,23 @@ def home(request):
     '''
     Method to render the homepage (dashboard) of the user
     '''
-    update_xp(request)
-    all_friends = Friend.objects.friends(request.user)
-    unread_friend_requests_amount = Friend.objects.unrejected_request_count(
-        user=request.user)
-    my_user_id = User.objects.get(
-        username=request.user.get_username()).pk
-    try:
-        friend_requests = FriendshipRequest.objects.filter(
-            to_user=my_user_id)
-    except:
-        friend_requests = None
+    if request.user.profile.first_login == False:
+        update_xp(request)
+        all_friends = Friend.objects.friends(request.user)
+        unread_friend_requests_amount = Friend.objects.unrejected_request_count(
+            user=request.user)
+        my_user_id = User.objects.get(
+            username=request.user.get_username()).pk
+        try:
+            friend_requests = FriendshipRequest.objects.filter(
+                to_user=my_user_id)
+        except:
+            friend_requests = None
 
-    context = {'sports': sports_list, 'all_friends': all_friends,
-               'number_unread_requests': unread_friend_requests_amount, 'friend_requests': friend_requests}
-    return render(request, 'exercise/home.html', context)
+        context = {'sports': sports_list, 'all_friends': all_friends,
+                   'number_unread_requests': unread_friend_requests_amount, 'friend_requests': friend_requests}
+        return render(request, 'exercise/home.html', context)
+    return HttpResponseRedirect(reverse('exercise:firstlogin'))
 
 
 @login_required(login_url='exercise:login')

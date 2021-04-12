@@ -94,29 +94,6 @@ class Bmi(models.Model):
 
     def __str__(self):
         return self.bmi_user
-    # target_bmi = models.PositiveIntegerField(default=0)
-    # user_bmi = calculate_bmi()
-
-    # def calculate_bmi(self):
-    #     '''
-    #     function for calculating the user's bmi.
-    #     bmi = weight(kg) / height^2 (m)
-
-    #     Note, another option is to calculate the bmi in the html form, get arid of the user_bmi
-    #     field and just use the height weight from each submission to calculate bmi and put on graph
-
-    #     '''
-    #     height_meters = self.height_feet * 0.3048 + self.height_inches * 0.0254
-    #     weight_kg = self.weight_pounds * 0.453592
-    #     answer = height_meters / (weight_kg * weight_kg)
-    #     return answer
-
-    # def save(self, *args, **kwargs):
-    #     self.user_bmi = self.calculate_bmi()
-    #     super().save(*args, **kwargs)
-
-    # def __str__(self):
-    #     return self.user_bmi
 
 
 @receiver(post_save, sender=User)
@@ -131,13 +108,13 @@ def save_user_profile(sender, instance, **kwargs):
     instance.profile.save()
 
 
-@receiver(post_save, sender=User)
-def create_sports_xp(sender, instance, created, **kwargs):
-    if created:
-        SportsXP.objects.create(user=instance)
-    instance.sportsxp.save()
+# @receiver(post_save, sender=User)
+# def create_sports_xp(sender, instance, created, **kwargs):
+#     if created:
+#         SportsXP.objects.create(user=instance)
+#     instance.sportsxp.save()
 
 
-@receiver(post_save, sender=User)
-def save_sports_xp(sender, instance, **kwargs):
-    instance.sportsxp.save()
+# @receiver(post_save, sender=User)
+# def save_sports_xp(sender, instance, **kwargs):
+#     instance.sportsxp.save()

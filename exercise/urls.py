@@ -27,7 +27,3 @@ urlpatterns = [
     path('friend/decision/<str:action_user_name>',
          views.accept_deny_block_request, name='decidefriend'),
 ]
-
-
-# , action_user_name, message
-# <str:action_user_name>/<str:message>
