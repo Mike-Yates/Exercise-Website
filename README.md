@@ -53,8 +53,8 @@
     8. https://docs.travis-ci.com/user/deployment/heroku/#deploying-specific-branches
     9. https://docs.djangoproject.com/en/3.0/ref/contrib/messages/#using-messages-in-views-and-templates
     10. https://www.youtube.com/watch?v=tUqUdu0Sjyc
-    11. 
-    12. 
+    11. https://github.com/revsys/django-friendship
+    12. https://pypi.org/project/django-friendship/
     
 ### Contributions:
     If you are willing to contribute to this projects, please fork the repo and make a pull request once you are done. We will take a look and see what we can do with it.

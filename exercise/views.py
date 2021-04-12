@@ -4,17 +4,15 @@ from django.views import generic
 from django.http import HttpResponseRedirect, JsonResponse, HttpResponse
 from django.urls import reverse
 from django.contrib import messages
-from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth import authenticate, login, logout, get_user_model
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 import datetime
 from .forms import CreateUserForm
 from .models import Profile, Blog, SportsXP
-from .forms import CreateUserForm, ExerciseForm
-from .models import Profile, Blog, Exercise
-
-
-# ----- Views used for when the user has been logged in ------#
+from .forms import CreateUserForm, ExerciseForm, BmiForm
+from .models import Profile, Blog, Exercise, Bmi
+from friendship.models import Friend, FriendshipRequest, Block
 
 #-----stuff to make dynamic progress bar work----------------#
 sports_list = {
@@ -32,7 +30,7 @@ sports_list = {
     'Yoga': ['yoga', 0]
 }
 
-#-------------dynamic progress bar end-----------------------#
+# ----- Views used for when the user has been logged in ------#
 
 
 @login_required(login_url='exercise:login')
@@ -41,7 +39,19 @@ def home(request):
     Method to render the homepage (dashboard) of the user
     '''
     update_xp(request)
-    context = {'sports': sports_list}
+    all_friends = Friend.objects.friends(request.user)
+    unread_friend_requests_amount = Friend.objects.unrejected_request_count(
+        user=request.user)
+    my_user_id = User.objects.get(
+        username=request.user.get_username()).pk
+    try:
+        friend_requests = FriendshipRequest.objects.filter(
+            to_user=my_user_id)
+    except:
+        friend_requests = None
+
+    context = {'sports': sports_list, 'all_friends': all_friends,
+               'number_unread_requests': unread_friend_requests_amount, 'friend_requests': friend_requests}
     return render(request, 'exercise/home.html', context)
 
 
@@ -187,6 +197,124 @@ def update_sportsxp(request):
 
 
 @login_required(login_url='exercise:login')
+def bmi_display(request):
+    '''
+    Method to save items from a blog post
+    '''
+    if request.method == 'POST':
+        try:
+            now = datetime.datetime.now()
+            height_feet = int(request.POST.get('height_feet'))
+            height_inches = int(request.POST.get('height_inches'))
+            weight_pounds = int(request.POST.get('weight_pounds'))
+
+            height_meters = height_feet * 0.3048 + height_inches * 0.0254
+            weight_kg = weight_pounds * 0.453592
+            answer = weight_kg / (height_meters * height_meters)
+            answer_floored = weight_kg // (height_meters * height_meters)
+
+            if ((answer - answer_floored) > 0.5):
+                answer += 1
+
+            bmi = Bmi(user=User.objects.get(pk=User.objects.get(
+                username=request.user.get_username()).pk),
+                height_feet=height_feet,
+                height_inches=height_inches,
+                weight_pounds=weight_pounds,
+                bmi_user=request.user.get_username(),
+                user_bmi=answer,
+                time_of_bmi=now)  # Makes an instance of the blog
+
+        except (KeyError):  # Error handling
+            context = {'Bmis': Bmi, 'error': "An error has occurred"}
+            return render(request, 'exercise/bmi.html', context)
+        else:
+            bmi.save()  # Saves the blog to the database
+            return HttpResponseRedirect(reverse('exercise:bmidisplay'))
+
+    form = BmiForm()
+    bmi = Bmi.objects.filter()
+    context = {'form': form, 'bmis': bmi}
+    return render(request, 'exercise/bmi.html', context)
+
+
+@login_required(login_url='exercise:login')
+def send_friend_request(request):
+    try:
+        action_user_name_val = User.objects.get(pk=User.objects.get(
+            username=request.POST.get('friendusername')).pk)
+
+        if Friend.objects.are_friends(request.user, action_user_name_val) == True:
+            update_xp(request)
+            all_friends = Friend.objects.friends(request.user)
+            unread_friend_requests_amount = Friend.objects.unrejected_request_count(
+                user=request.user)
+            my_user_id = User.objects.get(
+                username=request.user.get_username()).pk
+            try:
+                friend_requests = FriendshipRequest.objects.get(
+                    to_user=my_user_id)
+            except:
+                friend_requests = None
+
+            context = {'error': 'You are already friends with the user', 'sports': sports_list, 'all_friends': all_friends,
+                       'number_unread_requests': unread_friend_requests_amount, 'friend_requests': friend_requests}
+            return render(request, 'exercise/home.html', context)
+    except:
+        update_xp(request)
+        all_friends = Friend.objects.friends(request.user)
+        unread_friend_requests_amount = Friend.objects.unrejected_request_count(
+            user=request.user)
+        my_user_id = User.objects.get(
+            username=request.user.get_username()).pk
+        try:
+            friend_requests = FriendshipRequest.objects.get(
+                to_user=my_user_id)
+        except:
+            friend_requests = None
+
+        context = {'error': 'The username entered could not be found, please try again', 'sports': sports_list, 'all_friends': all_friends,
+                   'number_unread_requests': unread_friend_requests_amount, 'friend_requests': friend_requests}
+        return render(request, 'exercise/home.html', context)
+    else:
+        Friend.objects.add_friend(
+            request.user,   # The sender
+            action_user_name_val,   # The recipient
+            message=request.POST.get('sendfriendrequest'))
+
+    return HttpResponseRedirect(reverse('exercise:home'))
+
+
+@login_required(login_url='exercise:login')
+def accept_deny_block_request(request, action_user_name):
+    print(request.POST)
+    print("Passed in user:", action_user_name)
+
+    if request.method == 'POST':
+        decision = request.POST.get('Decision')
+        action_user_name_val = User.objects.get(pk=User.objects.get(
+            username=action_user_name).pk)
+        my_user_id = User.objects.get(
+            username=request.user.get_username()).pk
+        action_user_id = User.objects.get(username=action_user_name_val).pk
+
+        if decision == "Accept":
+            if Friend.objects.are_friends(request.user, action_user_name_val) != True:
+                friend_request = FriendshipRequest.objects.get(
+                    from_user=action_user_id, to_user=my_user_id)
+                friend_request.accept()
+        elif decision == "Deny":
+            friend_request = FriendshipRequest.objects.get(
+                from_user=action_user_id, to_user=my_user_id)
+            friend_request.reject()
+        elif decision == "Block":
+            Block.objects.add_block(request.user, action_user_name_val)
+        elif decision == "Unblock":
+            Block.objects.remove_block(request.user, action_user_name_val)
+    return HttpResponseRedirect(reverse('exercise:home'))
+
+
+@login_required(login_url='exercise:login')
 def cardioView(request):
     context = {}
     return render(request, 'exercise/cardio.html', context)
@@ -202,6 +330,7 @@ def bodyView(request):
 def sportView(request):
     context = {}
     return render(request, 'exercise/sport.html', context)
+
 
 #------ Views that can be accessed by users that have not been authenticated ------#
 

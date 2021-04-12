@@ -1,4 +1,6 @@
 {% load static %}
+{% load friendshiptags %}
+
 <!doctype html>
 <html lang="en">
   <head>
@@ -33,7 +35,6 @@
   <a href="{% url 'exercise:cardio' %}"> Cardio? </a>
 </div>
 <div>
-
   <a href="{% url 'exercise:body' %}"> Lifting? </a>
 </div>
 <div>
@@ -43,13 +44,87 @@
   <a href="{% url 'exercise:blog' %}"> Have any questions, concerns, comments? ASK SOMEONE HERE </a>
 </div>
 
+<br />
+
+<div>
+  {% if all_friends %}
+    {% for friend in all_friends %}
+        <p>Friend: {{ friend }} </p>
+    {% endfor %}
+  {% else %}
+      <p>You have no current friends</p>
+  {% endif %}
+  <p>Number of Friend Requests: {{ number_unread_requests }} </p>
+  {% if friend_requests %}
+    {% for possible_friend in friend_requests %}
+        <div class="column">
+            <p class="lead" style="text-align: center;font-size: 2rem;">Friend Requests from user: {{ possible_friend.from_user }} </p>
+            {% if possible_friend.message %}
+                <p style="text-align: center;font-size: 1rem;">with message: {{ possible_friend.message }} on {{ possible_friend.created }} </p>
+            {% else %}
+                No message to show
+            {% endif %}
+            <form method="POST" action="{% url 'exercise:decidefriend' possible_friend.from_user %}">
+                {% csrf_token %} 
+                <div class="row-6" value="{{ possible_friend.from_user }}">
+                    <input type="submit" value="Accept" name="Decision" class="btn btn-success" style="display: block;margin: 0 auto;">
+                    <input type="submit" value="Deny" name="Decision" class="btn btn-danger" style="display: block;margin: 0 auto;">
+                    <input type="submit" value="Block" name="Decision" class="btn btn-danger" style="display: block;margin: 0 auto;">
+                    <input type="submit" value="Unblock" name="Decision" class="btn btn-danger" style="display: block;margin: 0 auto;">
+                </div>
+            </form>
+        </div>
+    {% endfor %} 
+  {% else %}
+      <p>There are no current friend requests</p>
+  {% endif %}
+</div>
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<div class="row-6">
+<form method="POST" action="{% url 'exercise:friendrequest' %}">
+    {% csrf_token %} 
+    <div class="col-5">
+        {% if error %}
+            <input
+                type="text"
+                placeholder="Username of friend..."
+                name="friendusername"
+            />
+            <input
+                type="text"
+                placeholder="Message to send to friend..."
+                name="friendmessage"
+            />
+            <p>{{ error }}</p>
+        {% else %}
+            <input
+                type="text"
+                placeholder="Username of friend..."
+                name="friendusername"
+            />
+            <input
+                type="text"
+                placeholder="Message to send to friend..."
+                name="friendmessage"
+            />
+        {% endif %}
+        <input type="submit" value="Send Request" name="sendfriendrequest" class="btn btn-success" style="display: block;margin: 0 auto;">
+    </div>
+</form>
+</div>
+
 <div class="container-fluid" style="margin-bottom: 20rem;">
   <div class="row">
     <div class="col-md-6" style="margin: 1rem auto 0  auto;">
       <div class="card">
         <div class="card-body">
         <form method="POST" action="{% url 'exercise:updatesportsxp' %}">
-        {% csrf_token %} 
+            {% csrf_token %} 
             <input list="activities" class="form-control" style="margin-bottom: 1rem;" name="activities">
             <datalist id="activities">
               {% for key, value in sports.items %}
@@ -65,13 +140,12 @@
             <input type="submit" name="reset" value="Reset" class="btn btn-danger" style="display: block;margin: 0 auto;">
 
             </div>
-                        <div class="col-6">
+            <div class="col-6">
             <input type="submit" name="resetall" value="ResetAll" class="btn btn-danger" style="display: block;margin: 0 auto;">
 
             </div>
         </div>
         </form>
-
         </div>
       </div>
     </div>
