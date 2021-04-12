@@ -220,3 +220,43 @@ class RandomTestCase(TestCase):
         self.assertNotContains(response, 27)
         user1.delete()
         user2.delete()
+
+    def test_no_timestamp_dependence_SportXP(self):
+        user = User.objects.create_user(
+            'testUser','tester@outlook.com', 'testUserpassword'
+        )
+        x = SportsXP.objects.create(user = user)
+        userSecond = User.objects.create_user(
+            'testUserSecond','testerSecond@outlook.com', 'testUserpasswordSecond'
+        )
+        y = SportsXP.objects.create(user = userSecond)
+        self.assertIs(x.timestamp != y.timestamp, True)
+        user.delete()
+        userSecond.delete()
+
+    
+    def test_SportsXP_reset(self):
+        user = User.objects.create_user(
+            'testUser','tester@outlook.com', 'testUserpassword'
+        )
+        x = SportsXP.objects.create(user = user)
+        x.swimming = 3
+        x.swimming = 0
+        self.assertEqual(x.swimming, 0)
+        user.delete()
+
+    def test_SportsXP_reset_no_dependence(self):
+        user = User.objects.create_user(
+            'testUser','tester@outlook.com', 'testUserpassword'
+        )
+        x = SportsXP.objects.create(user = user)
+        userSecond = User.objects.create_user(
+            'testUserSecond','testerSecond@outlook.com', 'testUserpasswordSecond'
+        )
+        y = SportsXP.objects.create(user = userSecond)
+        x.swimming = 3
+        y.swimming = 3
+        x.swimming = 0
+        self.assertEqual(y.swimming, 3)
+        user.delete()
+        userSecond.delete()
