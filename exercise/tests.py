@@ -1,7 +1,7 @@
 from django.contrib.auth.models import User
 from django.test import TestCase
 from django.urls import reverse
-from exercise.models import Blog, Exercise, SportsXP
+from exercise.models import *
 from django.utils import timezone
 
 
@@ -123,7 +123,7 @@ class RandomTestCase(TestCase):
         user = User.objects.create_user(
             'testUser', 'tester@outlook.com', 'testUserpassword'
         )
-        x = SportsXP.objects.create(user = user)
+        x = SportsXP.objects.create(user=user)
         zero = 0
         if (x.basketball > zero):
             zero = x.basketball
@@ -157,7 +157,7 @@ class RandomTestCase(TestCase):
         user = User.objects.create_user(
             'testUser', 'tester@outlook.com', 'testUserpassword'
         )
-        x = SportsXP.objects.create(user = user)
+        x = SportsXP.objects.create(user=user)
         x.cardio = 3
         self.assertEqual(3, x.cardio)
         user.delete()
@@ -167,12 +167,12 @@ class RandomTestCase(TestCase):
         user = User.objects.create_user(
             'testUser', 'tester@outlook.com', 'testUserpassword'
         )
-        x = SportsXP.objects.create(user = user)
-        
+        x = SportsXP.objects.create(user=user)
+
         second_User = User.objects.create_user(
             'second', 'secondUser@outlook.com', 'testSecond'
         )
-        y = SportsXP.objects.create(user = second_User)
+        y = SportsXP.objects.create(user=second_User)
         y.swimming = 3
         self.assertEqual(x.swimming, 0)
         user.delete()
@@ -183,6 +183,40 @@ class RandomTestCase(TestCase):
         user = User.objects.create_user(
             'testUser', 'tester@outlook.com', 'testUserpassword'
         )
-        x = SportsXP.objects.create(user = user)
+        x = SportsXP.objects.create(user=user)
         self.assertIs(time < x.timestamp, True)
         user.delete()
+
+    def test_bmi_shows_proper_bmi(self):
+        user = User.objects.create_user(
+            'Joe', 'lennon@thebeatles.com', 'johnpassword')
+        x = Bmi.objects.create(
+            user=user, height_feet=6, height_inches=0, weight_pounds=200, user_bmi=27)
+        self.client.force_login(User.objects.get_or_create(username='Joe')[0])
+        response = self.client.get(reverse('exercise:bmidisplay'))
+        self.assertContains(response, 27)
+        user.delete()
+
+    def test_bmi_added_to_queryset(self):
+        """returns true if an exercise is added"""
+        user = User.objects.create_user(
+            'Joe', 'lennon@thebeatles.com', 'johnpassword')
+        num_before_adding = Bmi.objects.all().count()
+        x = Bmi.objects.create(
+            user=user, height_feet=6, height_inches=0, weight_pounds=200, user_bmi=27)
+        num_after_adding = Bmi.objects.all().count()
+        self.assertEqual(num_after_adding - 1, num_before_adding)
+        user.delete()
+
+    def test_bmi_display_user_specific(self):
+        user1 = User.objects.create_user(
+            'test1', 'lennon@thebeatles.com', 'johnpassword')
+        user2 = User.objects.create_user(
+            'test2', 'lennon@thebeatles.com', 'johnpassword')
+        x = Bmi.objects.create(
+            user=user1, height_feet=6, height_inches=0, weight_pounds=200, user_bmi=27)
+        self.client.force_login(User.objects.get_or_create(username='test2')[0])
+        response = self.client.get(reverse('exercise:bmidisplay'))
+        self.assertNotContains(response, 27)
+        user1.delete()
+        user2.delete()

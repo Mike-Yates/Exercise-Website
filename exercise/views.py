@@ -233,7 +233,7 @@ def bmi_display(request):
             return HttpResponseRedirect(reverse('exercise:bmidisplay'))
 
     form = BmiForm()
-    bmi = Bmi.objects.filter()
+    bmi = Bmi.objects.filter(user=request.user)
     context = {'form': form, 'bmis': bmi}
     return render(request, 'exercise/bmi.html', context)
 
