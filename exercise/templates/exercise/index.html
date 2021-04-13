@@ -1,6 +1,12 @@
-<!-- Test to check if the google authentication is working properly -->
-{% load socialaccount %}
+<!DOCTYPE html>
+<html lang="en">
   <head>
+    {% load socialaccount %}
+
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
     <title>Homepage</title>
     <link
       rel="stylesheet"
@@ -8,62 +14,115 @@
       integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
       crossorigin="anonymous"
     />
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <link
       rel="stylesheet"
       href="https://use.fontawesome.com/releases/v5.6.1/css/all.css"
       integrity="sha384-gfdkjb5BdAXd+lj+gudLWI+BXq4IuLW5IT+brZEZsLFm++aCMlF1V92rMkPaX4PP"
       crossorigin="anonymous"
     />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css?family=Arbutus+Slab"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css?family=Quicksand"
+    />
+    <link
+      href="http://fonts.googleapis.com/css?family=Lobster"
+      rel="stylesheet"
+      type="text/css"
+    />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
     <style>
-      body { 
-        margin:0;
+      @font-face {
+        font-family: "Quicksand", sans-serif;
+      }
+      @font-face {
+        font-family: "ArbutusSlab", sans-serif;
       }
       #container {
-          width: 100vw;
-          height: 100vh;
-          text-align: center;
-          overflow: hidden;
+        width: 100vw;
+        height: 96vh;
+        text-align: center;
+        overflow: hidden;
       }
       #videobcg {
-          width: inherit;
-          height: inherit;
-          -o-filter: blur(15px);
-          filter: blur(10px);
-          object-fit: cover;
-          transform: scale(1.04);
+        width: inherit;
+        height: inherit;
+        -o-filter: blur(17px);
+        filter: blur(13px);
+        object-fit: cover;
+        transform: scale(1.04);
+      }
+      #video_overlays {
+        position: absolute;
+        width: 100vw;
+        height: 90vh;
+        z-index: 2;
+      }
+      #main_title {
+        position: relative;
+        float: left;
+        top: 30vh;
+        z-index: 3;
+      }
+      #main_text {
+        position: absolute;
+        z-index: 2;
+        height: 20vh;
+        width: 100vw;
+        mix-blend-mode: screen;
+      }
+      h1 {
+          position: relative;
+          margin-top: 0;
+          font-family: 'Lobster', helvetica, arial;
+      }
+      h1 p {
+          text-decoration: none;
+          color: black;
+          font-size: 10vh;
+          position: relative;
+          -webkit-mask-image: -webkit-gradient(linear, left top, left bottom, from(rgba(0,0,0,1)), color-stop(50%, rgba(0,0,0,.5)), to(rgba(0,0,0,1)));
+      }
       }
     </style>
   </head>
-  <body>
+  <body style="background-color: white">
     <div id="container">
-        <video id="videobcg" preload="auto" autoplay="true" loop="loop" muted="muted" volume="0">
-        <source src="https://static.obefitness.com/media/hero_desktop.mp4"type="video/mp4"></source>
+      <header>{% include "./header.html" %}</header>
+      <div id="video_overlays">
+        <div id="main_title">
+          <font face="Lobster">
+            <div id="main_text">
+              <h1>
+                <p>
+                  Putting the fun back in fitness.
+                  <br />
+                  Anytime...Anywhere...
+                </p>
+              </h1>
+            </div>
+          </font>
+        </div>
+      </div>
+      <video
+        id="videobcg"
+        preload="auto"
+        autoplay="true"
+        loop="loop"
+        muted="muted"
+        volume="0"
+      >
+        <source
+          src="https://static.obefitness.com/media/hero_desktop.mp4"
+          type="video/mp4"
+        />
         Sorry, your browser does not support HTML5 video.
-        </video>
+      </video>
     </div>
-
-    {% comment %} <h1>Hello, this is the Main Page. A nicer version is coming soon</h1> {% endcomment %}
-
-    <!-- Checks for authentication-->
-    {% comment %} {% if request.user.is_authenticated %}   {% endcomment %}
-      {% comment %} <h1>Hello, {{request.user}}. You may perform the following stuff </h1>
-      <span> <a href="{% url 'exercise:home' %}">Home</a> </span>
-      </br>
-      <span> <a href="{% url 'exercise:blog' %}">Blog</a> </span>
-      </br>
-      <span> <a href="{% url 'exercise:exerciselogging' %}">Exercise Logging</a> </span>
-      </br>
-      <span> <a href="{% url 'exercise:logout' %}">Logout</a> </span> {% endcomment %}
-    {% comment %} {% else %} {% endcomment %}
-      {% comment %} <h1> Please, login using one of the following methods </h1>
-      <span> <a href="{% url 'exercise:login' %}">Login</a> </span>
-      </br>
-      <span> <a href="{% url 'exercise:blog' %}">Blog</a> </span>
-      </br>
-      <span>
-        <a href="{% provider_login_url 'google' %}">Test Login with Google</a>
-      </span> {% endcomment %}
-    {% comment %} {% endif %} {% endcomment %}
+    <footer>{% include "./footer.html" %}</footer>
   </body>
 </html>
