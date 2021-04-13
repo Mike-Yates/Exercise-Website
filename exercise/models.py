@@ -40,6 +40,7 @@ class SportsXP(models.Model):
     hiking = models.PositiveIntegerField(default=0)
     swimming = models.PositiveIntegerField(default=0)
     yoga = models.PositiveIntegerField(default=0)
+    total_xp = models.PositiveIntegerField(default=0)
 
     def __str__(self):
         return '%s %s %s %s %s %s %s %s %s %s %s %s %s' % (self.basketball, self.cross_training, self.cardio,

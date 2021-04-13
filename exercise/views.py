@@ -30,6 +30,10 @@ sports_list = {
     'Yoga': ['yoga', 0]
 }
 
+total_xp_dict = {
+    'Total XP' : 0
+}
+
 # ----- Views used for when the user has been logged in ------#
 
 
@@ -52,7 +56,8 @@ def home(request):
             friend_requests = None
 
         context = {'sports': sports_list, 'all_friends': all_friends,
-                   'number_unread_requests': unread_friend_requests_amount, 'friend_requests': friend_requests}
+                   'number_unread_requests': unread_friend_requests_amount, 'friend_requests': friend_requests, 
+                   'total' : total_xp_dict}
         return render(request, 'exercise/home.html', context)
     return HttpResponseRedirect(reverse('exercise:firstlogin'))
 
@@ -123,7 +128,7 @@ def blog_post(request):
 def read_sportsxp(request):
     xp_update = update_xp(request)
 
-    context = {'sportxplist': xp_update, 'sports': sports_list}
+    context = {'sportxplist': xp_update, 'sports': sports_list, 'total': total_xp_dict}
     return HttpResponseRedirect(reverse('exercise:home'))
 
 
@@ -143,6 +148,7 @@ def update_sportsxp(request):
                     item_id = value[0]
                     value = getattr(user.sportsxp, value[0])
 
+                    user.sportsxp.total_xp = user.sportsxp.total_xp + 1
                     user.sportsxp.basketball = value + 1
                     user.sportsxp.cross_training = value + 1
                     user.sportsxp.cardio = value + 1
@@ -156,14 +162,16 @@ def update_sportsxp(request):
                     user.sportsxp.swimming = value + 1
                     user.sportsxp.yoga = value + 1
                     user.sportsxp.save(
-                        update_fields=[item_id])
+                        update_fields=[item_id, 'total_xp'])
         elif (request.POST.get('reset') == 'Reset'):
             for key, value in sports_list.items():
                 if request.POST.get('activities') == key:
                     user = User.objects.get(pk=User.objects.get(
                         username=request.user.get_username()).pk)  # Grabs user based on the id
                     item_id = value[0]
+                    value = getattr(user.sportsxp, value[0])
 
+                    user.sportsxp.total_xp = user.sportsxp.total_xp - value
                     user.sportsxp.basketball = 0
                     user.sportsxp.cross_training = 0
                     user.sportsxp.cardio = 0
@@ -177,10 +185,13 @@ def update_sportsxp(request):
                     user.sportsxp.swimming = 0
                     user.sportsxp.yoga = 0
                     user.sportsxp.save(
-                        update_fields=[item_id])
+                        update_fields=[item_id, 'total_xp'])
         elif (request.POST.get('resetall') == "ResetAll"):
             user = User.objects.get(pk=User.objects.get(
                 username=request.user.get_username()).pk)  # Grabs user based on the id
+            for key, value in sports_list.items():
+                user.sportsxp.total_xp = user.sportsxp.total_xp - getattr(user.sportsxp, value[0])
+            
             user.sportsxp.basketball = 0
             user.sportsxp.cross_training = 0
             user.sportsxp.cardio = 0
@@ -260,7 +271,8 @@ def send_friend_request(request):
                 friend_requests = None
 
             context = {'error': 'You are already friends with the user', 'sports': sports_list, 'all_friends': all_friends,
-                       'number_unread_requests': unread_friend_requests_amount, 'friend_requests': friend_requests}
+                       'number_unread_requests': unread_friend_requests_amount, 'friend_requests': friend_requests,
+                       'total': total_xp_dict}
             return render(request, 'exercise/home.html', context)
     except:
         update_xp(request)
@@ -276,7 +288,8 @@ def send_friend_request(request):
             friend_requests = None
 
         context = {'error': 'The username entered could not be found, please try again', 'sports': sports_list, 'all_friends': all_friends,
-                   'number_unread_requests': unread_friend_requests_amount, 'friend_requests': friend_requests}
+                   'number_unread_requests': unread_friend_requests_amount, 'friend_requests': friend_requests,
+                   'total': total_xp_dict}
         return render(request, 'exercise/home.html', context)
     else:
         Friend.objects.add_friend(
@@ -429,6 +442,7 @@ def logout_user(request):
 
 def update_xp(request):
     global sports_list
+    global total_xp_dict
 
     user = User.objects.get(pk=User.objects.get(
         username=request.user.get_username()).pk)
@@ -436,6 +450,10 @@ def update_xp(request):
     for key, value in sports_list.items():
         value_of_field = getattr(user.sportsxp, value[0])
         sports_list[key][1] = value_of_field
+    
+    for key, value in total_xp_dict.items():
+        value_of_total_xp = getattr(user.sportsxp, 'total_xp')
+        total_xp_dict[key] = value_of_total_xp
 
 
 def sortxp(request):
