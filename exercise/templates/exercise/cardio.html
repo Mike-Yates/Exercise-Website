@@ -1,38 +1,39 @@
-
 <!doctype html>
 <html lang="en">
-  <head>
+<head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
+          integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
     <title>Cardio</title>
-  </head>
+</head>
 </html>
 
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
-  <a class="navbar-brand" href="{% url 'exercise:home' %}">Home</a>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
-  <div class="collapse navbar-collapse" id="navbarNav">
-    <ul class="navbar-nav">
-      <li class="nav-item active">
-        <a class="nav-link" href="{% url 'exercise:sport' %}">Sport<span class="sr-only">(current)</span></a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="{% url 'exercise:cardio' %}">Cardio</a>
-      </li>
-      <li class="nav-item">
-          <a class="nav-link" href="{% url 'exercise:body' %}">Weight-Lifting</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="{% url 'exercise:exerciselogging' %}">Exercise-Logging</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="{% url 'exercise:blog' %}">Blog</a>
-      </li>
-    </ul>
-  </div>
+    <a class="navbar-brand" href="{% url 'exercise:home' %}">Home</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav">
+            <li class="nav-item active">
+                <a class="nav-link" href="{% url 'exercise:sport' %}">Sport<span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'exercise:cardio' %}">Cardio</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'exercise:body' %}">Weight-Lifting</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'exercise:exerciselogging' %}">Exercise-Logging</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'exercise:blog' %}">Blog</a>
+            </li>
+        </ul>
+    </div>
 </nav>
 
 <body>
@@ -42,46 +43,88 @@
 <h3>
     Do these:
 </h3>
-<div>
-    Mountain Climbers (45 sec)
+<div class="row justify-content-center">
+    <div class="badge bg-info text-wrap " style="width: 44rem; font-size:20px;">
+        <a href="https://th.bing.com/th/id/R6ce3bb6b80ddc185dcc2f15fb9dd923d?rik=Rzq7ooedVHcRNQ&riu=http%3a%2f%2fwww.blogilates.com%2fwp-content%2fuploads%2f2015%2f11%2fmountainclimbers.gif&ehk=5O4NAQ%2bYoyuNtqiwkFOW%2bgiEpeD%2fHBMTjNlUojp0tWg%3d&risl=&pid=ImgRaw" target="_blank" rel="noopener noreferrer">Mountain Climbers</a>  (45 sec)
+    </div>
 </div>
-<div>
-    30 seconds breaks
+
+<div class="row justify-content-center">
+    <div>
+        30 seconds breaks
+    </div>
 </div>
-<div>
-    Burpees (30 sec)
+<div class="row justify-content-center">
+    <div class="badge bg-info text-wrap " style="width: 44rem; font-size:20px;">
+        <a href="https://www.focusfitness.net/wp-content/uploads/2019/05/Burpees-with-Push-Ups.gif"  target="_blank" rel="noopener noreferrer">Burpees</a> (30 sec)
+    </div>
 </div>
-<div>
-    30 seconds breaks
+<div class="row justify-content-center">
+    <div>
+        30 seconds breaks
+    </div>
 </div>
-<div>
-    Lunges (45 sec or 10 each leg)
+<div class="row justify-content-center">
+    <div class="badge bg-info text-wrap " style="width: 44rem; font-size:20px;">
+        <a href="https://flabfix.com/wp-content/uploads/2019/05/Forward-Lunges.gif" target="_blank" rel="noopener noreferrer">Lunges</a> (45 sec or 10 each leg)
+    </div>
 </div>
-<div>
-    30 seconds breaks
+<div class="row justify-content-center">
+    <div>
+        30 seconds breaks
+    </div>
 </div>
-<div>
-    High Knees (45 sec)
+<div class="row justify-content-center">
+    <div class="badge bg-info text-wrap " style="width: 44rem; font-size:20px;">
+        <a href="https://imagesvc.meredithcorp.io/v3/mm/gif?url=https%3A%2F%2Fstatic.onecms.io%2Fwp-content%2Fuploads%2Fsites%2F12%2F2019%2F12%2F6-highknees.gif" target="_blank" rel="noopener noreferrer">High Knees</a> (45 sec)
+    </div>
 </div>
-<div>
-    30 seconds breaks
+<div class="row justify-content-center">
+    <div>
+        30 seconds breaks
+    </div>
 </div>
-<div>
-    Squat Jumps (45 sec)
+<div class="row justify-content-center">
+    <div class="badge bg-info text-wrap " style="width: 44rem; font-size:20px;">
+        <a href="https://calisthenicwarrior.com/wp-content/uploads/2019/05/e1b56c57-4c59-4120-bb8f-29e864fa9263.gif" target="_blank" rel="noopener noreferrer">Squat Jumps</a> (45 sec)
+    </div>
 </div>
-<div>
-    30 seconds breaks
+<div class="row justify-content-center">
+    <div>
+        30 seconds breaks
+    </div>
 </div>
-<div>
-    Mountain Climbers (45 sec)
+<div class="row justify-content-center">
+    <div class="badge bg-info text-wrap " style="width: 44rem; font-size:20px;">
+        <a href="https://th.bing.com/th/id/R6ce3bb6b80ddc185dcc2f15fb9dd923d?rik=Rzq7ooedVHcRNQ&riu=http%3a%2f%2fwww.blogilates.com%2fwp-content%2fuploads%2f2015%2f11%2fmountainclimbers.gif&ehk=5O4NAQ%2bYoyuNtqiwkFOW%2bgiEpeD%2fHBMTjNlUojp0tWg%3d&risl=&pid=ImgRaw" target="_blank" rel="noopener noreferrer">Mountain Climbers</a>  (45 sec)
+    </div>
 </div>
-<div>
-    30 seconds breaks
+<div class="row justify-content-center">
+    <div>
+        30 seconds breaks
+    </div>
 </div>
-<div>
-    Burpees (30 sec)
+<div class="row justify-content-center">
+    <div class="badge bg-info text-wrap " style="width: 44rem; font-size:20px;">
+        <a href="https://www.focusfitness.net/wp-content/uploads/2019/05/Burpees-with-Push-Ups.gif"  target="_blank" rel="noopener noreferrer">Burpees</a> (30 sec)
+    </div>
 </div>
 
 
 </body>
+<script
+        src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"
+></script>
+<script
+        src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"
+></script>
+<script
+        src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"
+></script>
 </html>
