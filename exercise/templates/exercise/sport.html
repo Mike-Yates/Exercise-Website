@@ -1,38 +1,39 @@
-
 <!doctype html>
 <html lang="en">
-  <head>
+<head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
+          integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
     <title>Sport</title>
-  </head>
+</head>
 </html>
 
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
-  <a class="navbar-brand" href="{% url 'exercise:home' %}">Home</a>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
-  <div class="collapse navbar-collapse" id="navbarNav">
-    <ul class="navbar-nav">
-      <li class="nav-item active">
-        <a class="nav-link" href="{% url 'exercise:sport' %}">Sport<span class="sr-only">(current)</span></a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="{% url 'exercise:cardio' %}">Cardio</a>
-      </li>
-      <li class="nav-item">
-          <a class="nav-link" href="{% url 'exercise:body' %}">Weight-Lifting</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="{% url 'exercise:exerciselogging' %}">Exercise-Logging</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="{% url 'exercise:blog' %}">Blog</a>
-      </li>
-    </ul>
-  </div>
+    <a class="navbar-brand" href="{% url 'exercise:home' %}">Home</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav">
+            <li class="nav-item active">
+                <a class="nav-link" href="{% url 'exercise:sport' %}">Sport<span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'exercise:cardio' %}">Cardio</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'exercise:body' %}">Weight-Lifting</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'exercise:exerciselogging' %}">Exercise-Logging</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'exercise:blog' %}">Blog</a>
+            </li>
+        </ul>
+    </div>
 </nav>
 
 <body>
@@ -43,21 +44,51 @@
 <h3>
     Do ONE these:
 </h3>
-<div>
-    Soccer: 1 hour
+<div class="row justify-content-center">
+    <div class="badge bg-info text-wrap " style="width: 44rem; font-size:20px;">
+        Soccer: 1 hour
+    </div>
 </div>
-<div>
-    Volleyball: 1.5 hours
+<div class="row justify-content-center">
+    <div>
+        or
+    </div>
 </div>
-<div>
-    Basketball: 50 minutes
+<div class="row justify-content-center">
+    <div class="badge bg-info text-wrap " style="width: 44rem; font-size:20px;">
+        Volleyball: 1.5 hours
+    </div>
 </div>
-<div>
-    Swimming: 45 minutes
+<div class="row justify-content-center">
+    <div>
+        or
+    </div>
 </div>
-<div>
-    Football: 1.5 hours
+<div class="row justify-content-center">
+    <div class="badge bg-info text-wrap " style="width: 44rem; font-size:20px;">
+        Basketball: 50 minutes
+    </div>
 </div>
+<div class="row justify-content-center">
+    <div>
+        or
+    </div>
+</div>
+<div class="row justify-content-center">
+    <div class="badge bg-info text-wrap " style="width: 44rem; font-size:20px;">
+        Swimming: 45 minutes
+    </div>
+</div>
+<div class="row justify-content-center">
+    <div>
+        or
+    </div>
+</div>
+<div class="row justify-content-center">
+    <div class="badge bg-info text-wrap " style="width: 44rem; font-size:20px;"> Football: 1.5 hours
+    </div>
+</div>
+
 
 </body>
 </html>
