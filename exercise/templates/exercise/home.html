@@ -213,4 +213,31 @@
         </table>
       </div>
     </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-12">
+      <div class="table-responsive">
+        <table class="table">
+          <thead>
+            <tr>
+              <th scope="col">Total Experience</th>
+              <th scope="col">Count</th>   
+            </tr>
+          </thead>
+          <tbody>
+          {% for key, value in total.items %}  
+          <tr>
+            <td>{{ key }}</td>
+            <td>
+              <div class="progress">
+                <div class="progress-bar" role="progressbar" style="width: {{ value }}%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">{{value}}</div>
+              </div>
+            </td>
+          </tr>
+          {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
   </div> 
