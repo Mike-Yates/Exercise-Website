@@ -1,6 +1,13 @@
 <!DOCTYPE html>
 <html>
   <head>
+    {% load static %}
+    {% load socialaccount %}
+
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
     <title>Login</title>
     <link
       rel="stylesheet"
@@ -22,13 +29,13 @@
         margin: 0;
         padding: 0;
         height: 100%;
-        background: #7abecc !important;
+        background: black;
       }
       .user_card {
         width: 350px;
-        margin-top: auto;
+        margin-top: 25vh;
         margin-bottom: auto;
-        background: #74cfbf;
+        background: black;
         position: relative;
         display: flex;
         justify-content: center;
@@ -42,7 +49,6 @@
           0 6px 20px 0 rgba(0, 0, 0, 0.19);
         border-radius: 5px;
       }
-
       .form_container {
         margin-top: 20px;
       }
@@ -50,39 +56,115 @@
       #form-title {
         color: #fff;
       }
+
       .login_btn {
         width: 100%;
-        background: #33ccff !important;
-        color: white !important;
+        background: #white !important;
+        color: black !important;
       }
       .login_btn:focus {
         box-shadow: none !important;
-        outline: 0px !important;
+        outline: 0px white;
       }
       .login_container {
-        padding: 0 2rem;
+        padding: 0 0rem;
       }
       .input-group-text {
-        background: #f7ba5b !important;
+        outline: 1px dotted white;
+        background: black !important;
         color: white !important;
         border: 0 !important;
-        border-radius: 0.25rem 0 0 0.25rem !important;
+        border-radius: 0.25rem 0 0 0.5rem !important;
       }
       .input_user,
       .input_pass:focus {
         box-shadow: none !important;
         outline: 0px !important;
       }
+      #messages {
+        background-color: grey;
+        color: #fff;
+        padding: 10px;
+        margin-top: 10px;
+      }
     </style>
   </head>
-  <body>
-    <div class="container h-100">
+  <body style="background-color: white">
+    <header>{% include "./header.html" %}</header>
+    <div class="container" style="height: 90vh">
       <div class="d-flex justify-content-center h-100">
         <div class="user_card">
           <div class="d-flex justify-content-center">
             <h3 id="form-title">REGISTER ACCOUNT</h3>
           </div>
           <div class="d-flex justify-content-center form_container">
+            <form method="POST" action="">
+              {% csrf_token %}
+              <div class="input-group mb-3">
+                <div class="input-group-append">
+                  <span class="input-group-text"
+                    ><i class="fas fa-user"></i
+                  ></span>
+                </div>
+                {{form.username}}
+              </div>
+              <div class="input-group mb-2">
+                <div class="input-group-append">
+                  <span class="input-group-text"
+                    ><i class="fas fa-envelope-square"></i
+                  ></span>
+                </div>
+                {{form.email}}
+              </div>
+              <div class="input-group mb-2">
+                <div class="input-group-append">
+                  <span class="input-group-text"
+                    ><i class="fas fa-key"></i
+                  ></span>
+                </div>
+                {{form.password1}}
+              </div>
+              <div class="input-group mb-2">
+                <div class="input-group-append">
+                  <span class="input-group-text"
+                    ><i class="fas fa-key"></i
+                  ></span>
+                </div>
+                {{form.password2}}
+              </div>
+
+              <div class="d-flex justify-content-center mt-3 login_container">
+                <input
+                  class="btn login_btn"
+                  type="submit"
+                  value="Register Account"
+                />
+              </div>
+            </form>
+          </div>
+          <div style="color: white">
+            <p style="color: white"> {{form.errors}} </p>
+          </div>
+          <div class="mt-4">
+          <center><p style="color: white"> --------------- OR --------------- </p>
+            <a href="{% provider_login_url 'google' %}">
+              <img
+                src="{% static 'exercise/images/google_sign_in.png' %}"
+                alt=""
+                width="220"
+                height="35"
+                class="d-inline-block align-text-center"
+              />
+            </a>
+          </center>
+          <br />
+          </div>
+        </div>
+      </div>
+    </div>
+    <footer>{% include "./footer.html" %}</footer>
+
+          {% comment %} <div class="d-flex justify-content-center form_container">
             <form method="POST" action="">
               {% csrf_token %}
               <div class="input-group mb-3">
@@ -138,14 +220,13 @@
           </div>
         </div>
       </div>
-    </div>
+    </div> {% endcomment %}
     <script>
       var form_fields = document.getElementsByTagName("input");
       form_fields[1].placeholder = "Username..";
       form_fields[2].placeholder = "Email..";
       form_fields[3].placeholder = "Enter password...";
       form_fields[4].placeholder = "Re-enter Password...";
-
       for (var field in form_fields) {
         form_fields[field].className += " form-control";
       }

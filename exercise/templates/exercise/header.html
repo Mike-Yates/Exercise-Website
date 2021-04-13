@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    {% load static %} {% load socialaccount %}
+
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Homepage</title>
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+      integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+      crossorigin="anonymous"
+    />
+    <link
+      rel="stylesheet"
+      href="https://use.fontawesome.com/releases/v5.6.1/css/all.css"
+      integrity="sha384-gfdkjb5BdAXd+lj+gudLWI+BXq4IuLW5IT+brZEZsLFm++aCMlF1V92rMkPaX4PP"
+      crossorigin="anonymous"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css?family=Audiowide"
+    />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+    <style>
+      body {
+        font-family: "Audiowide", sans-serif;
+      }
+      .container-left {
+        position: relative;
+        width: 80vw;
+      }
+      .center {
+        text-align: right;
+        vertical-align: middle;
+        color: black;
+      }
+      .left-bottom {
+        text-align: left;
+        vertical-align: bottom;
+        color: black;
+      }
+      .vertical-center {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+      .title {
+        color: black;
+        font-size: 1.5vh;
+      }
+    </style>
+  </head>
+  <header>
+    <nav class="navbar navbar-default">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="/">
+          <img
+            src="{% static 'exercise/images/logo.png' %}"
+            alt=""
+            width="50"
+            height="40"
+            class="d-inline-block align-text-center"
+          />
+        </a>
+        <div class="container-left">
+          <div class="left-bottom">
+            <h1 class="center">
+              <a href="{% url 'exercise:blog' %}" class="navbar-brand"
+                ><p class="title">BLOG</p></a
+              >
+              <a href="{% url 'exercise:login' %}" class="navbar-brand"
+                ><p class="title">LOGIN</p></a
+              >
+              <a href="{% url 'exercise:register' %}" class="navbar-brand"
+                ><p class="title">SIGN UP</p></a
+              >
+            </h1>
+          </div>
+        </div>
+      </div>
+    </nav>
+  </header>
+</html>
