@@ -381,7 +381,7 @@ def login_user(request):
                 return HttpResponseRedirect(reverse('exercise:home'))
             else:  # If something went wrong
                 messages.info(
-                    request, 'Username OR Password is Incorrect, Please try again')  # Sets message to display
+                    request, 'Username OR Password is Incorrect')  # Sets message to display
 
         context = {}
         # Redirects to the same page
