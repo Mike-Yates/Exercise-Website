@@ -98,8 +98,13 @@ def exercise_logging(request):
         form = ExerciseForm()
         # Gets all the logged exercises of a user
         exercise = Exercise.objects.filter(user=request.user)
+        # Gets all the friends of a user
+        all_friends = Friend.objects.friends(request.user)
+        # Gets all the exercises of user's friends
+        friend_exercises=Exercise.objects.filter(user__in=all_friends)
 
-        return render(request, 'exercise/exercise_logging_form.html', {'form': form, 'exercises': exercise})
+
+        return render(request, 'exercise/exercise_logging_form.html', {'form': form, 'exercises': exercise,'friend_exercises':friend_exercises})
 
 
 @login_required(login_url='exercise:login')
