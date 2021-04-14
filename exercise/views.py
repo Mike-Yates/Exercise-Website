@@ -65,9 +65,13 @@ def first_login(request):
     '''
     Method to save the data from first time users
     '''
+    print(request.POST)
     if request.method == 'POST':
         user = User.objects.get(pk=User.objects.get(
             username=request.user.get_username()).pk)  # Grabs user based on the id
+        user.first_name = request.POST.get(
+            'firstname')     # Adds to first name
+        user.last_name = request.POST.get('lastname')   # Adds to last name
         user.profile.first_login = False  # Updates the first login
         user.profile.bio = request.POST.get('bio')  # Updates the bio field
         user.sportsxp = SportsXP()
@@ -101,10 +105,9 @@ def exercise_logging(request):
         # Gets all the friends of a user
         all_friends = Friend.objects.friends(request.user)
         # Gets all the exercises of user's friends
-        friend_exercises=Exercise.objects.filter(user__in=all_friends)
+        friend_exercises = Exercise.objects.filter(user__in=all_friends)
 
-
-        return render(request, 'exercise/exercise_logging_form.html', {'form': form, 'exercises': exercise,'friend_exercises':friend_exercises})
+        return render(request, 'exercise/exercise_logging_form.html', {'form': form, 'exercises': exercise, 'friend_exercises': friend_exercises})
 
 
 @login_required(login_url='exercise:login')
