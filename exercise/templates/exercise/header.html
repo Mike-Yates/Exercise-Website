@@ -32,7 +32,7 @@
       }
       .container-left {
         position: relative;
-        width: 80vw;
+        width: 60vw;
       }
       .center {
         text-align: right;
@@ -53,6 +53,10 @@
         color: black;
         font-size: 1.5vh;
       }
+      .dropdown {
+        position: relative;
+        display: inline-block;
+      }
     </style>
   </head>
   <header>
@@ -69,17 +73,52 @@
         </a>
         <div class="container-left">
           <div class="left-bottom">
+            {% if request.user.is_authenticated %}
+            <h1 class="center">
+              <div class="dropdown">
+                <a href="{% url 'exercise:home' %}" class="navbar-brand"
+                  ><p class="title">home</p></a
+                >
+              </div>
+              <div class="dropdown">
+                <a href="{% url 'exercise:blog' %}" class="navbar-brand"
+                  ><p class="title">blog</p></a
+                >
+              </div>
+              <div class="dropdown">
+                <a
+                  href="{% url 'exercise:exerciselogging' %}"
+                  class="navbar-brand"
+                  ><p class="title">exercise</p></a
+                >
+              </div>
+              <div class="dropdown">
+                <a href="{% url 'exercise:bmidisplay' %}" class="navbar-brand"
+                  ><p class="title">bmi</p></a
+                >
+              </div>
+              <div class="dropdown">
+                <a href="" class="navbar-brand"><p class="title">sports</p></a>
+              </div>
+              <div class="dropdown">
+                <a href="{% url 'exercise:logout' %}" class="navbar-brand"
+                  ><p class="title">logout</p></a
+                >
+              </div>
+            </h1>
+            {% else %}
             <h1 class="center">
               <a href="{% url 'exercise:blog' %}" class="navbar-brand"
-                ><p class="title">BLOG</p></a
+                ><p class="title">blog</p></a
               >
               <a href="{% url 'exercise:login' %}" class="navbar-brand"
-                ><p class="title">LOGIN</p></a
+                ><p class="title">login</p></a
               >
               <a href="{% url 'exercise:register' %}" class="navbar-brand"
-                ><p class="title">SIGN UP</p></a
+                ><p class="title">sign up</p></a
               >
             </h1>
+            {% endif %}
           </div>
         </div>
       </div>

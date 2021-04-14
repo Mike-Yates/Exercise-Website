@@ -16,16 +16,37 @@
       rel="stylesheet"
       href="https://fonts.googleapis.com/css?family=Quicksand"
     />
+    <script
+      src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+      integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+      integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+      integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+      crossorigin="anonymous"
+    ></script>
     <title>Blog</title>
-        <style>
-          @font-face { font-family: "Quicksand", sans-serif; } 
+    <style>
+      @font-face {
+        font-family: "Quicksand", sans-serif;
+      }
 
       body {
-        font-family: "Quicksand", sans-serif; 
+        font-family: "Quicksand", sans-serif;
       }
       .container-left {
         position: relative;
         width: 80vw;
+      }
+      .container_stuff {
+        position: relative;
+        width: 100vh;
       }
       .center {
         text-align: right;
@@ -48,85 +69,60 @@
       }
     </style>
   </head>
-  <body>
+  <body style="background-color: white">
     <header>{% include "./header.html" %}</header>
     <font face="Quicksand">
-    <div class="row justify-content-center">
-      <div class="col-8">
-        <h1>Blog Here!</h1>
-        <hr class="mt-0 mb-3" />
-
-        <ul class="list-group">
-        {% if blogs %}
-          {% for blog in blogs %}
-          <li class="list-group-item">
-            {{ blog.blog_user}} said "{{ blog.blog_post }}" at {{ blog.date_published }}"
-          </li>
-          {% endfor %}
-          {% else %}
-        <li class="list-group-item">
-            There are no blogs currently
-          </li>
-          {% endif %}
-        </ul>
+      <div class="row justify-content-center">
+        <div class="col-8">
+          <h1 style="text-align: center">Blog Here!</h1>
+          <hr class="mt-0 mb-3" />
+          <ul class="list-group">
+            {% if blogs %} {% for blog in blogs %}
+            <div class="card-body">
+              <h5 class="card-title">{{ blog.blog_user }} said:</h5>
+              <p class="card-text">"{{blog.blog_post}}</p>
+              <div class="card-footer">
+                <small class="text-muted"
+                  >Last updated on: {{ blog.date_published }}</small
+                >
+              </div>
+            </div>
+            {% endfor %} {% else %}
+            <li class="list-group-item">There are no blogs currently</li>
+            {% endif %}
+          </ul>
+        </div>
       </div>
-    </div>
-    <div class="row justify-content-center">
-      <div class="col-8">
-        <h1>Any Questions?</h1>
+      <div class="container">
         <hr class="mt-0 mb-3" />
-
         <form
           class="form-inline"
           action="{% url 'exercise:submit' %}"
           method="post"
         >
-          {% csrf_token %} {{ form.as_p }}
-          {% if user.is_authenticated %}
-          <div>
-            <input
-                type="text"
-                placeholder="Questions, comments, or concern"
-                name="blog"
-            />
-                </br>
-            <div>
-                <input type="submit" value="Submit" />
-            </div>
-                </br>
-                <span> <a href="{% url 'exercise:landing' %}">Home</a> </span>
-                </br>
-                <span> <a href="{% url 'exercise:logout' %}">Logout</a> </span>
+          {% csrf_token %} {{ form.as_p }} {% if user.is_authenticated %}
+          <textarea
+            class="container"
+            type="text"
+            placeholder="Please enter your questions, comments, and/or concern"
+            name="blog"
+          ></textarea>
+          <div class="d-grid gap-2 col-6 mx-auto">
+            <br />
+            <input class="container" type="button" value="Submit" />
           </div>
           {% else %}
           <div>
-            <p>You need to <a href="{% url 'exercise:login' %}">Login</a> or <a href="{% url 'exercise:register' %}">Register</a>
- to make a post</p>
-            </br>
-            <span> <a href="{% url 'exercise:landing' %}">Home</a> </span>
+            <p>
+              You need to <a href="{% url 'exercise:login' %}">Login</a> or
+              <a href="{% url 'exercise:register' %}">Register</a> to make a
+              post
+            </p>
+            {% endif %}
           </div>
-          {% endif %}
         </form>
-      </div>
-    </div>
-
-    <div>&nbsp;&nbsp;</div>
-    </font>
+      </div></font
+    >
+    <footer>{% include "./footer.html" %}</footer>
   </body>
-
-  <script
-    src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-    integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-    crossorigin="anonymous"
-  ></script>
-  <script
-    src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
-    integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
-    crossorigin="anonymous"
-  ></script>
-  <script
-    src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
-    integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
-    crossorigin="anonymous"
-  ></script>
 </html>

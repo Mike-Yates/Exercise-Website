@@ -30,9 +30,7 @@ sports_list = {
     'Yoga': ['yoga', 0]
 }
 
-total_xp_dict = {
-    'Total XP' : 0
-}
+total_xp = 0
 
 # ----- Views used for when the user has been logged in ------#
 
@@ -56,8 +54,8 @@ def home(request):
             friend_requests = None
 
         context = {'sports': sports_list, 'all_friends': all_friends,
-                   'number_unread_requests': unread_friend_requests_amount, 'friend_requests': friend_requests, 
-                   'total' : total_xp_dict}
+                   'number_unread_requests': unread_friend_requests_amount, 'friend_requests': friend_requests,
+                   'total': total_xp}
         return render(request, 'exercise/home.html', context)
     return HttpResponseRedirect(reverse('exercise:firstlogin'))
 
@@ -67,9 +65,13 @@ def first_login(request):
     '''
     Method to save the data from first time users
     '''
+    print(request.POST)
     if request.method == 'POST':
         user = User.objects.get(pk=User.objects.get(
             username=request.user.get_username()).pk)  # Grabs user based on the id
+        user.first_name = request.POST.get(
+            'firstname')     # Adds to first name
+        user.last_name = request.POST.get('lastname')   # Adds to last name
         user.profile.first_login = False  # Updates the first login
         user.profile.bio = request.POST.get('bio')  # Updates the bio field
         user.sportsxp = SportsXP()
@@ -103,10 +105,9 @@ def exercise_logging(request):
         # Gets all the friends of a user
         all_friends = Friend.objects.friends(request.user)
         # Gets all the exercises of user's friends
-        friend_exercises=Exercise.objects.filter(user__in=all_friends)
+        friend_exercises = Exercise.objects.filter(user__in=all_friends)
 
-
-        return render(request, 'exercise/exercise_logging_form.html', {'form': form, 'exercises': exercise,'friend_exercises':friend_exercises})
+        return render(request, 'exercise/exercise_logging_form.html', {'form': form, 'exercises': exercise, 'friend_exercises': friend_exercises})
 
 
 @login_required(login_url='exercise:login')
@@ -133,7 +134,8 @@ def blog_post(request):
 def read_sportsxp(request):
     xp_update = update_xp(request)
 
-    context = {'sportxplist': xp_update, 'sports': sports_list, 'total': total_xp_dict}
+    context = {'sportxplist': xp_update,
+               'sports': sports_list, 'total': total_xp}
     return HttpResponseRedirect(reverse('exercise:home'))
 
 
@@ -195,8 +197,9 @@ def update_sportsxp(request):
             user = User.objects.get(pk=User.objects.get(
                 username=request.user.get_username()).pk)  # Grabs user based on the id
             for key, value in sports_list.items():
-                user.sportsxp.total_xp = user.sportsxp.total_xp - getattr(user.sportsxp, value[0])
-            
+                user.sportsxp.total_xp = user.sportsxp.total_xp - \
+                    getattr(user.sportsxp, value[0])
+
             user.sportsxp.basketball = 0
             user.sportsxp.cross_training = 0
             user.sportsxp.cardio = 0
@@ -277,7 +280,7 @@ def send_friend_request(request):
 
             context = {'error': 'You are already friends with the user', 'sports': sports_list, 'all_friends': all_friends,
                        'number_unread_requests': unread_friend_requests_amount, 'friend_requests': friend_requests,
-                       'total': total_xp_dict}
+                       'total': total_xp}
             return render(request, 'exercise/home.html', context)
     except:
         update_xp(request)
@@ -294,7 +297,7 @@ def send_friend_request(request):
 
         context = {'error': 'The username entered could not be found, please try again', 'sports': sports_list, 'all_friends': all_friends,
                    'number_unread_requests': unread_friend_requests_amount, 'friend_requests': friend_requests,
-                   'total': total_xp_dict}
+                   'total': total_xp}
         return render(request, 'exercise/home.html', context)
     else:
         Friend.objects.add_friend(
@@ -440,14 +443,15 @@ def logout_user(request):
     Note: This method will logout any user regardless of if they signed in with google or not
     '''
     logout(request)  # Logs out the user
-    return render(request, 'exercise/index.html')  # Redirects the page
+    # Redirects the page
+    return HttpResponseRedirect(reverse('exercise:landing'))
 
 #-----------------Views for progress bar feature-----------------------#
 
 
 def update_xp(request):
     global sports_list
-    global total_xp_dict
+    global total_xp
 
     user = User.objects.get(pk=User.objects.get(
         username=request.user.get_username()).pk)
@@ -455,10 +459,9 @@ def update_xp(request):
     for key, value in sports_list.items():
         value_of_field = getattr(user.sportsxp, value[0])
         sports_list[key][1] = value_of_field
-    
-    for key, value in total_xp_dict.items():
-        value_of_total_xp = getattr(user.sportsxp, 'total_xp')
-        total_xp_dict[key] = value_of_total_xp
+
+    value_of_total_xp = getattr(user.sportsxp, 'total_xp')
+    total_xp = value_of_total_xp
 
 
 def sortxp(request):
