@@ -32,7 +32,7 @@
       }
       .container-left {
         position: relative;
-        width: 80vw;
+        width: 60vw;
       }
       .center {
         text-align: right;
@@ -53,6 +53,10 @@
         color: black;
         font-size: 1.5vh;
       }
+      .dropdown {
+        position: relative;
+        display: inline-block;
+      }
     </style>
   </head>
   <header>
@@ -69,6 +73,28 @@
         </a>
         <div class="container-left">
           <div class="left-bottom">
+            {% if request.user.is_authenticated %}
+            <h1 class="center">
+              <div class="dropdown">
+                <a href="{% url 'exercise:home' %}" class="navbar-brand"
+                  ><p class="title">HOME</p></a
+                >
+              </div>
+              <div class="dropdown">
+                <a href="{% url 'exercise:blog' %}" class="navbar-brand"
+                  ><p class="title">BLOG</p></a
+                >
+              </div>
+              <div class="dropdown">
+                <a href="" class="navbar-brand"><p class="title">SPORTS</p></a>
+              </div>
+              <div class="dropdown">
+                <a href="{% url 'exercise:logout' %}" class="navbar-brand"
+                  ><p class="title">LOGOUT</p></a
+                >
+              </div>
+            </h1>
+            {% else %}
             <h1 class="center">
               <a href="{% url 'exercise:blog' %}" class="navbar-brand"
                 ><p class="title">BLOG</p></a
@@ -80,6 +106,7 @@
                 ><p class="title">SIGN UP</p></a
               >
             </h1>
+            {% endif %}
           </div>
         </div>
       </div>
