@@ -140,6 +140,12 @@ def read_sportsxp(request):
 
 
 @login_required(login_url='exercise:login')
+def sport_redirect(request):
+    context = {}
+    return render(request, 'exercise/instruction.html', context)
+
+
+@login_required(login_url='exercise:login')
 def update_sportsxp(request):
     global sports_list
 

@@ -98,7 +98,11 @@
                 >
               </div>
               <div class="dropdown">
-                <a href="" class="navbar-brand"><p class="title">sports</p></a>
+                <a
+                  href="{% url 'exercise:sportinstruction' %}"
+                  class="navbar-brand"
+                  ><p class="title">sports</p></a
+                >
               </div>
               <div class="dropdown">
                 <a href="{% url 'exercise:logout' %}" class="navbar-brand"
