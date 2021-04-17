@@ -1,173 +1,151 @@
 <!DOCTYPE html>
 <html lang="en">
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
-      integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
-<link
-        rel="stylesheet"
-        href="https://fonts.googleapis.com/css?family=Quicksand"
-/>
-<!-----------This is the original navbar---------
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-  <a class="navbar-brand" href="{% url 'exercise:home' %}">Home</a>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
-  <div class="collapse navbar-collapse" id="navbarNav">
-    <ul class="navbar-nav">
-      <li class="nav-item active">
-        <a class="nav-link" href="{% url 'exercise:sport' %}">Sport<span class="sr-only">(current)</span></a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="{% url 'exercise:cardio' %}">Cardio</a>
-      </li>
-      <li class="nav-item">
-          <a class="nav-link" href="{% url 'exercise:body' %}">Weight-Lifting</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="{% url 'exercise:exerciselogging' %}">Exercise-Logging</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="{% url 'exercise:blog' %}">Blog</a>
-      </li>
-    </ul>
-  </div>
-</nav>
------------End of og navbar------------>
-
-
-<head>
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
+      integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l"
+      crossorigin="anonymous"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css?family=Quicksand"
+    />
     <title>Exercise Logging</title>
     <style>
-        @font-face {
-            font-family: "Quicksand", sans-serif;
-        }
+      @font-face {
+        font-family: "Quicksand", sans-serif;
+      }
 
-        body {
-            font-family: "Quicksand", sans-serif;
-        }
+      body {
+        font-family: "Quicksand", sans-serif;
+      }
 
-        .container-left {
-            position: relative;
-            width: 80vw;
-        }
+      .container-left {
+        position: relative;
+        width: 80vw;
+      }
 
-        .center {
-            text-align: right;
-            vertical-align: middle;
-            color: black;
-        }
+      .center {
+        text-align: right;
+        vertical-align: middle;
+        color: black;
+      }
 
-        .left-bottom {
-            text-align: left;
-            vertical-align: bottom;
-            color: black;
-        }
+      .left-bottom {
+        text-align: left;
+        vertical-align: bottom;
+        color: black;
+      }
 
-        .vertical-center {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
+      .vertical-center {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
 
-        .title {
-            color: black;
-            font-size: 1.5vh;
-        }
+      .title {
+        color: black;
+        font-size: 1.5vh;
+      }
     </style>
-</head>
-<body>
-<header>{% include "./header.html" %}</header>
-<font face="Quicksand">
-    <div class="row justify-content-center">
+  </head>
+  <body>
+    <header>{% include "./header.html" %}</header>
+    <font face="Quicksand">
+      <div class="row justify-content-center">
         <div class="col-8">
-            <div id="user exercise table">
-                <h1>Keep track of your individual exercises here!</h1>
-                <hr class="mt-0 mb-3"/>
-                <div class="table-responsive">
-                    <div style=" height: 300px;overflow: auto;">
-                        <table class="table table-hover table-bordered table-striped mb-3">
-                            {% if exercises %}
-                            <thead>
-                            <tr>
-                                <th scope="col">Exercise</th>
-                                <th scope="col">Sets</th>
-                                <th scope="col">Reps</th>
-                                <th scope="col">Weight</th>
-                                <th scope="col">Date</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            {% for exercise in exercises %}
-                            <tr>
-                                <td>{{ exercise.exercise_name }}</td>
-                                <td>{{ exercise.sets }}</td>
-                                <td>{{ exercise.reps }}</td>
-                                <td>{{ exercise.weight_in_pounds }}</td>
-                                <td>{{ exercise.timestamp }}</td>
-                            </tr>
-                            {% endfor %}
-                            {% else %}
-                            <li class="list-group-item">
-                                There are no exercises currently
-                            </li>
-                            {% endif %}
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
+          <div id="user exercise table">
+            <h1>Keep track of your individual exercises here!</h1>
+            <hr class="mt-0 mb-3" />
+            <div class="table-responsive">
+              <div style="height: 300px; overflow: auto">
+                <table
+                  class="table table-hover table-bordered table-striped mb-3"
+                >
+                  {% if exercises %}
+                  <thead>
+                    <tr>
+                      <th scope="col">Exercise</th>
+                      <th scope="col">Sets</th>
+                      <th scope="col">Reps</th>
+                      <th scope="col">Weight</th>
+                      <th scope="col">Date</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for exercise in exercises %}
+                    <tr>
+                      <td>{{ exercise.exercise_name }}</td>
+                      <td>{{ exercise.sets }}</td>
+                      <td>{{ exercise.reps }}</td>
+                      <td>{{ exercise.weight_in_pounds }}</td>
+                      <td>{{ exercise.timestamp }}</td>
+                    </tr>
+                    {% endfor %} {% else %}
+                    <li class="list-group-item">
+                      There are no exercises currently
+                    </li>
+                    {% endif %}
+                  </tbody>
+                </table>
+              </div>
             </div>
+          </div>
 
-            <form class=form-inline method="post" >
-                {% csrf_token %}
-                {{ form.as_p }}
-                <button type="submit" class="btn btn-secondary btn-sm mt-2 mx-2">Save Exercise</button>
+          <form class="form-inline" method="post">
+            {% csrf_token %} {{ form.as_p }}
+            <button type="submit" class="btn btn-secondary btn-sm mt-2 mx-2">
+              Save Exercise
+            </button>
+          </form>
+          <div id="friend table">
+            <h1>See what your friends have been up to here!</h1>
+            <div class="table-responsive mb-5">
+              <div style="height: 300px; overflow: auto">
+                <table
+                  class="table table-hover table-bordered table-striped mb-3"
+                >
+                  {% if friend_exercises %}
+                  <thead>
+                    <tr>
+                      <th scope="col">Friend</th>
+                      <th scope="col">Exercise</th>
+                      <th scope="col">Sets</th>
+                      <th scope="col">Reps</th>
+                      <th scope="col">Weight</th>
+                      <th scope="col">Date</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for exercise in friend_exercises %}
 
-            </form>
-            <div id="friend table">
-                <h1>See what your friends have been up to here!</h1>
-                <div class="table-responsive mb-5" >
-                    <div style=" height: 300px;overflow: auto;">
-                        <table class="table table-hover table-bordered table-striped mb-3">
-                            {% if friend_exercises %}
-                            <thead>
-                            <tr>
-                                <th scope="col">Friend</th>
-                                <th scope="col">Exercise</th>
-                                <th scope="col">Sets</th>
-                                <th scope="col">Reps</th>
-                                <th scope="col">Weight</th>
-                                <th scope="col">Date</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            {% for exercise in friend_exercises %}
-
-                            <tr>
-                                <td>{{ exercise.user.username }}</td>
-                                <td>{{ exercise.exercise_name }}</td>
-                                <td>{{ exercise.sets }}</td>
-                                <td>{{ exercise.reps }}</td>
-                                <td>{{ exercise.weight_in_pounds }}</td>
-                                <td>{{ exercise.timestamp }}</td>
-                            </tr>
-                            {% endfor %}
-
-                            {% else %}
-                            <li class="list-group-item">
-                                You have no current friends or your friends haven't been exercising!
-                            </li>
-                            {% endif %}
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
+                    <tr>
+                      <td>{{ exercise.user.username }}</td>
+                      <td>{{ exercise.exercise_name }}</td>
+                      <td>{{ exercise.sets }}</td>
+                      <td>{{ exercise.reps }}</td>
+                      <td>{{ exercise.weight_in_pounds }}</td>
+                      <td>{{ exercise.timestamp }}</td>
+                    </tr>
+                    {% endfor %} {% else %}
+                    <li class="list-group-item">
+                      You have no current friends or your friends haven't been
+                      exercising!
+                    </li>
+                    {% endif %}
+                  </tbody>
+                </table>
+              </div>
             </div>
-
-
+          </div>
         </div>
-    </div>
-
-</body>
+      </div></font
+    >
+  </body>
 </html>
