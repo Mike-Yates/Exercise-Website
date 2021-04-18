@@ -247,7 +247,7 @@ def bmi_display(request):
                 time_of_bmi=now)  # Makes an instance of the blog
 
         except (KeyError):  # Error handling
-            context = {'Bmis': Bmi, 'error': "An error has occurred"}
+            context = {'Bmis': bmi, 'error': "An error has occurred"}
             return render(request, 'exercise/bmi.html', context)
         else:
             bmi.save()  # Saves the blog to the database

@@ -8,7 +8,6 @@
           {% for bmi in bmis %}
           <li class="list-group-item">
               As of {{ bmi.time_of_bmi }} your bmi was {{ bmi.user_bmi }}
-              your height is {{ bmi.height_feet }}
           </li>
           {% endfor %}
           {% else %}
@@ -25,6 +24,93 @@
 
 </form>
 <body>
+
+
+
+
+
+
+
+
+
+
+ <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+
+
+
+<script>
+window.onload = function () {
+
+var limit = 20;
+var y = 70;
+var data = [];
+var dataSeries = { type: "line" };
+var dataPoints = [];
+
+var previous = 25
+
+for (var i = 0; i < limit; i += 1) {
+	y = Math.round(Math.random() * 10 - 5)%2 + 25;
+	dataPoints.push({
+		x: i,
+		y: y
+	});
+}
+
+
+dataSeries.dataPoints = dataPoints;
+data.push(dataSeries);
+
+//Better to construct options first and then pass it as a parameter
+var options = {
+	zoomEnabled: true,
+	animationEnabled: true,
+	title: {
+		text: "Your BMI Progression"
+	},
+	axisY: {
+		lineThickness: 1
+	},
+	data: data  // random data
+};
+
+var chart = new CanvasJS.Chart("chartContainer", options);
+
+chart.render();
+
+
+
+}
+</script>
+<style>
+	#timeToRender {
+		position:absolute;
+		top: 10px;
+		font-size: 20px;
+		font-weight: bold;
+		background-color: #d85757;
+		padding: 0px 4px;
+		color: #ffffff;
+	}
+</style>
+</head>
+<body>
+<div id="chartContainer" style="height: 300px; width: 100%;"></div>
+<span id="timeToRender"></span>
+<script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+
+</body>
+
+
+
+
+
+
+
+
+
+
 
 </body>
 </html>
