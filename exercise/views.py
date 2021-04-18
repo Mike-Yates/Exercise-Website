@@ -48,8 +48,8 @@ def home(request):
         my_user_id = User.objects.get(
             username=request.user.get_username()).pk
         try:
-            friend_requests = FriendshipRequest.objects.filter(
-                to_user=my_user_id)
+            friend_requests = Friend.objects.unrejected_requests(
+                user=request.user)
         except:
             friend_requests = None
 
@@ -107,7 +107,9 @@ def exercise_logging(request):
         # Gets all the exercises of user's friends
         friend_exercises = Exercise.objects.filter(user__in=all_friends)
 
-        return render(request, 'exercise/exercise_logging_form.html', {'form': form, 'exercises': exercise, 'friend_exercises': friend_exercises})
+        context = {'form': form, 'exercises': exercise,
+                   'friend_exercises': friend_exercises}
+        return render(request, 'exercise/exercise_logging_form.html', context)
 
 
 @login_required(login_url='exercise:login')
@@ -143,6 +145,24 @@ def read_sportsxp(request):
 def sport_redirect(request):
     context = {}
     return render(request, 'exercise/instruction.html', context)
+
+
+@login_required(login_url='exercise:login')
+def friendship(request):
+    all_friends = Friend.objects.friends(request.user)
+    unread_friend_requests_amount = Friend.objects.unrejected_request_count(
+        user=request.user)
+    my_user_id = User.objects.get(
+        username=request.user.get_username()).pk
+    try:
+        friend_requests = Friend.objects.unrejected_requests(user=request.user)
+    except:
+        friend_requests = None
+
+    context = {'sports': sports_list, 'all_friends': all_friends,
+               'number_unread_requests': unread_friend_requests_amount, 'friend_requests': friend_requests,
+               'total': total_xp}
+    return render(request, 'exercise/friendship.html', context)
 
 
 @login_required(login_url='exercise:login')
@@ -267,6 +287,55 @@ def bmi_display(request):
 
 @login_required(login_url='exercise:login')
 def send_friend_request(request):
+    sent_requests = Friend.objects.sent_requests(user=request.user)
+    rejected_list = Friend.objects.rejected_requests(user=request.user)
+    friend_requested = False
+    # friend_rejected = False
+
+    for item in sent_requests:
+        if (str(request.POST.get('friendusername')) == str(item.to_user)):
+            friend_requested = True
+
+    # for item in rejected_list:
+    #     if (str(request.POST.get('friendusername')) == str(item.from_user)):
+    #         friend_rejected = True
+
+    if (friend_requested):
+        update_xp(request)
+        all_friends = Friend.objects.friends(request.user)
+        unread_friend_requests_amount = Friend.objects.unrejected_request_count(
+            user=request.user)
+        my_user_id = User.objects.get(
+            username=request.user.get_username()).pk
+        try:
+            friend_requests = FriendshipRequest.objects.get(
+                to_user=my_user_id)
+        except:
+            friend_requests = None
+
+        context = {'error': 'You already requested friendship with the user', 'sports': sports_list, 'all_friends': all_friends,
+                   'number_unread_requests': unread_friend_requests_amount,
+                   'total': total_xp}
+        return render(request, 'exercise/friendship.html', context)
+
+    if (str(request.user.get_username()) == str(request.POST.get('friendusername'))):
+        update_xp(request)
+        all_friends = Friend.objects.friends(request.user)
+        unread_friend_requests_amount = Friend.objects.unrejected_request_count(
+            user=request.user)
+        my_user_id = User.objects.get(
+            username=request.user.get_username()).pk
+        try:
+            friend_requests = FriendshipRequest.objects.get(
+                to_user=my_user_id)
+        except:
+            friend_requests = None
+
+        context = {'error': 'You cannot be friends with yourself', 'sports': sports_list, 'all_friends': all_friends,
+                   'number_unread_requests': unread_friend_requests_amount,
+                   'total': total_xp}
+        return render(request, 'exercise/friendship.html', context)
+
     try:
         action_user_name_val = User.objects.get(pk=User.objects.get(
             username=request.POST.get('friendusername')).pk)
@@ -287,7 +356,7 @@ def send_friend_request(request):
             context = {'error': 'You are already friends with the user', 'sports': sports_list, 'all_friends': all_friends,
                        'number_unread_requests': unread_friend_requests_amount, 'friend_requests': friend_requests,
                        'total': total_xp}
-            return render(request, 'exercise/home.html', context)
+            return render(request, 'exercise/friendship.html', context)
     except:
         update_xp(request)
         all_friends = Friend.objects.friends(request.user)
@@ -302,23 +371,26 @@ def send_friend_request(request):
             friend_requests = None
 
         context = {'error': 'The username entered could not be found, please try again', 'sports': sports_list, 'all_friends': all_friends,
-                   'number_unread_requests': unread_friend_requests_amount, 'friend_requests': friend_requests,
+                   'number_unread_requests': unread_friend_requests_amount,
                    'total': total_xp}
-        return render(request, 'exercise/home.html', context)
+        return render(request, 'exercise/friendship.html', context)
     else:
         Friend.objects.add_friend(
             request.user,   # The sender
             action_user_name_val,   # The recipient
-            message=request.POST.get('sendfriendrequest'))
+            message=request.POST.get('friendmessage'))
 
-    return HttpResponseRedirect(reverse('exercise:home'))
+    all_friends = Friend.objects.friends(request.user)
+    unread_friend_requests_amount = Friend.objects.unrejected_request_count(
+        user=request.user)
+    context = {'success_sent': 'Request Sent to user', 'sports': sports_list, 'all_friends': all_friends,
+               'number_unread_requests': unread_friend_requests_amount,
+               'total': total_xp}
+    return render(request, 'exercise/friendship.html', context)
 
 
 @login_required(login_url='exercise:login')
 def accept_deny_block_request(request, action_user_name):
-    print(request.POST)
-    print("Passed in user:", action_user_name)
-
     if request.method == 'POST':
         decision = request.POST.get('Decision')
         action_user_name_val = User.objects.get(pk=User.objects.get(
@@ -336,11 +408,13 @@ def accept_deny_block_request(request, action_user_name):
             friend_request = FriendshipRequest.objects.get(
                 from_user=action_user_id, to_user=my_user_id)
             friend_request.reject()
+        elif decision == "Unfriend":
+            Friend.objects.remove_friend(request.user, action_user_name_val)
         elif decision == "Block":
             Block.objects.add_block(request.user, action_user_name_val)
         elif decision == "Unblock":
             Block.objects.remove_block(request.user, action_user_name_val)
-    return HttpResponseRedirect(reverse('exercise:home'))
+    return HttpResponseRedirect(reverse('exercise:friendrequest'))
 
 
 @login_required(login_url='exercise:login')
