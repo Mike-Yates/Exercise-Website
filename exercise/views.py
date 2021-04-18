@@ -13,6 +13,9 @@ from .models import Profile, Blog, SportsXP
 from .forms import CreateUserForm, ExerciseForm, BmiForm
 from .models import Profile, Blog, Exercise, Bmi
 from friendship.models import Friend, FriendshipRequest, Block
+import requests
+from isodate import parse_duration
+from django.conf import settings
 
 #-----stuff to make dynamic progress bar work----------------#
 sports_list = {
@@ -219,7 +222,7 @@ def update_sportsxp(request):
                     user.sportsxp.yoga = 0
                     user.sportsxp.save(
                         update_fields=[item_id, 'total_xp'])
-        elif (request.POST.get('resetall') == "ResetAll"):
+        elif (request.POST.get('resetall') == "Reset All"):
             user = User.objects.get(pk=User.objects.get(
                 username=request.user.get_username()).pk)  # Grabs user based on the id
             for key, value in sports_list.items():
@@ -415,6 +418,60 @@ def accept_deny_block_request(request, action_user_name):
         elif decision == "Unblock":
             Block.objects.remove_block(request.user, action_user_name_val)
     return HttpResponseRedirect(reverse('exercise:friendrequest'))
+
+
+@login_required(login_url='exercise:login')
+def search_youtube(request):
+    videos = []
+
+    if request.method == 'POST':
+        search_url = 'https://www.googleapis.com/youtube/v3/search'
+        video_url = 'https://www.googleapis.com/youtube/v3/videos'
+
+        search_params = {
+            'part': 'snippet',
+            'q': request.POST['search'],
+            'key': settings.YOUTUBE_DATA_API_KEY,
+            'maxResults': 9,
+            'type': 'video'
+        }
+
+        r = requests.get(search_url, params=search_params)
+        results = r.json()['items']
+
+        video_ids = []
+        for result in results:
+            video_ids.append(result['id']['videoId'])
+
+        if request.POST['submit'] == 'lucky':
+            return redirect(f'https://www.youtube.com/watch?v={ video_ids[0] }')
+
+        video_params = {
+            'key': settings.YOUTUBE_DATA_API_KEY,
+            'part': 'snippet,contentDetails',
+            'id': ','.join(video_ids),
+            'maxResults': 9
+        }
+
+        r = requests.get(video_url, params=video_params)
+        results = r.json()['items']
+
+        for result in results:
+            video_data = {
+                'title': result['snippet']['title'],
+                'id': result['id'],
+                'url': f'https://www.youtube.com/watch?v={ result["id"] }',
+                'duration': int(parse_duration(result['contentDetails']['duration']).total_seconds() // 60),
+                'thumbnail': result['snippet']['thumbnails']['high']['url']
+            }
+
+            videos.append(video_data)
+
+    context = {
+        'videos': videos
+    }
+
+    return render(request, 'exercise/youtube.html', context)
 
 
 @login_required(login_url='exercise:login')

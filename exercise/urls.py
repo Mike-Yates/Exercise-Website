@@ -17,6 +17,7 @@ urlpatterns = [
     path('sports/getsportsxp/', views.read_sportsxp, name='getsportsxp'),
     path('sports/updatesportsxp/', views.update_sportsxp, name='updatesportsxp'),
     path('sports/sortxp/', views.sortxp, name='sortxp'),
+    path('search/youtube/', views.search_youtube, name="youtube"),
     path('instructions/', views.sport_redirect, name="sportinstruction"),
     path('instructions/cardio/', views.cardioView, name="cardio"),
     path('instructions/bodybuilding/', views.bodyView, name="body"),
