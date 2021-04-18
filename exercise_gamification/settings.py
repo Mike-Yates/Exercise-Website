@@ -150,6 +150,8 @@ AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
     'allauth.account.auth_backends.AuthenticationBackend',
 )
+
+YOUTUBE_DATA_API_KEY = os.environ.get('YOUTUBE_API_KEY')
 SOCIALACCOUNT_PROVIDERS = {
     'google': {
         'SCOPE': [

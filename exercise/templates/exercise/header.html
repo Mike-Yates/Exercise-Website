@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    {% load static %} {% load socialaccount %}
+    {% load static %} {% load friendshiptags %} {% load socialaccount %}
 
     <!-- Required meta tags -->
     <meta charset="utf-8" />
@@ -98,7 +98,29 @@
                 >
               </div>
               <div class="dropdown">
-                <a href="" class="navbar-brand"><p class="title">sports</p></a>
+                <a
+                  href="{% url 'exercise:sportinstruction' %}"
+                  class="navbar-brand"
+                  ><p class="title">sports</p></a
+                >
+              </div>
+              {% if friend_requests %}
+              <div class="dropdown">
+                <a href="{% url 'exercise:friendship' %}" class="navbar-brand"
+                  ><p class="title">friends-{{number_unread_requests}}</p></a
+                >
+              </div>
+              {% else %}
+              <div class="dropdown">
+                <a href="{% url 'exercise:friendship' %}" class="navbar-brand"
+                  ><p class="title">friends</p></a
+                >
+              </div>
+              {% endif %}
+              <div class="dropdown">
+                <a href="{% url 'exercise:youtube' %}" class="navbar-brand"
+                  ><p class="title">youtube</p></a
+                >
               </div>
               <div class="dropdown">
                 <a href="{% url 'exercise:logout' %}" class="navbar-brand"
