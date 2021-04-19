@@ -248,6 +248,7 @@ def bmi_display(request):
 
         except (KeyError):  # Error handling
             context = {'Bmis': bmi, 'error': "An error has occurred"}
+
             return render(request, 'exercise/bmi.html', context)
         else:
             bmi.save()  # Saves the blog to the database
@@ -255,7 +256,12 @@ def bmi_display(request):
 
     form = BmiForm()
     bmi = Bmi.objects.filter(user=request.user)
-    context = {'form': form, 'bmis': bmi}
+    bmi_nums = []
+    for x in bmi:
+        bmi_nums.append(x.user_bmi)
+
+    context = {'form': form, 'bmis': bmi, "bmi_nums": bmi_nums}
+
     return render(request, 'exercise/bmi.html', context)
 
 
