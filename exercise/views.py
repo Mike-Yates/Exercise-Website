@@ -172,7 +172,8 @@ def friendship(request):
     my_user_id = User.objects.get(
         username=request.user.get_username()).pk
     try:
-        friend_requests = Friend.objects.filter().exlude(user__in=all_friends)
+        friend_requests = Friend.objects.unrejected_requests(
+            user=request.user)
     except:
         friend_requests = None
 
@@ -296,6 +297,7 @@ def bmi_display(request):
                 time_of_bmi=now)  # Makes an instance of the blog
 
         except (KeyError):  # Error handling
+            form = BmiForm()
             context = {'form': form, 'bmis': Bmi,
                        'error': "An error has occurred"}
             return render(request, 'exercise/bmi.html', context)
