@@ -80,7 +80,7 @@
             {% if blogs %} {% for blog in blogs %}
             <div class="card-body">
               <h5 class="card-title">{{ blog.blog_user }} said:</h5>
-              <p class="card-text">"{{blog.blog_post}}</p>
+              <p class="card-text">"{{blog.blog_post}}"</p>
               <div class="card-footer">
                 <small class="text-muted"
                   >Last updated on: {{ blog.date_published }}</small
