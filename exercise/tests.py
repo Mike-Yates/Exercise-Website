@@ -90,6 +90,8 @@ class RandomTestCase(TestCase):
             user=user, exercise_name=exercise_name, reps=reps, sets=sets)
         self.client.force_login(
             User.objects.get_or_create(username='Jerry')[0])
+        user.profile.first_login = False
+        user.profile.save()
         response = self.client.get(reverse('exercise:exerciselogging'))
         self.assertContains(response, exercise_name)
         self.assertContains(response, sets)
@@ -191,6 +193,8 @@ class RandomTestCase(TestCase):
     def test_bmi_shows_proper_bmi(self):
         user = User.objects.create_user(
             'Joe', 'lennon@thebeatles.com', 'johnpassword')
+        user.profile.first_login = False
+        user.profile.save()
         x = Bmi.objects.create(
             user=user, height_feet=6, height_inches=0, weight_pounds=200, user_bmi=27)
         self.client.force_login(User.objects.get_or_create(username='Joe')[0])
@@ -209,18 +213,23 @@ class RandomTestCase(TestCase):
         self.assertEqual(num_after_adding - 1, num_before_adding)
         user.delete()
 
-    # def test_bmi_display_user_specific(self):
-    #     user1 = User.objects.create_user(
-    #         'test1', 'lennon@thebeatles.com', 'johnpassword')
-    #     user2 = User.objects.create_user(
-    #         'test2', 'lennon@thebeatles.com', 'johnpassword')
-    #     x = Bmi.objects.create(
-    #         user=user1, height_feet=6, height_inches=0, weight_pounds=200, user_bmi=27)
-    #     self.client.force_login(User.objects.get_or_create(username='test2')[0])
-    #     response = self.client.get(reverse('exercise:bmidisplay'))
-    #     self.assertNotContains(response, 27)
-    #     user1.delete()
-    #     user2.delete()
+    def test_bmi_display_user_specific(self):
+        user1 = User.objects.create_user(
+            'test1', 'lennon@thebeatles.com', 'johnpassword')
+        user2 = User.objects.create_user(
+            'test2', 'lennon@thebeatles.com', 'johnpassword')
+        user1.profile.first_login = False
+        user2.profile.first_login = False
+        user1.profile.save()
+        user2.profile.save()
+        x = Bmi.objects.create(
+            user=user1, height_feet=6, height_inches=0, weight_pounds=200, user_bmi=27)
+        self.client.force_login(
+            User.objects.get_or_create(username='test2')[0])
+        bmiobject = Bmi.objects.filter(bmi_user='test2').count()
+        self.assertEqual(bmiobject, 0)
+        user1.delete()
+        user2.delete()
 
     def test_no_timestamp_dependence_SportXP(self):
         user = User.objects.create_user(

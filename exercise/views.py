@@ -7,15 +7,15 @@ from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout, get_user_model
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
-import datetime
 from .forms import CreateUserForm
 from .models import Profile, Blog, SportsXP
 from .forms import CreateUserForm, ExerciseForm, BmiForm
 from .models import Profile, Blog, Exercise, Bmi
 from friendship.models import Friend, FriendshipRequest, Block
-import requests
 from isodate import parse_duration
 from django.conf import settings
+import datetime
+import requests
 
 #-----stuff to make dynamic progress bar work----------------#
 sports_list = {
@@ -43,24 +43,25 @@ def home(request):
     '''
     Method to render the homepage (dashboard) of the user
     '''
-    if request.user.profile.first_login == False:
-        update_xp(request)
-        all_friends = Friend.objects.friends(request.user)
-        unread_friend_requests_amount = Friend.objects.unrejected_request_count(
-            user=request.user)
-        my_user_id = User.objects.get(
-            username=request.user.get_username()).pk
-        try:
-            friend_requests = Friend.objects.unrejected_requests(
-                user=request.user)
-        except:
-            friend_requests = None
+    if request.user.profile.first_login:
+        return HttpResponseRedirect(reverse('exercise:firstlogin'))
 
-        context = {'sports': sports_list, 'all_friends': all_friends,
-                   'number_unread_requests': unread_friend_requests_amount, 'friend_requests': friend_requests,
-                   'total': total_xp}
-        return render(request, 'exercise/home.html', context)
-    return HttpResponseRedirect(reverse('exercise:firstlogin'))
+    update_xp(request)
+    all_friends = Friend.objects.friends(request.user)
+    unread_friend_requests_amount = Friend.objects.unrejected_request_count(
+        user=request.user)
+    my_user_id = User.objects.get(
+        username=request.user.get_username()).pk
+    try:
+        friend_requests = Friend.objects.unrejected_requests(
+            user=request.user)
+    except:
+        friend_requests = None
+
+    context = {'sports': sports_list, 'all_friends': all_friends,
+               'number_unread_requests': unread_friend_requests_amount, 'friend_requests': friend_requests,
+               'total': total_xp}
+    return render(request, 'exercise/home.html', context)
 
 
 @login_required(login_url='exercise:login')
@@ -91,6 +92,9 @@ def exercise_logging(request):
     '''
     Method to save an exercise and view previous exercises
     '''
+    if request.user.profile.first_login:
+        return HttpResponseRedirect(reverse('exercise:firstlogin'))
+
     if request.method == 'POST':
         user = User.objects.get(pk=User.objects.get(
             username=request.user.get_username()).pk)
@@ -120,6 +124,8 @@ def blog_post(request):
     '''
     Method to save items from a blog post
     '''
+    if request.user.profile.first_login:
+        return HttpResponseRedirect(reverse('exercise:firstlogin'))
     try:
         now = datetime.datetime.now()
         blog = Blog(blog_post=request.POST['blog'],
@@ -137,6 +143,9 @@ def blog_post(request):
 
 @login_required(login_url='exercise:login')
 def read_sportsxp(request):
+    if request.user.profile.first_login:
+        return HttpResponseRedirect(reverse('exercise:firstlogin'))
+
     xp_update = update_xp(request)
 
     context = {'sportxplist': xp_update,
@@ -146,19 +155,24 @@ def read_sportsxp(request):
 
 @login_required(login_url='exercise:login')
 def sport_redirect(request):
+    if request.user.profile.first_login:
+        return HttpResponseRedirect(reverse('exercise:firstlogin'))
     context = {}
     return render(request, 'exercise/instruction.html', context)
 
 
 @login_required(login_url='exercise:login')
 def friendship(request):
+    if request.user.profile.first_login:
+        return HttpResponseRedirect(reverse('exercise:firstlogin'))
+
     all_friends = Friend.objects.friends(request.user)
     unread_friend_requests_amount = Friend.objects.unrejected_request_count(
         user=request.user)
     my_user_id = User.objects.get(
         username=request.user.get_username()).pk
     try:
-        friend_requests = Friend.objects.unrejected_requests(user=request.user)
+        friend_requests = Friend.objects.filter().exlude(user__in=all_friends)
     except:
         friend_requests = None
 
@@ -251,7 +265,13 @@ def bmi_display(request):
     '''
     Method to save items from a blog post
     '''
+    if request.user.profile.first_login:
+        return HttpResponseRedirect(reverse('exercise:firstlogin'))
+
     if request.method == 'POST':
+        if int(request.POST.get('height_feet')) == 0 or int(request.POST.get('height_inches')) == 0:
+            return HttpResponseRedirect(reverse('exercise:bmidisplay'))
+
         try:
             now = datetime.datetime.now()
             height_feet = int(request.POST.get('height_feet'))
@@ -276,7 +296,8 @@ def bmi_display(request):
                 time_of_bmi=now)  # Makes an instance of the blog
 
         except (KeyError):  # Error handling
-            context = {'Bmis': Bmi, 'error': "An error has occurred"}
+            context = {'form': form, 'bmis': Bmi,
+                       'error': "An error has occurred"}
             return render(request, 'exercise/bmi.html', context)
         else:
             bmi.save()  # Saves the blog to the database
@@ -291,7 +312,7 @@ def bmi_display(request):
 @login_required(login_url='exercise:login')
 def send_friend_request(request):
     sent_requests = Friend.objects.sent_requests(user=request.user)
-    rejected_list = Friend.objects.rejected_requests(user=request.user)
+    # rejected_list = Friend.objects.rejected_requests(user=request.user)
     friend_requested = False
     # friend_rejected = False
 
@@ -422,6 +443,9 @@ def accept_deny_block_request(request, action_user_name):
 
 @login_required(login_url='exercise:login')
 def search_youtube(request):
+    if request.user.profile.first_login:
+        return HttpResponseRedirect(reverse('exercise:firstlogin'))
+
     videos = []
 
     if request.method == 'POST':
@@ -476,18 +500,27 @@ def search_youtube(request):
 
 @login_required(login_url='exercise:login')
 def cardioView(request):
+    if request.user.profile.first_login:
+        return HttpResponseRedirect(reverse('exercise:firstlogin'))
+
     context = {}
     return render(request, 'exercise/cardio.html', context)
 
 
 @login_required(login_url='exercise:login')
 def bodyView(request):
+    if request.user.profile.first_login:
+        return HttpResponseRedirect(reverse('exercise:firstlogin'))
+
     context = {}
     return render(request, 'exercise/bodybuilding.html', context)
 
 
 @login_required(login_url='exercise:login')
 def sportView(request):
+    if request.user.profile.first_login:
+        return HttpResponseRedirect(reverse('exercise:firstlogin'))
+
     context = {}
     return render(request, 'exercise/sport.html', context)
 

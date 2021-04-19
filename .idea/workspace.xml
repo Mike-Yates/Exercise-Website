@@ -3,6 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="2b5fd148-c511-4d43-8a1f-aca7d88ed49c" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/exercise/templates/exercise/blog.html" beforeDir="false" afterPath="$PROJECT_DIR$/exercise/templates/exercise/blog.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/exercise/templates/exercise/bodybuilding.html" beforeDir="false" afterPath="$PROJECT_DIR$/exercise/templates/exercise/bodybuilding.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/exercise/templates/exercise/cardio.html" beforeDir="false" afterPath="$PROJECT_DIR$/exercise/templates/exercise/cardio.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/exercise/templates/exercise/sport.html" beforeDir="false" afterPath="$PROJECT_DIR$/exercise/templates/exercise/sport.html" afterDir="false" />
@@ -145,7 +146,7 @@
       </list>
     </recent_temporary>
   </component>
-  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="false" />
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="SvnConfiguration">
     <configuration />
   </component>
