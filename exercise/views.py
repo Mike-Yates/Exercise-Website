@@ -7,15 +7,15 @@ from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout, get_user_model
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
-import datetime
 from .forms import CreateUserForm
 from .models import Profile, Blog, SportsXP
 from .forms import CreateUserForm, ExerciseForm, BmiForm
 from .models import Profile, Blog, Exercise, Bmi
 from friendship.models import Friend, FriendshipRequest, Block
-import requests
 from isodate import parse_duration
 from django.conf import settings
+import datetime
+import requests
 
 #-----stuff to make dynamic progress bar work----------------#
 sports_list = {
@@ -59,8 +59,8 @@ def home(request):
         friend_requests = None
 
     context = {'sports': sports_list, 'all_friends': all_friends,
-                'number_unread_requests': unread_friend_requests_amount, 'friend_requests': friend_requests,
-                'total': total_xp}
+               'number_unread_requests': unread_friend_requests_amount, 'friend_requests': friend_requests,
+               'total': total_xp}
     return render(request, 'exercise/home.html', context)
 
 
@@ -94,17 +94,17 @@ def exercise_logging(request):
     '''
     if request.user.profile.first_login:
         return HttpResponseRedirect(reverse('exercise:firstlogin'))
-    
-    if request.method == 'POST':
-            user = User.objects.get(pk=User.objects.get(
-                username=request.user.get_username()).pk)
-            form = ExerciseForm(request.POST)
 
-            if form.is_valid():
-                form.instance.user = user
-                form.save()
-                # redirect to itself
-                return HttpResponseRedirect(reverse('exercise:exerciselogging'))
+    if request.method == 'POST':
+        user = User.objects.get(pk=User.objects.get(
+            username=request.user.get_username()).pk)
+        form = ExerciseForm(request.POST)
+
+        if form.is_valid():
+            form.instance.user = user
+            form.save()
+            # redirect to itself
+            return HttpResponseRedirect(reverse('exercise:exerciselogging'))
     else:
         form = ExerciseForm()
         # Gets all the logged exercises of a user
@@ -115,9 +115,8 @@ def exercise_logging(request):
         friend_exercises = Exercise.objects.filter(user__in=all_friends)
 
         context = {'form': form, 'exercises': exercise,
-                'friend_exercises': friend_exercises}
+                   'friend_exercises': friend_exercises}
         return render(request, 'exercise/exercise_logging_form.html', context)
-
 
 
 @login_required(login_url='exercise:login')
@@ -150,7 +149,7 @@ def read_sportsxp(request):
     xp_update = update_xp(request)
 
     context = {'sportxplist': xp_update,
-            'sports': sports_list, 'total': total_xp}
+               'sports': sports_list, 'total': total_xp}
     return HttpResponseRedirect(reverse('exercise:home'))
 
 
@@ -178,10 +177,9 @@ def friendship(request):
         friend_requests = None
 
     context = {'sports': sports_list, 'all_friends': all_friends,
-            'number_unread_requests': unread_friend_requests_amount, 'friend_requests': friend_requests,
-            'total': total_xp}
+               'number_unread_requests': unread_friend_requests_amount, 'friend_requests': friend_requests,
+               'total': total_xp}
     return render(request, 'exercise/friendship.html', context)
-
 
 
 @login_required(login_url='exercise:login')
@@ -274,7 +272,6 @@ def bmi_display(request):
         if int(request.POST.get('height_feet')) == 0 or int(request.POST.get('height_inches')) == 0:
             return HttpResponseRedirect(reverse('exercise:bmidisplay'))
 
-
         try:
             now = datetime.datetime.now()
             height_feet = int(request.POST.get('height_feet'))
@@ -299,7 +296,8 @@ def bmi_display(request):
                 time_of_bmi=now)  # Makes an instance of the blog
 
         except (KeyError):  # Error handling
-            context = {'form': form, 'bmis': Bmi, 'error': "An error has occurred"}
+            context = {'form': form, 'bmis': Bmi,
+                       'error': "An error has occurred"}
             return render(request, 'exercise/bmi.html', context)
         else:
             bmi.save()  # Saves the blog to the database
@@ -314,7 +312,7 @@ def bmi_display(request):
 @login_required(login_url='exercise:login')
 def send_friend_request(request):
     sent_requests = Friend.objects.sent_requests(user=request.user)
-    rejected_list = Friend.objects.rejected_requests(user=request.user)
+    # rejected_list = Friend.objects.rejected_requests(user=request.user)
     friend_requested = False
     # friend_rejected = False
 
