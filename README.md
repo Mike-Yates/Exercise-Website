@@ -34,6 +34,7 @@
             PERSON='...'
             PASSWORD='...'
             HOST='...'
+            YOUTUBE_API_KEY='...'
             DEBUG=<True or False>
 
        3. Make sure to include the same information in your production server
@@ -55,6 +56,7 @@
     10. https://www.youtube.com/watch?v=tUqUdu0Sjyc
     11. https://github.com/revsys/django-friendship
     12. https://pypi.org/project/django-friendship/
+    13. https://www.youtube.com/watch?v=lc2KvFbbfAQ
     
 ### Contributions:
     If you are willing to contribute to this projects, please fork the repo and make a pull request once you are done. We will take a look and see what we can do with it.
