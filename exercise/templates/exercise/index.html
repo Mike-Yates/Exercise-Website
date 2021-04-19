@@ -1,17 +1,128 @@
-<!-- Test to check if the google authentication is working properly -->
-{% load socialaccount %}
-<html>
+<!DOCTYPE html>
+<html lang="en">
   <head>
-    <title>Google Registration</title>
+    {% load socialaccount %}
+
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Homepage</title>
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+      integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+      crossorigin="anonymous"
+    />
+    <link
+      rel="stylesheet"
+      href="https://use.fontawesome.com/releases/v5.6.1/css/all.css"
+      integrity="sha384-gfdkjb5BdAXd+lj+gudLWI+BXq4IuLW5IT+brZEZsLFm++aCMlF1V92rMkPaX4PP"
+      crossorigin="anonymous"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css?family=Arbutus+Slab"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css?family=Quicksand"
+    />
+    <link
+      href="https://fonts.googleapis.com/css?family=Lobster"
+      rel="stylesheet"
+      type="text/css"
+    />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+    <style>
+      @font-face {
+        font-family: "Quicksand", sans-serif;
+      }
+      @font-face {
+        font-family: "ArbutusSlab", sans-serif;
+      }
+      #container {
+        width: 100vw;
+        height: 96vh;
+        text-align: center;
+        overflow: hidden;
+      }
+      #videobcg {
+        width: inherit;
+        height: inherit;
+        -o-filter: blur(17px);
+        filter: blur(13px);
+        object-fit: cover;
+        transform: scale(1.04);
+      }
+      #video_overlays {
+        position: absolute;
+        width: 100vw;
+        height: 90vh;
+        z-index: 2;
+      }
+      #main_title {
+        position: relative;
+        float: left;
+        top: 30vh;
+        z-index: 3;
+      }
+      #main_text {
+        position: absolute;
+        z-index: 2;
+        height: 20vh;
+        width: 100vw;
+        mix-blend-mode: screen;
+      }
+      h1 {
+          position: relative;
+          margin-top: 0;
+          font-family: 'Lobster', helvetica, arial;
+      }
+      h1 p {
+          text-decoration: none;
+          color: black;
+          font-size: 10vh;
+          position: relative;
+          -webkit-mask-image: -webkit-gradient(linear, left top, left bottom, from(rgba(0,0,0,1)), color-stop(50%, rgba(0,0,0,.5)), to(rgba(0,0,0,1)));
+      }
+      }
+    </style>
   </head>
-  <body>
-    <h1>Google Login</h1>
-    <!-- Checks for authentication-->
-    {% if user.is_authenticated %}
-    <p>Welcome, {{ user.username }} !</p>
-    {% else %}
-    <!-- Asks for authentication-->
-    <a href="{% provider_login_url 'google' %}">Test Login with Google</a>
-    {% endif %}
+  <body style="background-color: white">
+    <div id="container">
+      <header>{% include "./header.html" %}</header>
+      <div id="video_overlays">
+        <div id="main_title">
+          <font face="Lobster">
+            <div id="main_text">
+              <h1>
+                <p>
+                  Putting the fun back in fitness.
+                  <br />
+                  Anytime...Anywhere...
+                </p>
+              </h1>
+            </div>
+          </font>
+        </div>
+      </div>
+      <video
+        id="videobcg"
+        preload="auto"
+        autoplay="true"
+        loop="loop"
+        muted="muted"
+        volume="0"
+      >
+        <source
+          src="https://static.obefitness.com/media/hero_desktop.mp4"
+          type="video/mp4"
+        />
+        Sorry, your browser does not support HTML5 video.
+      </video>
+    </div>
+    <footer>{% include "./footer.html" %}</footer>
   </body>
 </html>

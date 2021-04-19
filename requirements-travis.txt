@@ -3,3 +3,7 @@ gunicorn
 django-allauth
 psycopg2-binary
 python-dotenv
+django-friendship
+bootstrap4
+whitenoise
+isodate

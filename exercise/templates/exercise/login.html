@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    {% load static %}
+    {% load socialaccount %}
+
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Login</title>
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+      integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+      crossorigin="anonymous"
+    />
+    <link
+      rel="stylesheet"
+      href="https://use.fontawesome.com/releases/v5.6.1/css/all.css"
+      integrity="sha384-gfdkjb5BdAXd+lj+gudLWI+BXq4IuLW5IT+brZEZsLFm++aCMlF1V92rMkPaX4PP"
+      crossorigin="anonymous"
+    />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <style>
+      body,
+      html {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+        background: black;
+      }
+      .user_card {
+        width: 350px;
+        margin-top: 30vh;
+        margin-bottom: auto;
+        background: black;
+        position: relative;
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+        padding: 10px;
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2),
+          0 6px 20px 0 rgba(0, 0, 0, 0.19);
+        -webkit-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2),
+          0 6px 20px 0 rgba(0, 0, 0, 0.19);
+        -moz-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2),
+          0 6px 20px 0 rgba(0, 0, 0, 0.19);
+        border-radius: 5px;
+      }
+      .form_container {
+        margin-top: 20px;
+      }
+      #form-title {
+        color: #fff;
+      }
+      .login_btn {
+        width: 100%;
+        background: #white !important;
+        color: black !important;
+      }
+      .login_btn:focus {
+        box-shadow: none !important;
+        outline: 0px white;
+      }
+      .login_container {
+        padding: 0 0rem;
+      }
+      .input-group-text {
+        outline: 1px dotted white;
+        background: black !important;
+        color: white !important;
+        border: 0 !important;
+        border-radius: 0.25rem 0 0 0.5rem !important;
+      }
+      .input_user,
+      .input_pass:focus {
+        box-shadow: none !important;
+        outline: 0px !important;
+      }
+      #messages {
+        background-color: black;
+        color: #fff;
+        padding: 10px;
+        margin-top: 10px;
+      }
+    </style>
+  </head>
+  <body style="background-color: white">
+    <header>{% include "./header.html" %}</header>
+    <div class="container" style="height: 90vh">
+      <div class="d-flex justify-content-center h-100">
+        <div class="user_card">
+          <div class="d-flex justify-content-center">
+            <h3 id="form-title">LOGIN</h3>
+          </div>
+          <div class="d-flex justify-content-center form_container">
+            <form method="POST" action="">
+              {% csrf_token %}
+              <div class="input-group mb-3">
+                <div class="input-group-append">
+                  <span class="input-group-text"
+                    ><i class="fas fa-user"></i
+                  ></span>
+                </div>
+
+                <input
+                  type="text"
+                  name="username"
+                  placeholder="Username..."
+                  class="form-control"
+                />
+              </div>
+
+              <div class="input-group mb-2">
+                <div class="input-group-append">
+                  <span class="input-group-text"
+                    ><i class="fas fa-key"></i
+                  ></span>
+                </div>
+
+                <input
+                  type="password"
+                  name="password"
+                  placeholder="Password..."
+                  class="form-control"
+                />
+              </div>
+              <div class="d-flex justify-content-center mt-3 login_container">
+                <input class="btn login_btn" type="submit" value="Login" />
+              </div>
+            </form>
+          </div>
+          {% for message in messages %}
+            <center><p id="messages">{{message}}</p></center>
+          {% endfor %}
+          <div class="mt-4">
+          <center><p style="color: white"> --------------- OR --------------- </p>
+            <a href="{% provider_login_url 'google' %}">
+              <img
+                src="{% static 'exercise/images/google_sign_in.png' %}"
+                alt=""
+                width="220"
+                height="35"
+                class="d-inline-block align-text-center"
+              />
+            </a>
+          </center>
+            <br />
+            <div class="d-flex justify-content-center links">
+              <p style="color: white">Don't have an account?</p>
+              <a href="{% url 'exercise:register' %}" class="ml-2">Sign Up</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <footer>{% include "./footer.html" %}</footer>
+  </body>
+</html>

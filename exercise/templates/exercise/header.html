@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    {% load static %} {% load friendshiptags %} {% load socialaccount %}
+
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Homepage</title>
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+      integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+      crossorigin="anonymous"
+    />
+    <link
+      rel="stylesheet"
+      href="https://use.fontawesome.com/releases/v5.6.1/css/all.css"
+      integrity="sha384-gfdkjb5BdAXd+lj+gudLWI+BXq4IuLW5IT+brZEZsLFm++aCMlF1V92rMkPaX4PP"
+      crossorigin="anonymous"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css?family=Audiowide"
+    />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+    <style>
+      body {
+        font-family: "Audiowide", sans-serif;
+      }
+      .container-left {
+        position: relative;
+        width: 60vw;
+      }
+      .center {
+        text-align: right;
+        vertical-align: middle;
+        color: black;
+      }
+      .left-bottom {
+        text-align: left;
+        vertical-align: bottom;
+        color: black;
+      }
+      .vertical-center {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+      .title {
+        color: black;
+        font-size: 1.5vh;
+      }
+      .dropdown {
+        position: relative;
+        display: inline-block;
+      }
+    </style>
+  </head>
+  <header>
+    <nav class="navbar navbar-default">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="/">
+          <img
+            src="{% static 'exercise/images/logo.png' %}"
+            alt=""
+            width="50"
+            height="40"
+            class="d-inline-block align-text-center"
+          />
+        </a>
+        <div class="container-left">
+          <div class="left-bottom">
+            {% if request.user.is_authenticated %}
+            <h1 class="center">
+              <div class="dropdown">
+                <a href="{% url 'exercise:home' %}" class="navbar-brand"
+                  ><p class="title">home</p></a
+                >
+              </div>
+              <div class="dropdown">
+                <a href="{% url 'exercise:blog' %}" class="navbar-brand"
+                  ><p class="title">blog</p></a
+                >
+              </div>
+              <div class="dropdown">
+                <a
+                  href="{% url 'exercise:exerciselogging' %}"
+                  class="navbar-brand"
+                  ><p class="title">exercise</p></a
+                >
+              </div>
+              <div class="dropdown">
+                <a href="{% url 'exercise:bmidisplay' %}" class="navbar-brand"
+                  ><p class="title">bmi</p></a
+                >
+              </div>
+              <div class="dropdown">
+                <a
+                  href="{% url 'exercise:sportinstruction' %}"
+                  class="navbar-brand"
+                  ><p class="title">sports</p></a
+                >
+              </div>
+              {% if friend_requests %}
+              <div class="dropdown">
+                <a href="{% url 'exercise:friendship' %}" class="navbar-brand"
+                  ><p class="title">friends-{{number_unread_requests}}</p></a
+                >
+              </div>
+              {% else %}
+              <div class="dropdown">
+                <a href="{% url 'exercise:friendship' %}" class="navbar-brand"
+                  ><p class="title">friends</p></a
+                >
+              </div>
+              {% endif %}
+              <div class="dropdown">
+                <a href="{% url 'exercise:youtube' %}" class="navbar-brand"
+                  ><p class="title">youtube</p></a
+                >
+              </div>
+              <div class="dropdown">
+                <a href="{% url 'exercise:logout' %}" class="navbar-brand"
+                  ><p class="title">logout</p></a
+                >
+              </div>
+            </h1>
+            {% else %}
+            <h1 class="center">
+              <a href="{% url 'exercise:blog' %}" class="navbar-brand"
+                ><p class="title">blog</p></a
+              >
+              <a href="{% url 'exercise:login' %}" class="navbar-brand"
+                ><p class="title">login</p></a
+              >
+              <a href="{% url 'exercise:register' %}" class="navbar-brand"
+                ><p class="title">sign up</p></a
+              >
+            </h1>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    </nav>
+  </header>
+</html>
