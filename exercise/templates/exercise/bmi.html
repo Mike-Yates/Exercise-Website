@@ -67,6 +67,15 @@
               Save BMI
             </button>
           </form>
+          <div>
+          {% if error %}
+                      <div class="card text-center">
+              <div class="card-header">
+                {{ error }}
+              </div>
+            </div>
+          {% endif %}
+          </div>
         </div>
       </div></font
     >
