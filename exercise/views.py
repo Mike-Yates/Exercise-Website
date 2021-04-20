@@ -171,7 +171,8 @@ def friendship(request):
 @login_required(login_url='exercise:login')
 def update_sportsxp(request):
     global sports_list
-
+    # print("THIS IS THE METHOD")
+    # print(request.method)
     update_xp(request)
 
     if request.method == 'POST':
@@ -241,6 +242,7 @@ def update_sportsxp(request):
             user.sportsxp.hiking = 0
             user.sportsxp.swimming = 0
             user.sportsxp.yoga = 0
+            user.sportsxp.total_xp = 0
             user.sportsxp.save()
 
     return HttpResponseRedirect(reverse('exercise:home'))
@@ -610,3 +612,14 @@ def sortxp(request):
         sorted(sports_list.items(), key=lambda e: e[1][1]))
     context = {"sports": sorted_sports_list}
     return render(request, 'exercise/home.html', context)
+
+
+#-----------------Points for completing a schedule -----------------------------
+
+def complete_instructions(request):
+    global total_xp
+    update_xp(request)
+    user = User.objects.get(pk=User.objects.get(username=request.user.get_username()).pk)
+    user.sportsxp.total_xp = user.sportsxp.total_xp + 1
+    user.sportsxp.save()
+    return HttpResponseRedirect(reverse('exercise:home'))
