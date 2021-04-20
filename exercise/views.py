@@ -88,6 +88,7 @@ def first_login(request):
 
 @login_required(login_url='exercise:login')
 def exercise_logging(request):
+    global total_xp
     '''
     Method to save an exercise and view previous exercises
     '''
@@ -100,7 +101,10 @@ def exercise_logging(request):
             form.instance.user = user
             form.save()
             # redirect to itself
-            return HttpResponseRedirect(reverse('exercise:exerciselogging'))
+            user.sportsxp.total_xp += 1
+            user.sportsxp.save()
+
+        return HttpResponseRedirect(reverse('exercise:exerciselogging'))
     else:
         form = ExerciseForm()
         # Gets all the logged exercises of a user
