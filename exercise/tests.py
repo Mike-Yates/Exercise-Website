@@ -269,3 +269,7 @@ class RandomTestCase(TestCase):
         self.assertEqual(y.swimming, 3)
         user.delete()
         userSecond.delete()
+<<<<<<< HEAD
+=======
+
+>>>>>>> bmi4

@@ -3,81 +3,129 @@
   <head>
     {% load static %} {% load friendshiptags %} {% load socialaccount %}
 
-    <meta charset="UTF-8" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1, shrink-to-fit=no"
-    />
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
-      integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l"
-      crossorigin="anonymous"
-    />
-    <link
-      rel="stylesheet"
-      href="https://fonts.googleapis.com/css?family=Quicksand"
-    />
-    <title>BMI</title>
-  </head>
-  <body>
-    <header>{% include "./header.html" %}</header>
-    <font face="Quicksand">
-      <div class="row justify-content-center">
-        <div class="col-8">
-          <div id="user exercise table">
-            <h1>Keep track of your BMI's here!</h1>
-            <hr class="mt-0 mb-3" />
-            <div class="table-responsive">
-              <div style="height: 300px; overflow: auto">
-                <table
-                  class="table table-hover table-bordered table-striped mb-3"
-                >
-                  {% if bmis %}
-                  <thead>
-                    <tr>
-                      <th scope="col">Time</th>
-                      <th scope="col">BMI</th>
-                      <th scope="col">Height (Feet)</th>
-                      <th scope="col">Weight (Pounds)</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {% for bmi in bmis %}
-                    <tr>
-                      <td>{{ bmi.time_of_bmi }}</td>
-                      <td>{{ bmi.user_bmi }}</td>
-                      <td>{{ bmi.height_feet }}.{{bmi.height_inches}}</td>
-                      <td>{{ bmi.weight_pounds }}</td>
-                    </tr>
-                    {% endfor %} {% else %}
-                    <li class="list-group-item">
-                      There are no BMI logs currently
-                    </li>
-                    {% endif %}
-                  </tbody>
-                </table>
-              </div>
-            </div>
-          </div>
+<script>
 
-          <form class="form-inline" method="post">
-            {% csrf_token %} {{ form.as_p }}
-            <button type="submit" class="btn btn-secondary btn-sm mt-2 mx-2">
-              Save BMI
-            </button>
-          </form>
-          <div>
-          {% if error %}
-                      <div class="card text-center">
-              <div class="card-header">
-                {{ error }}
-              </div>
-            </div>
+
+</script>
+
+
+    <ul class="list-group">
+        {% if bmis %}
+
+          {% for bmi in bmis %}
+          <li class="list-group-item">
+              As of {{ bmi.time_of_bmi }} your bmi was {{ bmi.user_bmi }}
+          </li>
+          {% endfor %}
+          {% else %}
+        <li class="list-group-item">
+            There are no bmi's currently.
+          </li>
           {% endif %}
-          </div>
-        </div>
-      </div></font
-    >
-  </body>
+
+
+    </ul>
+
+<form  method="post">
+    {% csrf_token %}
+    {{ form }}
+    <input type="submit" value="Submit" />
+
+</form>
+<body>
+
+
+
+
+
+
+
+
+ <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+
+
+
+<script>
+
+// Referenced
+// Title: Chart Performance with Large number of Data Points
+// Date: 4/15
+// Code version: HTML5
+// URL: https://canvasjs.com/javascript-charts/performance-demo-chart/
+
+
+
+
+window.onload = function () {
+
+// var limit = 20;
+var y = 70;
+var data = [];
+var dataSeries = { type: "line" };
+var dataPoints = [];
+
+// var a = "{{ bmi_nums }}";
+// var a = a.split(", ");
+// document.write(typeof(a));
+// document.write(a);
+
+for (var i = 0; i < {{ bmi_nums }}.length; i += 1) {
+  // y = parseInt( a[i] );
+  y = {{ bmi_nums }}[i]
+  dataPoints.push({
+     x: i,
+     y: y
+  });
+}
+
+dataSeries.dataPoints = dataPoints;
+data.push(dataSeries);
+
+//Better to construct options first and then pass it as a parameter
+var options = {
+	zoomEnabled: true,
+	animationEnabled: true,
+	title: {
+		text: "Your BMI Progression"
+	},
+	axisY: {
+		lineThickness: 1
+	},
+	data: data  // random data
+};
+
+var chart = new CanvasJS.Chart("chartContainer", options);
+
+chart.render();
+
+
+
+}
+</script>
+<style>
+	#timeToRender {
+		position:absolute;
+		top: 10px;
+		font-size: 20px;
+		font-weight: bold;
+		background-color: #d85757;
+		padding: 0px 4px;
+		color: #ffffff;
+	}
+</style>
+</head>
+<body>
+<div id="chartContainer" style="height: 300px; width: 100%;"></div>
+<span id="timeToRender"></span>
+<script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+
+</body>
+
+
+
+
+
+
+</body>
 </html>
