@@ -22,44 +22,6 @@
     <div id="chartContainer" style="height: 300px; width: 100%"></div>
     <span id="timeToRender"></span>
     <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
-    <script>
-      window.onload = function ()
-      {
-      var y = 70;
-      var data = [];
-      var dataSeries = { type: "line" };
-      var dataPoints = [];
-
-      for (var i = 0; i < {{ bmi_nums }}.length; i += 1) {
-        // y = parseInt( a[i] );
-        y = {{ bmi_nums }}[i]
-        dataPoints.push({
-           x: i,
-           y: y
-        });
-      }
-
-      dataSeries.dataPoints = dataPoints;
-      data.push(dataSeries);
-
-      //Better to construct options first and then pass it as a parameter
-      var options = {
-      	zoomEnabled: true,
-      	animationEnabled: true,
-      	title: {
-      		text: "Your BMI Progression"
-      	},
-      	axisY: {
-      		lineThickness: 1
-      	},
-      	data: data  // random data
-      };
-
-      var chart = new CanvasJS.Chart("chartContainer", options);
-
-      chart.render();
-      }
-    </script>
     <style>
       #timeToRender {
         position: absolute;
@@ -112,7 +74,44 @@
               </div>
             </div>
           </div>
+          <script>
+            window.onload = function ()
+            {
+            var y = 70;
+            var data = [];
+            var dataSeries = { type: "line" };
+            var dataPoints = [];
 
+            for (var i = 0; i < {{ bmi_nums }}.length; i += 1) {
+              // y = parseInt( a[i] );
+              y = {{ bmi_nums }}[i]
+              dataPoints.push({
+                 x: i,
+                 y: y
+              });
+            }
+
+            dataSeries.dataPoints = dataPoints;
+            data.push(dataSeries);
+
+            //Better to construct options first and then pass it as a parameter
+            var options = {
+            	zoomEnabled: true,
+            	animationEnabled: true,
+            	title: {
+            		text: "Your BMI Progression"
+            	},
+            	axisY: {
+            		lineThickness: 1
+            	},
+            	data: data  // random data
+            };
+
+            var chart = new CanvasJS.Chart("chartContainer", options);
+
+            chart.render();
+            }
+          </script>
           <form class="form-inline" method="post">
             {% csrf_token %} {{ form.as_p }}
             <button type="submit" class="btn btn-secondary btn-sm mt-2 mx-2">
