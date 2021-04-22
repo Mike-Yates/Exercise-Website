@@ -48,6 +48,15 @@
 
 <script>
 
+// Referenced
+// Title: Chart Performance with Large number of Data Points
+// Date: 4/15
+// Code version: HTML5
+// URL: https://canvasjs.com/javascript-charts/performance-demo-chart/
+
+
+
+
 window.onload = function () {
 
 // var limit = 20;
@@ -56,15 +65,14 @@ var data = [];
 var dataSeries = { type: "line" };
 var dataPoints = [];
 
-
-var a = "{{ bmi_nums }}";
-var a = a.split(", ");
-var c = 0;
+// var a = "{{ bmi_nums }}";
+// var a = a.split(", ");
 // document.write(typeof(a));
 // document.write(a);
 
-for (var i = 0; i < a.length; i += 1) {
-  y = parseInt( a[i] );
+for (var i = 0; i < {{ bmi_nums }}.length; i += 1) {
+  // y = parseInt( a[i] );
+  y = {{ bmi_nums }}[i]
   dataPoints.push({
      x: i,
      y: y
@@ -113,11 +121,6 @@ chart.render();
 <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
 
 </body>
-
-
-
-
-
 
 
 
