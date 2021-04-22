@@ -28,7 +28,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.environ.get('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.environ.get('DEBUG')
+DEBUG = False
 
 # Adding hosts allowed to launch this app
 ALLOWED_HOSTS = ['*']
@@ -131,6 +131,29 @@ USE_I18N = True
 USE_L10N = True
 
 USE_TZ = True
+
+# X-XSS-Protection
+SECURE_BROWSER_XSS_FILTER = True
+
+# X-Frame-Options
+X_FRAME_OPTIONS = 'DENY'
+# X-Content-Type-Options
+SECURE_CONTENT_TYPE_NOSNIFF = True
+# Strict-Transport-Security
+SECURE_HSTS_SECONDS = 15768000
+SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+SECURE_HSTS_PRELOAD = True
+
+# that requests over HTTP are redirected to HTTPS. aslo can config in webserver
+SECURE_SSL_REDIRECT = True
+SECURE_PROXY_SSL_HEADER = True
+
+# for more security
+CSRF_COOKIE_SECURE = True
+CSRF_USE_SESSIONS = True
+CSRF_COOKIE_HTTPONLY = True
+SESSION_COOKIE_SECURE = True
+SESSION_COOKIE_SAMESITE = 'Strict'
 
 
 # Static files (CSS, JavaScript, Images)
