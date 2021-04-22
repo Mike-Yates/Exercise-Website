@@ -19,6 +19,17 @@
       href="https://fonts.googleapis.com/css?family=Quicksand"
     />
     <title>BMI</title>
+    <style>
+      #timeToRender {
+        position: absolute;
+        top: 10px;
+        font-size: 20px;
+        font-weight: bold;
+        background-color: #d85757;
+        padding: 0px 4px;
+        color: #ffffff;
+      }
+    </style>
   </head>
   <body>
     <header>{% include "./header.html" %}</header>
@@ -68,16 +79,55 @@
             </button>
           </form>
           <div>
-          {% if error %}
-                      <div class="card text-center">
-              <div class="card-header">
-                {{ error }}
-              </div>
+            {% if error %}
+            <div class="card text-center">
+              <div class="card-header">{{ error }}</div>
             </div>
-          {% endif %}
+            {% endif %}
           </div>
         </div>
       </div></font
     >
   </body>
+  <div id="chartContainer" style="height: 300px; width: 100%"></div>
+  <span id="timeToRender"></span>
+  <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+  <script>
+    window.onload = function ()
+    {
+    var y = 70;
+    var data = [];
+    var dataSeries = { type: "line" };
+    var dataPoints = [];
+
+    for (var i = 0; i < {{ bmi_nums }}.length; i += 1) {
+      // y = parseInt( a[i] );
+      y = {{ bmi_nums }}[i]
+      dataPoints.push({
+         x: i,
+         y: y
+      });
+    }
+
+    dataSeries.dataPoints = dataPoints;
+    data.push(dataSeries);
+
+    //Better to construct options first and then pass it as a parameter
+    var options = {
+    	zoomEnabled: true,
+    	animationEnabled: true,
+    	title: {
+    		text: "Your BMI Progression"
+    	},
+    	axisY: {
+    		lineThickness: 1
+    	},
+    	data: data  // random data
+    };
+
+    var chart = new CanvasJS.Chart("chartContainer", options);
+
+    chart.render();
+    }
+  </script>
 </html>
