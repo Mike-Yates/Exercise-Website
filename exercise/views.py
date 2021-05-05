@@ -92,6 +92,8 @@ def exercise_logging(request):
     '''
     Method to save an exercise and view previous exercises
     '''
+    global total_xp
+
     if request.user.profile.first_login:
         return HttpResponseRedirect(reverse('exercise:firstlogin'))
 
@@ -103,6 +105,9 @@ def exercise_logging(request):
         if form.is_valid():
             form.instance.user = user
             form.save()
+            update_xp(request)
+            user.sportsxp.total_xp = user.sportsxp.total_xp + 1
+            user.sportsxp.save()
             # redirect to itself
             return HttpResponseRedirect(reverse('exercise:exerciselogging'))
     else:
@@ -256,6 +261,7 @@ def update_sportsxp(request):
             user.sportsxp.hiking = 0
             user.sportsxp.swimming = 0
             user.sportsxp.yoga = 0
+            user.sportsxp.total_xp = 0
             user.sportsxp.save()
 
     return HttpResponseRedirect(reverse('exercise:home'))
@@ -650,3 +656,13 @@ def sortxp(request):
         sorted(sports_list.items(), key=lambda e: e[1][1]))
     context = {"sports": sorted_sports_list}
     return render(request, 'exercise/home.html', context)
+
+#-----------------Points for completing a schedule -----------------------------
+
+def complete_instructions(request):
+    global total_xp
+    update_xp(request)
+    user = User.objects.get(pk=User.objects.get(username=request.user.get_username()).pk)
+    user.sportsxp.total_xp = user.sportsxp.total_xp + 1
+    user.sportsxp.save()
+    return HttpResponseRedirect(reverse('exercise:home'))
