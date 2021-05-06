@@ -92,6 +92,7 @@ def exercise_logging(request):
     '''
     Method to save an exercise and view previous exercises
     '''
+    global total_xp
     if request.user.profile.first_login:
         return HttpResponseRedirect(reverse('exercise:firstlogin'))
 
@@ -102,6 +103,9 @@ def exercise_logging(request):
 
         if form.is_valid():
             form.instance.user = user
+            update_xp(request)
+            user.sportsxp.total_xp += 1
+            user.sportsxp.save()
             form.save()
             # redirect to itself
             return HttpResponseRedirect(reverse('exercise:exerciselogging'))
@@ -124,6 +128,8 @@ def blog_post(request):
     '''
     Method to save items from a blog post
     '''
+    global total_xp
+
     if request.user.profile.first_login:
         return HttpResponseRedirect(reverse('exercise:firstlogin'))
     try:
@@ -132,10 +138,15 @@ def blog_post(request):
                     blog_user=request.user.get_username(),
                     date_published=now)  # Makes an instance of the blog
 
+
     except (KeyError):  # Error handling
         context = {'blog': Blog, 'error': "An error has occurred"}
         return render(request, 'exercise/blog.html', context)
     else:
+        update_xp(request)
+        user = User.objects.get(pk=User.objects.get(username=request.user.get_username()).pk)
+        user.sportsxp.total_xp = user.sportsxp.total_xp + 0.1
+        user.sportsxp.save()
         blog.save()  # Saves the blog to the database
 
     return HttpResponseRedirect(reverse('exercise:blog'))
@@ -256,6 +267,7 @@ def update_sportsxp(request):
             user.sportsxp.hiking = 0
             user.sportsxp.swimming = 0
             user.sportsxp.yoga = 0
+            user.sportsxp.total_xp = 0
             user.sportsxp.save()
 
     return HttpResponseRedirect(reverse('exercise:home'))
@@ -270,7 +282,7 @@ def bmi_display(request):
         return HttpResponseRedirect(reverse('exercise:firstlogin'))
 
     if request.method == 'POST':
-        if int(request.POST.get('height_feet')) == 0 or int(request.POST.get('height_inches')) == 0:
+        if int(request.POST.get('height_feet')) == 0  and int(request.POST.get('height_inches')) == 0:
             return HttpResponseRedirect(reverse('exercise:bmidisplay'))
 
         try:
@@ -650,3 +662,12 @@ def sortxp(request):
         sorted(sports_list.items(), key=lambda e: e[1][1]))
     context = {"sports": sorted_sports_list}
     return render(request, 'exercise/home.html', context)
+
+# XP points for finishing the instructions page
+def complete_instructions(request):
+    global total_xp
+    update_xp(request)
+    user = User.objects.get(pk=User.objects.get(username=request.user.get_username()).pk)
+    user.sportsxp.total_xp = user.sportsxp.total_xp + 1
+    user.sportsxp.save()
+    return HttpResponseRedirect(reverse('exercise:home'))
