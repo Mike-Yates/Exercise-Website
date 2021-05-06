@@ -29,4 +29,5 @@ urlpatterns = [
          views.send_friend_request, name='friendrequest'),
     path('friend/decision/<str:action_user_name>/',
          views.accept_deny_block_request, name='decidefriend'),
+    path('instructions/complete/', views.complete_instructions, name='complete')
 ]
