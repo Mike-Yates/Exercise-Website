@@ -1,5 +1,10 @@
 # **Exercise Gamification**
 
+## Creating a new account!
+#### Welcome to our website. Let me step you through on how to use it. First, please go to this link ->  https://exercisegamification.herokuapp.com/. Once you have done that, please click on the login button on the top right of the screen. If you are a new user click the "Sign Up". Once you have clicked that you have two option. Either you can create an account from Google, or you can register for an account. 
+
+#### After you have done this please
+
 ### Instructions:
 
     To be able to use this project you have to create a virtual enviroment.
