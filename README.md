@@ -1,11 +1,18 @@
 # **Exercise Gamification**
 
 ## Creating a new account!
-#### Welcome to our website. Let me step you through on how to use it. First, please go to this link ->  https://exercisegamification.herokuapp.com/. Once you have done that, please click on the login button on the top right of the screen. If you are a new user click the "Sign Up". Once you have clicked that you have two option. Either you can create an account from Google, or you can register for an account. 
+#### Once you’ve made it to the first time login page, enter your name and bio. After submitting this, you will be taken to the ‘home’ page, displaying your user name and a partially filled XP bar; you may increase your different activity levels by selecting the blank text box just beneath the partially filled XP bar under your user name. Once an activity is selected from the dropdown of activities (after clicking the blank text box), you may hit the ‘submit’ button to record your submission for that activity.
 
-#### After you have done this please
+### The basics of our app: 
+Navigate to any page by clicking its name displayed on the header of every page. 
+On the sports page, click any of the sports graphics to see an example workout matching that exercise. 
+The exercise page allows you to keep a history of what exercises you do. 
+The friends feature allows you to see what exercises your friends are doing (displayed on the ‘exercise’ page)
+The bmi page allows you to calculate your bmi, and keeps track of your submissions to track your progress! (displayed on a graph at the bottom of the page) 
+The youtube page lets you quickly search for exercise videos 
 
-### Instructions:
+
+### Instructions for creators:
 
     To be able to use this project you have to create a virtual enviroment.
 
