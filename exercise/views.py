@@ -282,7 +282,7 @@ def bmi_display(request):
         return HttpResponseRedirect(reverse('exercise:firstlogin'))
 
     if request.method == 'POST':
-        if int(request.POST.get('height_feet')) == 0 and int(request.POST.get('height_inches')) == 0:
+        if int(request.POST.get('height_feet')) == 0  or int(request.POST.get('height_inches')) == 0:
             return HttpResponseRedirect(reverse('exercise:bmidisplay'))
 
         try:
